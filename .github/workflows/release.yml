@@ -1,0 +1,36 @@
+name: Release a new version
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  release-and-delivery:
+    permissions: # Not specified scopes are set to `none`!
+      packages: write
+      contents: write
+    concurrency:
+      group: release-and-delivery-${{ github.event.number || github.ref }}
+    runs-on: ubuntu-22.04
+    outputs:
+      release-status: ${{ env.release_status }} # see release.config.js
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Find the version of Node from package.json
+        id: node-version
+        run: echo "version=$(jq -r .engines.node package.json)" >> $GITHUB_OUTPUT
+      - name: Install Node
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
+        with:
+          node-version: ${{ steps.node-version.outputs.version }}
+      - name: Release
+        run: |
+          npm install
+          npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
