@@ -14,4 +14,4 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 scala-testing = [ "scalatest", "junit-platform-engine", "junit-platform-launcher", "scalatestplus-junit5" ]
 
 [plugins]
-scala-extras = "io.github.tassiluca.gradle-scala-extras:2.0.1"
+scala-extras = "io.github.tassiluca.gradle-scala-extras:2.1.0"
