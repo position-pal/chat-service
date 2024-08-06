@@ -1,6 +1,6 @@
 plugins {
     id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.8"
-    id("com.gradle.develocity") version "3.17.5"
+    id("com.gradle.develocity") version "3.17.6"
 }
 
 rootProject.name = "scala-template"
