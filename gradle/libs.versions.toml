@@ -2,6 +2,9 @@
 scala = "3.5.0"
 scalatest = "3.3.0-SNAP4"
 junit = "1.11.0"
+akka = "2.9.5"
+logback = "1.5.7"
+
 
 [libraries]
 scala-library = { module = "org.scala-lang:scala3-library_3", version.ref = "scala" }
@@ -9,6 +12,10 @@ scalatest = { module = "org.scalatest:scalatest_3", version.ref = "scalatest" }
 scalatestplus-junit5 = "org.scalatestplus:junit-5-10_3:3.2.19.0"
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
+akka-actor-typed = { module = "com.typesafe.akka:akka-actor-typed_3", version.ref = "akka" }
+akka-actor-testkit-typed = { module = "com.typesafe.akka:akka-actor-testkit-typed_3", version.ref = "akka" }
+akka-cluster-typed = { module = "com.typesafe.akka:akka-cluster-typed_3", version.ref = "akka" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [bundles]
 scala-testing = [ "scalatest", "junit-platform-engine", "junit-platform-launcher", "scalatestplus-junit5" ]
