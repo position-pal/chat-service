@@ -15,9 +15,10 @@ object Startup:
     initSystem(25525)
 
   /** Initialize a system on the cluster.
+    *
     * @param port the port where actor should be spawned
     */
-  private def initSystem(port: Int): Unit =
+  private def initSystem(port: Int): ActorSystem[Nothing] =
     val config = ConfigFactory.parseString(s"""
          |akka.remote.artery.canonical.port=$port
          """.stripMargin).withFallback(ConfigFactory.load())
