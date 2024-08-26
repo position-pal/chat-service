@@ -4,7 +4,7 @@ scalatest = "3.3.0-SNAP4"
 junit = "1.11.0"
 akka = "2.9.5"
 logback = "1.5.7"
-
+projection = "1.5.4"
 
 [libraries]
 scala-library = { module = "org.scala-lang:scala3-library_3", version.ref = "scala" }
@@ -14,6 +14,7 @@ junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", v
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 akka-actor-typed = { module = "com.typesafe.akka:akka-actor-typed_3", version.ref = "akka" }
 akka-actor-testkit-typed = { module = "com.typesafe.akka:akka-actor-testkit-typed_3", version.ref = "akka" }
+akka-projection-core = { module = "com.lightbend.akka:akka-projection-core_3", version.ref = "projection" }
 akka-cluster-typed = { module = "com.typesafe.akka:akka-cluster-typed_3", version.ref = "akka" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 

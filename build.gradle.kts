@@ -16,11 +16,18 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            url = uri("https://repo.akka.io/maven")
+        }
     }
 
     with(rootProject.libs) {
         dependencies {
             implementation(scala.library)
+            implementation(akka.actor.typed)
+            implementation(akka.cluster.typed)
+            implementation(akka.projection.core)
+            implementation(logback.classic)
             testImplementation(bundles.scala.testing)
         }
     }
