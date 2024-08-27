@@ -17,6 +17,7 @@ akka-actor-testkit-typed = { module = "com.typesafe.akka:akka-actor-testkit-type
 akka-serialization-jackson = { module = "com.typesafe.akka:akka-serialization-jackson_3", version.ref = "akka" }
 akka-projection-core = { module = "com.lightbend.akka:akka-projection-core_3", version.ref = "projection" }
 akka-cluster-typed = { module = "com.typesafe.akka:akka-cluster-typed_3", version.ref = "akka" }
+akka-cluster-sharding-typed = {module= "com.typesafe.akka:akka-cluster-sharding-typed_3", version.ref = "akka"}
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [bundles]
