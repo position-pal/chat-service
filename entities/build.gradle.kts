@@ -8,5 +8,6 @@ repositories {
 dependencies {
     with(rootProject.libs) {
         implementation(akka.serialization.jackson)
+        implementation(akka.persistence.typed)
     }
 }

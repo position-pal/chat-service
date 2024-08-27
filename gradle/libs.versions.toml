@@ -13,11 +13,11 @@ scalatestplus-junit5 = "org.scalatestplus:junit-5-10_3:3.2.19.0"
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 akka-actor-typed = { module = "com.typesafe.akka:akka-actor-typed_3", version.ref = "akka" }
-akka-actor-testkit-typed = { module = "com.typesafe.akka:akka-actor-testkit-typed_3", version.ref = "akka" }
 akka-serialization-jackson = { module = "com.typesafe.akka:akka-serialization-jackson_3", version.ref = "akka" }
 akka-projection-core = { module = "com.lightbend.akka:akka-projection-core_3", version.ref = "projection" }
 akka-cluster-typed = { module = "com.typesafe.akka:akka-cluster-typed_3", version.ref = "akka" }
 akka-cluster-sharding-typed = {module= "com.typesafe.akka:akka-cluster-sharding-typed_3", version.ref = "akka"}
+akka-persistence-typed = {module = "com.typesafe.akka:akka-persistence-typed_3", version.ref = "akka"}
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [bundles]
