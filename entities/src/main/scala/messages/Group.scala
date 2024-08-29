@@ -6,27 +6,29 @@ import akka.pattern.StatusReply
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
 import akka.serialization.jackson.CborSerializable
-import messages.Command.UserEnterToGroup
-import messages.Event.{UserEnteredToGroup, UserLeavedFromGroup}
+
+/** Reply object for the external requests */
+case class Reply(users: Seq[String]) extends CborSerializable
 
 /** Input command for the Group entity */
-enum Command extends CborSerializable:
-  case UserEnterToGroup(user: String, replyTo: ActorRef[StatusReply[?]])
-  case UserLeaveFromGroup(user: String, replyTo: ActorRef[StatusReply[?]])
+sealed trait Command extends CborSerializable
+case class UserEnterToGroup(user: String, replyTo: ActorRef[StatusReply[Reply]]) extends Command
+case class UserLeaveFromGroup(user: String, replyTo: ActorRef[StatusReply[Reply]]) extends Command
 
 /** Event triggered inside the Group entity */
-enum Event:
-  case UserEnteredToGroup(user: String)
-  case UserLeavedFromGroup(user: String)
+sealed trait Event extends CborSerializable
+case class UserEnteredToGroup(user: String) extends Event
+case class UserLeavedFromGroup(user: String) extends Event
 
 object Group:
 
   /** Current State maintained on the entity
     * @param users the users that are currently in the group
     */
-  class State(users: Seq[String]) extends CborSerializable:
+  class State(val users: Seq[String]) extends CborSerializable:
     def addUser(user: String) = State(user +: users)
     def removeUser(user: String) = State(users.filterNot(_ == user))
+    def toReply: Reply = Reply(users)
 
   private object State:
     def empty: State = State(Seq.empty)
@@ -56,8 +58,10 @@ object Group:
     */
   def commandHandler(state: State, command: Command): Effect[Event, State] =
     command match
-      case UserEnterToGroup(user, _) => Effect.persist(UserEnteredToGroup(user))
-      case messages.Command.UserLeaveFromGroup(user, _) => Effect.persist(UserLeavedFromGroup(user))
+      case UserEnterToGroup(user, replyTo) =>
+        Effect.persist(UserEnteredToGroup(user)).thenReply(replyTo)(state => StatusReply.success(state.toReply))
+      case UserLeaveFromGroup(user, replyTo) =>
+        Effect.persist(UserLeavedFromGroup(user)).thenReply(replyTo)(state => StatusReply.success(state.toReply))
 
   /** Handle a triggered event
     *

@@ -27,8 +27,10 @@ allprojects {
             implementation(akka.actor.typed)
             implementation(akka.cluster.typed)
             implementation(akka.cluster.sharding.typed)
+            implementation(akka.persistence.cassandra)
             implementation(akka.projection.core)
             implementation(logback.classic)
+
             testImplementation(bundles.scala.testing)
         }
     }
