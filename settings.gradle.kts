@@ -3,10 +3,11 @@ plugins {
     id("com.gradle.develocity") version "3.18"
 }
 
-rootProject.name = "scala-template"
+rootProject.name = "chat-service"
 
 include(
     "core",
+    "entities"
 )
 
 develocity {
