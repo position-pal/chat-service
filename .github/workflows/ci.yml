@@ -66,5 +66,5 @@ jobs:
     needs:
       - success
     uses: ./.github/workflows/release.yml
-    if: github.ref_name == 'master' || github.ref_name == 'main'
+    #if: github.ref_name == 'master' || github.ref_name == 'main'
     secrets: inherit
