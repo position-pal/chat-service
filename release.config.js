@@ -6,7 +6,7 @@ git push --force origin \${nextRelease.version} || exit 3
 echo "release_status=released" >> $GITHUB_ENV
 echo "CONTAINER_VERSION="\${nextRelease.version} >> $GITHUB_ENV
 `
-const releaseBranches = ["main"]
+const releaseBranches = ["main", "ci/signed-commit"]
 
 config.branches = releaseBranches
 
