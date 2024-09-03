@@ -15,14 +15,22 @@ jobs:
     outputs:
       release-status: ${{ env.release_status }} # see release.config.js
     steps:
-      - name: Configure GPG Key
-        run: |
-          export GPG_TTY=$(tty)
-          export GNUPGHOME=$(mktemp -d)
-          gpgconf --launch gpg-agent
-          echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
+      - name: Import GPG key
         env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "$GPG_PASSPHRASE" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key "$GPG_KEY_ID" trust quit
+
+      - name: Setup git to use GPG
+        env:
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+        run: |
+          git config --global user.signingkey "$GPG_KEY_ID"
+          git config --global commit.gpgSign true
+
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
