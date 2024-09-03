@@ -36,6 +36,8 @@ jobs:
           git config --global user.signingkey "$GPG_KEY_ID"
           git config --global commit.gpgSign true
           git config --global gpg.program gpg
+          git config --global user.name "Giovanni Antonioni" 
+          git config --global user.email "giovanni.antonioni2@studio.unibo.it"
 
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
