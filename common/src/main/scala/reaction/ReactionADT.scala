@@ -29,8 +29,8 @@ trait ReactionADT:
   opaque type Reaction[F[_]] = ReaderT[F, Context, ReactionResult]
 
   /** Create a reaction on an given [[Context]]
-    * @param context the context in which the
-    * @return
+    * @param reaction The function representing the reaction.
+    * @return The [[Reaction]] object.
     */
   def on[F[_]](reaction: (context: Context) => F[ReactionResult]): Reaction[F] = ReaderT(reaction)
 
