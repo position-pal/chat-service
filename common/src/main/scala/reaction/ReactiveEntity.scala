@@ -1,0 +1,4 @@
+package reaction
+
+trait ReactiveEntity:
+  ???
