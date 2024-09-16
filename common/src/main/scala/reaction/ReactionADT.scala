@@ -53,11 +53,18 @@ trait ComposableReaction extends ReactionADT:
 /** A set of operations that filter the [[Reaction]] execution */
 trait FilterableReaction extends ReactionADT:
   extension [F[_]: Monad](reaction: Reaction[F])
-    /** Execute the reaction only if a condition on the [[Context]] is met.
+    /** Execute [[reaction]] only if a condition on the [[Context]] is met.
       * @param predicate A function that takes the [[Context]] and returns `true` if the reaction should be executed.
       * @return A new [[Reaction]] that only runs if the predicate is satisfied.
       */
     def filter(predicate: Context => Boolean): Reaction[F]
+
+    /** Execute the [[Reaction]] if a condition on the [[Context]] is met otherwise [[other]] will be executed.
+      * @param other The reaction to execute if the predicate return false
+      * @param predicate The predicate that's executed on the [[context]]
+      * @return A new [[Reaction]] to [[reaction]] if the predicate returns true or [[other]] otherwise
+      */
+    def orElse(other: Reaction[F])(predicate: Context => Boolean): Reaction[F]
 
 /** A specialized version of [[ReactionADT]] where the result of the reaction is wrapped in an `Option`.
   * This trait provides composition and filtering for reactions that return an `Option[T]`.
@@ -76,3 +83,6 @@ trait OptionReaction[T] extends ComposableReaction with FilterableReaction:
 
     def filter(predicate: Context => Boolean): Reaction[F] = on: context =>
       if predicate(context) then reaction(context) else Monad[F].pure(None)
+
+    def orElse(other: Reaction[F])(predicate: Context => Boolean): Reaction[F] = on: context =>
+      if predicate(context) then reaction(context) else other(context)

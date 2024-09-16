@@ -131,3 +131,31 @@ class ReactionTests extends AnyWordSpecLike with Matchers:
       val result4: Option[String] = composedReaction(context4)
 
       assert(result4.isEmpty)
+
+    "not execute second reaction if the first one returns Some result" in:
+
+      val firstReaction: Reaction[Id] = createReaction(Some("First Success"))
+      val secondReaction: Reaction[Id] = createReaction(Some("Second Success"))
+
+      val reactionWithOrElse: Reaction[Id] = firstReaction.orElse(secondReaction) {
+        _.event.length > 5
+      }
+
+      val context = Context(event = "LongEvent", state = 10)
+      val result: Option[String] = reactionWithOrElse(context)
+
+      assert(result.contains("First Success"))
+
+    "execute second reaction if a condition isn't met" in:
+
+      val firstReaction: Reaction[Id] = createReaction(None)
+      val secondReaction: Reaction[Id] = createReaction(Some("Second Success"))
+
+      val reactionWithOrElse: Reaction[Id] = firstReaction.orElse(secondReaction) {
+        _.event.length > 5
+      }
+
+      val context = Context(event = "Event", state = 10)
+      val result: Option[String] = reactionWithOrElse(context)
+
+      assert(result.contains("Second Success"))
