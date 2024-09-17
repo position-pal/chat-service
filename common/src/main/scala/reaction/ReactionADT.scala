@@ -5,7 +5,6 @@ import cats.implicits.toFlatMapOps
 
 /** A data type used for representing a reaction to a given event */
 trait ReactionADT:
-
   /** Represent something that has occurred inside the system and that should be handled by the Reaction. */
   type Event
 
@@ -16,6 +15,7 @@ trait ReactionADT:
   type ReactionResult
 
   /** The context of a Reaction
+    *
     * @param event The occurred event
     * @param state The current state of the entity that reacts to the event.
     */
@@ -24,11 +24,13 @@ trait ReactionADT:
   import cats.data.ReaderT
 
   /** Represent the reaction that's triggered within a specific [[Context]]
+    *
     * @tparam F The effect to apply
     */
   opaque type Reaction[F[_]] = ReaderT[F, Context, ReactionResult]
 
   /** Create a reaction on an given [[Context]]
+    *
     * @param reaction The function representing the reaction.
     * @return The [[Reaction]] object.
     */
@@ -36,6 +38,7 @@ trait ReactionADT:
 
   extension [F[_]: Monad](reaction: Reaction[F])
     /** Executes the [[Reaction]] producing a [[ReactionResult]]
+      *
       * @param context The [[Context]] in which the [[Reaction]] should run
       * @return a functional structure `F` in which the result is contained
       */
@@ -45,6 +48,7 @@ trait ReactionADT:
 trait ComposableReaction extends ReactionADT:
   extension [F[_]: Monad](reaction: Reaction[F])
     /** Compose the execution of two [[Reaction]] executing this first and then the [[other]] provided
+      *
       * @param other The [[Reaction]] to execute after this one
       * @return The new [[Reaction]] that is the combination of the other two
       */
@@ -54,13 +58,15 @@ trait ComposableReaction extends ReactionADT:
 trait FilterableReaction extends ReactionADT:
   extension [F[_]: Monad](reaction: Reaction[F])
     /** Execute [[reaction]] only if a condition on the [[Context]] is met.
+      *
       * @param predicate A function that takes the [[Context]] and returns `true` if the reaction should be executed.
       * @return A new [[Reaction]] that only runs if the predicate is satisfied.
       */
     def filter(predicate: Context => Boolean): Reaction[F]
 
     /** Execute the [[Reaction]] if a condition on the [[Context]] is met otherwise [[other]] will be executed.
-      * @param other The reaction to execute if the predicate return false
+      *
+      * @param other     The reaction to execute if the predicate return false
       * @param predicate The predicate that's executed on the [[context]]
       * @return A new [[Reaction]] to [[reaction]] if the predicate returns true or [[other]] otherwise
       */
