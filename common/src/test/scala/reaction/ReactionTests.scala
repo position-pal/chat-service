@@ -5,12 +5,11 @@ import scala.language.postfixOps
 import cats.{Id, Monad}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
+import reaction.Reaction.{Context, OptionReaction}
 
 class ReactionTests extends AnyWordSpecLike with Matchers:
 
-  object TestOptionReaction extends OptionReaction[String]:
-    override type Event = String
-    override type State = Int
+  object TestOptionReaction extends OptionReaction[String, Int, String]
 
   import TestOptionReaction.*
 
@@ -19,11 +18,11 @@ class ReactionTests extends AnyWordSpecLike with Matchers:
     def createReaction(eventResult: Option[String]): Reaction[Id] = on: _ =>
       Monad[Id].pure(eventResult)
 
-    def eventLengthGreaterThan(minLength: Int): Context => Boolean = { context =>
+    def eventLengthGreaterThan(minLength: Int): Context[String, Int] => Boolean = { context =>
       context.event.length > minLength
     }
 
-    def stateGreaterThan(minState: Int): Context => Boolean = { context =>
+    def stateGreaterThan(minState: Int): Context[String, Int] => Boolean = { context =>
       context.state > minState
     }
 
