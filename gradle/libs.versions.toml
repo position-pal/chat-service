@@ -10,7 +10,7 @@ cassandra = "1.2.1"
 [libraries]
 scala-library = { module = "org.scala-lang:scala3-library_3", version.ref = "scala" }
 scalatest = { module = "org.scalatest:scalatest_3", version.ref = "scalatest" }
-scalatestplus-junit5 = "org.scalatestplus:junit-5-10_3:3.2.19.0"
+scalatestplus-junit5 = "org.scalatestplus:junit-5-10_3:3.2.19.1"
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 akka-actor-typed = { module = "com.typesafe.akka:akka-actor-typed_3", version.ref = "akka" }
