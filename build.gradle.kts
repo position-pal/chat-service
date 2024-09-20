@@ -24,6 +24,7 @@ allprojects {
     with(rootProject.libs) {
         dependencies {
             implementation(scala.library)
+            implementation(cats.core)
             implementation(akka.actor.typed)
             implementation(akka.cluster.typed)
             implementation(akka.cluster.sharding.typed)

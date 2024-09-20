@@ -1,35 +1,19 @@
-name: Build, Test and Check action
+name: CI
 
 on:
-  push:
-    paths-ignore:
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - '.mergify.yml'
-      - 'renovate.json'
-  pull_request:
+  workflow_call:
   workflow_dispatch:
 
 jobs:
-  dispatcher:
-    runs-on: ubuntu-22.04
-    if: >- # Prevents running the workflow twice on PR made by a branch of the same repository
-      github.event_name != 'pull_request'
-      || github.event.pull_request.head.repo.full_name != github.repository
-    steps:
-      - run: 'true'
-
   build:
-    needs:
-      - dispatcher
     strategy:
       matrix:
         os: [ubuntu-22.04, macos-14, windows-2022]
         jvm-version: [ 11, 17, 21 ]
       fail-fast: false
     runs-on: ${{ matrix.os }}
+    env:
+      MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
@@ -66,5 +50,5 @@ jobs:
     needs:
       - success
     uses: ./.github/workflows/release.yml
-    if: github.ref_name == 'master' || github.ref_name == 'main'
+    if: github.ref_name == github.event.repository.default_branch
     secrets: inherit
