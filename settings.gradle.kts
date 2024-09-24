@@ -8,7 +8,8 @@ rootProject.name = "chat-service"
 include(
     "core",
     "entities",
-    "common"
+    "common",
+    "domain"
 )
 
 develocity {
