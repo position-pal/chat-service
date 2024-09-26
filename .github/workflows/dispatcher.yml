@@ -18,7 +18,7 @@ on:
 
 jobs:
   print-github-context:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - run: |
           echo 'github.event_name = ${{ github.event_name }}'
@@ -28,7 +28,7 @@ jobs:
 
   dispatcher:
     # Prevents running the workflow twice on PR made by a branch of the same repository
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: >-
       github.event_name != 'pull_request'
       || github.event.pull_request.head.repo.full_name != github.repository
