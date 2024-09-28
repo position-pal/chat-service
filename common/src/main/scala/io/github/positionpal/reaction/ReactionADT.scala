@@ -1,4 +1,4 @@
-package reaction
+package io.github.positionpal.reaction
 
 import cats.Monad
 import cats.implicits.toFlatMapOps
