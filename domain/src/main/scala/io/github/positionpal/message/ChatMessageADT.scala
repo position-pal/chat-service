@@ -1,7 +1,7 @@
 package io.github.positionpal.message
 
 
-object ChatMessages:
+object ChatMessageADT:
 
   opaque type ChatMessage = ChatMessageImpl
 
