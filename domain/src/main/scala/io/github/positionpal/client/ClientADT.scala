@@ -6,7 +6,7 @@ object ClientADT:
   /**
    * Represent a unique ID that's associated to a [[Client]]
    *
-   * @param id the Id of the client
+   * @param id the ID of the client
    * @param email the email associated to the client
    */
   case class ClientID(id: String, email: String)
