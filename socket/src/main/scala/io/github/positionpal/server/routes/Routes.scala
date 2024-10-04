@@ -1,19 +1,20 @@
 package io.github.positionpal.server.routes
 
+import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.model.ws.TextMessage
 import akka.http.scaladsl.model.ws.Message
 import akka.stream.scaladsl.Flow
+import io.github.positionpal.server.ws.Handlers
 
 
 object Routes:
   
-  def webSocketFlowRoute: Route = path("affirm"):
+  def webSocketFlowRoute(using system: ActorSystem[?]): Route = path("affirm"):
       handleWebSocketMessages:
-        Flow[Message].collect:
-          case TextMessage.Strict(text) => TextMessage(s"Received Text > ${text}")
+        Handlers.websocketHandler
   
   def defaultRoute: Route =
     path("hello") :

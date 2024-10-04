@@ -3,7 +3,7 @@ package io.github.positionpal.message
 
 object ChatMessageADT:
 
-  opaque type ChatMessage = ChatMessageImpl
+  type ChatMessage = ChatMessageImpl
 
   /**
    * Represents the data that a ChatMessage exposes
@@ -15,7 +15,7 @@ object ChatMessageADT:
     def to: String              // TODO: Change return type to Group
 
 
-  private case class ChatMessageImpl(text: String, timestamp: String, from: String, to: String) extends MessageOps
+  case class ChatMessageImpl(text: String, timestamp: String, from: String, to: String) extends MessageOps
 
   /**
    * Create a new chat message.
