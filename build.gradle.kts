@@ -34,6 +34,8 @@ allprojects {
             implementation(logback.classic)
 
             testImplementation(bundles.scala.testing)
+            testImplementation(akka.actor.testkit.typed)
+            testImplementation(akka.persistence.testkit)
         }
     }
 

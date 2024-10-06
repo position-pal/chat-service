@@ -4,5 +4,7 @@ dependencies {
         implementation(akka.stream)
         implementation(akka.stream.typed)
         implementation(akka.http)
+        testImplementation(akka.http.testkit)
+        testImplementation(akka.stream.testkit)
     }
 }

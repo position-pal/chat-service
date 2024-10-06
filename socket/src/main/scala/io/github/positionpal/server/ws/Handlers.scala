@@ -6,12 +6,12 @@ import akka.stream.scaladsl.{Flow, Sink, Source}
 import akka.stream.typed.scaladsl.{ActorSink, ActorSource}
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.stream.{CompletionStrategy, OverflowStrategy}
-import io.github.positionpal.entity.WebSocketActor.WebSocketHandler
+import io.github.positionpal.entity.WebSocketActor.{Commands, WebSocketHandler}
 import io.github.positionpal.message.ChatMessageADT.ChatMessage
 
 object Handlers:
 
-  def websocketHandler(using system: ActorSystem[?]): Flow[Message, Message, WebSocketHandler] =
+  def websocketHandler(incomingActorRef: ActorRef[Commands]): Flow[Message, Message, WebSocketHandler] =
 
     import io.github.positionpal.entity.WebSocketActor.Commands.{
       IncomingMessage,
@@ -19,16 +19,15 @@ object Handlers:
       StreamCompletedSuccessfully,
       StreamCompletedWithException
     }
+    import io.github.positionpal.entity.WebSocketActor.{Commands, WebSocketHandler}
 
-    import io.github.positionpal.entity.WebSocketActor.{Commands, WebSocketHandler, incomingHandler}
-
-    val incomingActor: ActorRef[Commands] = system.systemActorOf(incomingHandler, "incomingMessageHandler")
     val incomingMessage: Sink[Message, NotUsed] =
       Flow[Message].map:
         case TextMessage.Strict(text) => IncomingMessage(text)
+        case _ => StreamCompletedWithException(Exception("Not supported message"))
       .to:
         ActorSink.actorRef(
-          incomingActor,
+          incomingActorRef,
           onCompleteMessage = StreamCompletedSuccessfully,
           onFailureMessage = ex => StreamCompletedWithException(ex)
         )

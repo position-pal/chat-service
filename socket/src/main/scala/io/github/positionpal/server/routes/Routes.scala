@@ -4,17 +4,19 @@ import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.model.ws.TextMessage
-import akka.http.scaladsl.model.ws.Message
-import akka.stream.scaladsl.Flow
-import io.github.positionpal.server.ws.Handlers
+import io.github.positionpal.server.ws.Handlers.websocketHandler
+import io.github.positionpal.entity.WebSocketActor.{Commands, incomingHandler}
 
 
 object Routes:
   
-  def webSocketFlowRoute(using system: ActorSystem[?]): Route = path("affirm"):
+  def webSocketFlowRoute(using system: ActorSystem[?]): Route =
+    val actorName = s"websocket-${java.util.UUID.randomUUID().toString}"
+    val incomingActorReference = system.systemActorOf(incomingHandler, actorName)
+    
+    path("affirm"):
       handleWebSocketMessages:
-        Handlers.websocketHandler
+        websocketHandler(incomingActorReference)
   
   def defaultRoute: Route =
     path("hello") :

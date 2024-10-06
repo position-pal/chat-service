@@ -3,18 +3,15 @@ package io.github.positionpal.server
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
-
-import akka.actor.typed.ActorSystem
+import akka.actor.typed.{ActorSystem, SpawnProtocol}
 import akka.http.scaladsl.Http
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.server.Directives.*
-
-
 import io.github.positionpal.server.routes.Routes.*
 
 object Server:
 
-  given actorSystem: ActorSystem[Any] = ActorSystem(Behaviors.empty[Any], "messaging-actor-system")
+  given actorSystem: ActorSystem[SpawnProtocol.Command] = ActorSystem(Behaviors.empty[Any], "messaging-actor-system")
   given executionContext: ExecutionContextExecutor = actorSystem.executionContext
 
   def startup(): Unit =
