@@ -19,7 +19,7 @@ class HandlersTest extends ScalaTestWithActorTestKit with AnyWordSpecLike with M
       val incomingProbe = TestProbe[Commands]()
       val handler = websocketHandler(incomingProbe.ref)
 
-      val (testSource, testSink) = TestSource()
+      val (testSource, _) = TestSource()
         .via(handler)
         .toMat(TestSink())(Keep.both)
         .run()
@@ -32,8 +32,8 @@ class HandlersTest extends ScalaTestWithActorTestKit with AnyWordSpecLike with M
       val handler = websocketHandler(incomingProbe.ref)
 
       val (webSocketHandler, testSink) = Source.empty[Message]
-        .viaMat(handler)(Keep.right) // Capture the WebSocketHandler (mat value)
-        .toMat(TestSink())(Keep.both) // Capture TestSink
+        .viaMat(handler)(Keep.right)
+        .toMat(TestSink())(Keep.both)
         .run()
 
       testSink.request(1)
