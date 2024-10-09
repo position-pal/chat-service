@@ -4,7 +4,7 @@ import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.Behaviors
 import io.github.positionpal.message.ChatMessageADT.ChatMessage
 
-object WebSocketActor:
+object Handler:
   enum Commands:
     case IncomingMessage(content: String)
     case OutgoingMessage(content: ChatMessage)

@@ -6,20 +6,20 @@ import akka.stream.scaladsl.{Flow, Sink, Source}
 import akka.stream.typed.scaladsl.{ActorSink, ActorSource}
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.stream.{CompletionStrategy, OverflowStrategy}
-import io.github.positionpal.entity.WebSocketActor.{Commands, WebSocketHandler}
+import io.github.positionpal.entity.Handler.{Commands, WebSocketHandler}
 import io.github.positionpal.message.ChatMessageADT.ChatMessage
 
-object Handlers:
+object WebSocketHandlers:
 
   def websocketHandler(incomingActorRef: ActorRef[Commands]): Flow[Message, Message, WebSocketHandler] =
 
-    import io.github.positionpal.entity.WebSocketActor.Commands.{
+    import io.github.positionpal.entity.Handler.Commands.{
       IncomingMessage,
       OutgoingMessage,
       StreamCompletedSuccessfully,
       StreamCompletedWithException
     }
-    import io.github.positionpal.entity.WebSocketActor.{Commands, WebSocketHandler}
+    import io.github.positionpal.entity.Handler.{Commands, WebSocketHandler}
 
     val incomingMessage: Sink[Message, NotUsed] =
       Flow[Message].map:
