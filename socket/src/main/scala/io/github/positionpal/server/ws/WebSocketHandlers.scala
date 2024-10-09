@@ -9,8 +9,16 @@ import akka.stream.{CompletionStrategy, OverflowStrategy}
 import io.github.positionpal.entity.Handler.{Commands, WebSocketHandler}
 import io.github.positionpal.message.ChatMessageADT.ChatMessage
 
+/**
+ * Object that contains the Flow handlers for websocket connections.
+ */
 object WebSocketHandlers:
 
+  /**
+   * Default websocket handler.
+   * @param incomingActorRef The incomingMessage flow.
+   * @return The [[Flow]] object used for handling the messages on the websocket routes
+   */
   def websocketHandler(incomingActorRef: ActorRef[Commands]): Flow[Message, Message, WebSocketHandler] =
 
     import io.github.positionpal.entity.Handler.Commands.{
