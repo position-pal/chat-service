@@ -3,9 +3,9 @@ package io.github.positionpal.reaction
 import scala.language.postfixOps
 
 import cats.{Id, Monad}
+import io.github.positionpal.reaction.ReactionADT.{Context, OptionReaction}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
-import io.github.positionpal.reaction.ReactionADT.{Context, OptionReaction}
 
 class ReactionADTTests extends AnyWordSpecLike with Matchers:
 

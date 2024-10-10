@@ -1,11 +1,11 @@
 package io.github.positionpal.server
 
-
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
+
+import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.{ActorSystem, SpawnProtocol}
 import akka.http.scaladsl.Http
-import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.server.Directives.*
 import io.github.positionpal.server.routes.Routes.*
 

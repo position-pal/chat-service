@@ -13,6 +13,7 @@ allprojects {
     with(rootProject.libs.plugins) {
         apply(plugin = "java-library")
         apply(plugin = "scala")
+        apply(plugin = scala.extras.get().pluginId)
     }
 
     repositories {
