@@ -13,6 +13,7 @@ allprojects {
     with(rootProject.libs.plugins) {
         apply(plugin = "java-library")
         apply(plugin = "scala")
+        apply(plugin = scala.extras.get().pluginId)
     }
 
     repositories {
@@ -34,6 +35,8 @@ allprojects {
             implementation(logback.classic)
 
             testImplementation(bundles.scala.testing)
+            testImplementation(akka.actor.testkit.typed)
+            testImplementation(akka.persistence.testkit)
         }
     }
 

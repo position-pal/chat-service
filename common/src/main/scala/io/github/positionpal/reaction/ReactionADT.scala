@@ -1,9 +1,9 @@
-package reaction
+package io.github.positionpal.reaction
 
 import cats.Monad
 import cats.implicits.toFlatMapOps
 
-object Reaction:
+object ReactionADT:
 
   /** The context of a Reaction
     *

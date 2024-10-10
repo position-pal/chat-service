@@ -1,13 +1,13 @@
-package reaction
+package io.github.positionpal.reaction
 
 import scala.language.postfixOps
 
 import cats.{Id, Monad}
+import io.github.positionpal.reaction.ReactionADT.{Context, OptionReaction}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
-import reaction.Reaction.{Context, OptionReaction}
 
-class ReactionTests extends AnyWordSpecLike with Matchers:
+class ReactionADTTests extends AnyWordSpecLike with Matchers:
 
   object TestOptionReaction extends OptionReaction[String, Int, String]
 
