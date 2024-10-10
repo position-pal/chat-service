@@ -6,8 +6,8 @@ import org.scalatest.wordspec.AnyWordSpecLike
 import org.scalatest.matchers.should.Matchers
 import akka.stream.scaladsl.{Keep, Sink, Source}
 import akka.stream.testkit.scaladsl.{TestSink, TestSource}
-import io.github.positionpal.entity.Handler.Commands
-import io.github.positionpal.entity.Handler.Commands.{IncomingMessage, OutgoingMessage}
+import io.github.positionpal.handler.Handler.Commands
+import io.github.positionpal.handler.Handler.Commands.{IncomingMessage, OutgoingMessage}
 import io.github.positionpal.server.ws.WebSocketHandlers.websocketHandler
 import io.github.positionpal.message.ChatMessageADT.{ChatMessage, message as chatMessage}
 

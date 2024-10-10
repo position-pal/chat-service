@@ -1,4 +1,4 @@
-package io.github.positionpal.entity
+package io.github.positionpal.handler
 
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.Behaviors

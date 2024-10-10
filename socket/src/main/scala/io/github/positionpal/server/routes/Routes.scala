@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.Route
 import io.github.positionpal.server.ws.WebSocketHandlers.websocketHandler
-import io.github.positionpal.entity.Handler.{Commands, incomingHandler}
+import io.github.positionpal.handler.Handler.{Commands, incomingHandler}
 
 /**
  * Object that contains the routes definition for the websocket server
