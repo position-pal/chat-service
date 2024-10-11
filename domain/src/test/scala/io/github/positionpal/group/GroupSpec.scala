@@ -1,10 +1,11 @@
-package messages
+package io.github.positionpal.group
 
 import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
 import akka.pattern.StatusReply
 import akka.pattern.StatusReply.Success
 import akka.persistence.testkit.scaladsl.EventSourcedBehaviorTestKit
 import messages.Group.State
+import messages.{Command, Event, Group, Reply, UserEnterToGroup, UserLeaveFromGroup}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.wordspec.AnyWordSpecLike
 
