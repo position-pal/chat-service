@@ -1,3 +1,37 @@
+## [0.3.0](https://github.com/position-pal/chat-service/compare/0.2.0...0.3.0) (2024-10-11)
+
+### Features
+
+* **websocket:** communication server with client  ([#52](https://github.com/position-pal/chat-service/issues/52)) ([496ff92](https://github.com/position-pal/chat-service/commit/496ff922db234197f9f8944df65e482a1ffab06f))
+
+### Dependency updates
+
+* **deps:** update akka to v2.9.6 ([11bdda1](https://github.com/position-pal/chat-service/commit/11bdda15e6251c7477234c2f675c147a148944f9))
+* **deps:** update dependency ch.qos.logback:logback-classic to v1.5.9 ([5403daf](https://github.com/position-pal/chat-service/commit/5403daf5b0d976997cbd61c8cd4fb28a95e29c6c))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.5.6 ([289817f](https://github.com/position-pal/chat-service/commit/289817f0a16b38ee8cf636795051bae24a527669))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.5.7 ([dcdc124](https://github.com/position-pal/chat-service/commit/dcdc1247f39a3e92a7210abed37a5d6c41a12772))
+* **deps:** update dependency gradle to v8.10.2 ([d7a5491](https://github.com/position-pal/chat-service/commit/d7a549106e9f7c34173326385db08b030bf1d52d))
+* **deps:** update dependency org.junit.platform:junit-platform-launcher to v1.11.2 ([d031029](https://github.com/position-pal/chat-service/commit/d0310298dbe2aeb10970a8e87247d579f9ddcc30))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.107 ([0fdfccb](https://github.com/position-pal/chat-service/commit/0fdfccbcc41642f6ae9125aa565474f4085d64fc))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.108 ([e3b0d55](https://github.com/position-pal/chat-service/commit/e3b0d55a0e44e8e6147add30684030134d84472d))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.109 ([fc7fc6a](https://github.com/position-pal/chat-service/commit/fc7fc6ab81b2a5dd047a9e0e8e64a11087ba5e62))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.110 ([470d5ef](https://github.com/position-pal/chat-service/commit/470d5ef5c0b55025fa6f3c524feeb49756ffdc6e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.111 ([8f22cc6](https://github.com/position-pal/chat-service/commit/8f22cc6f3ca81eabb09633a9612e94577fe2501a))
+* **deps:** update junit5 monorepo to v1.11.1 ([6e03f42](https://github.com/position-pal/chat-service/commit/6e03f424062c2f74aa962f2fb703b8f1d03d749d))
+* **deps:** update node.js to 20.18 ([f848822](https://github.com/position-pal/chat-service/commit/f84882297e5e1e57546cb30bf77884bc6de82dd0))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.13 ([46d3f30](https://github.com/position-pal/chat-service/commit/46d3f303bdb0be9058bff355022cb1f6894afce6))
+* **deps:** update plugin scala-extras to v2.1.3 ([3c4baa2](https://github.com/position-pal/chat-service/commit/3c4baa2b7bd951fae02bc0ef3499e0fb7b3550de))
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout digest to eef6144 ([1e8e58a](https://github.com/position-pal/chat-service/commit/1e8e58a6c62f0613ff8bcbd7a3f32fe8ffc6fe72))
+* **deps:** update actions/setup-java digest to b36c23c ([d2f13a2](https://github.com/position-pal/chat-service/commit/d2f13a2eeadbd9a5ea2dbf3cdde3c868cdb1319d))
+* **deps:** update dependency ubuntu to v24 ([220f421](https://github.com/position-pal/chat-service/commit/220f421909823fd95736977ccbbe517744ee5cab))
+
+### Refactoring
+
+* project-structure ([#38](https://github.com/position-pal/chat-service/issues/38)) ([0003124](https://github.com/position-pal/chat-service/commit/00031241365e8f6c38ce0b57be5f10fd07bf94d0))
+
 ## [0.2.0](https://github.com/position-pal/chat-service/compare/0.1.0...0.2.0) (2024-09-20)
 
 ### Features
