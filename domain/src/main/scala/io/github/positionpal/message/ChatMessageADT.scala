@@ -1,5 +1,7 @@
 package io.github.positionpal.message
 
+import io.github.positionpal.client.ClientADT.ClientID
+
 object ChatMessageADT:
 
   type ChatMessage = ChatMessageImpl
@@ -8,19 +10,17 @@ object ChatMessageADT:
   trait MessageOps:
     def text: String
     def timestamp: String
-    def from: String // TODO: Change return type to User
-    def to: String // TODO: Change return type to Group
+    def from: ClientID
 
-  case class ChatMessageImpl(text: String, timestamp: String, from: String, to: String) extends MessageOps
+  case class ChatMessageImpl(text: String, timestamp: String, from: ClientID) extends MessageOps
 
   /** Create a new chat message.
     *
     * @param text The content of the message
     * @param timestamp The timestamp of the message
-    * @param from The user that sent the message
-    * @param to The group where message should be delivered
+    * @param from The ClientID that sent the message
     *
     * @return a [[ChatMessage]] instance
     */
-  def message(text: String, timestamp: String, from: String, to: String): ChatMessage =
-    ChatMessageImpl(text, timestamp, from, to)
+  def message(text: String, timestamp: String, from: ClientID): ChatMessage =
+    ChatMessageImpl(text, timestamp, from)

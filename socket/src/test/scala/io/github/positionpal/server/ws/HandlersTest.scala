@@ -4,6 +4,7 @@ import akka.actor.testkit.typed.scaladsl.{ScalaTestWithActorTestKit, TestProbe}
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.stream.scaladsl.{Keep, Source}
 import akka.stream.testkit.scaladsl.{TestSink, TestSource}
+import io.github.positionpal.client.ClientADT.ClientID
 import io.github.positionpal.handler.Handler.Commands
 import io.github.positionpal.handler.Handler.Commands.{IncomingMessage, OutgoingMessage}
 import io.github.positionpal.message.ChatMessageADT.message as chatMessage
@@ -38,8 +39,7 @@ class HandlersTest extends ScalaTestWithActorTestKit with AnyWordSpecLike with M
       val chatMsg = chatMessage(
         text = "Hola",
         timestamp = "123",
-        from = "Me",
-        to = "Test Group",
+        from = ClientID("123", "email@test.it"),
       )
 
       outgoingActorRef ! OutgoingMessage(chatMsg)
