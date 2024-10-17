@@ -1,4 +1,4 @@
-package messages
+package io.github.positionpal.group
 
 import akka.actor.typed.{ActorRef, ActorSystem, Behavior}
 import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityTypeKey}

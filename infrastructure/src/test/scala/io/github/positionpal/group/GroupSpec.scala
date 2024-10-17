@@ -4,8 +4,7 @@ import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
 import akka.pattern.StatusReply
 import akka.pattern.StatusReply.Success
 import akka.persistence.testkit.scaladsl.EventSourcedBehaviorTestKit
-import messages.Group.State
-import messages.{Command, Event, Group, Reply, UserEnterToGroup, UserLeaveFromGroup}
+import io.github.positionpal.group.Group.State
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -14,10 +13,7 @@ class GroupSpec
     with AnyWordSpecLike
     with BeforeAndAfterEach:
 
-  private val eventSourcedBehaviorTestKit = EventSourcedBehaviorTestKit[Command, Event, State](
-    system,
-    Group("test"),
-  )
+  private val eventSourcedBehaviorTestKit = EventSourcedBehaviorTestKit[Command, Event, State](system, Group("test"))
 
   override protected def beforeEach(): Unit =
     super.beforeEach()
