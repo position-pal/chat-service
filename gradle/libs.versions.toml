@@ -6,7 +6,7 @@ akka = "2.10.0"
 logback = "1.5.11"
 projection = "1.5.8"
 cassandra = "1.2.1"
-akka-http = "10.6.3"
+akka-http = "10.7.0"
 
 [libraries]
 scala-library = { module = "org.scala-lang:scala3-library_3", version.ref = "scala" }
