@@ -1,3 +1,16 @@
+## [0.3.1](https://github.com/position-pal/chat-service/compare/0.3.0...0.3.1) (2024-10-20)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.scala-lang:scala3-library_3 to v3.6.1 ([9425b95](https://github.com/position-pal/chat-service/commit/9425b953c952c62db60929edbb87b77a02175a73))
+* **deps:** update akka to v2.10.0 ([6b05a72](https://github.com/position-pal/chat-service/commit/6b05a72471b149ff8845326cd3f2a816aa7e6de4))
+* **deps:** update akka.http to v10.7.0 ([1c38ae6](https://github.com/position-pal/chat-service/commit/1c38ae60738ec004a1165d2182ec5743c186769d))
+* **deps:** update dependency ch.qos.logback:logback-classic to v1.5.10 ([dd80727](https://github.com/position-pal/chat-service/commit/dd807277c120c12460022f6bb8f860a2cdac4b60))
+* **deps:** update dependency ch.qos.logback:logback-classic to v1.5.11 ([8417738](https://github.com/position-pal/chat-service/commit/8417738819a7b3b85bbb7a4301f8468ea26d0831))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.5.8 ([1b96f79](https://github.com/position-pal/chat-service/commit/1b96f794b435e734c40a4f2a3a44d6e80b105a0a))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.5.9 ([13a8735](https://github.com/position-pal/chat-service/commit/13a8735baa2f2fa81a2039b1982e462a0af422b1))
+* **deps:** update dependency org.scala-lang:scala3-library_3 to v3.5.2 ([0df997f](https://github.com/position-pal/chat-service/commit/0df997ff1476135b914999b2435488a75408fb8f))
+
 ## [0.3.0](https://github.com/position-pal/chat-service/compare/0.2.0...0.3.0) (2024-10-11)
 
 ### Features
