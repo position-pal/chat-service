@@ -8,6 +8,7 @@ rootProject.name = "chat-service"
 include(
     "common",
     "domain",
+    "presentation",
     "infrastructure",
     "socket"
 )
