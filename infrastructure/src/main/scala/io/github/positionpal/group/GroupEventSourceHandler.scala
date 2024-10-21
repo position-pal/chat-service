@@ -15,12 +15,15 @@ object GroupEventSourceHandler:
 
   sealed trait Command extends CborSerializable
   case class ClientJoinsGroup(clientID: ClientID, replyTo: ActorRef[StatusReply[Reply]]) extends Command
+  case class ClientLeavesGroup(clientID: ClientID, replyTo: ActorRef[StatusReply[Reply]]) extends Command
 
   sealed trait Event extends CborSerializable
   case class ClientJoinedToGroup(clientID: ClientID) extends Event
+  case class ClientLeavedFromGroup(clientID: ClientID) extends Event
 
   sealed trait Reply extends CborSerializable
-  case class UserSuccessfullyJoined(users: List[ClientID]) extends Reply
+  case class ClientSuccessfullyJoined(users: List[ClientID]) extends Reply
+  case class ClientSuccessfullyLeaved(clientID: ClientID) extends Reply
 
   def apply(groupId: String): Behavior[Command] =
     EventSourcedBehavior[Command, Event, State](
@@ -47,9 +50,17 @@ object GroupEventSourceHandler:
     */
   private def commandHandler(state: State, command: Command): ReplyEffect[Event, State] = command match
     case ClientJoinsGroup(clientID, replyTo) =>
-      print(state)
-      Effect.persist(ClientJoinedToGroup(clientID)).thenReply(replyTo): state =>
-        StatusReply.Success(UserSuccessfullyJoined(state.clientIDList))
+      if state.isPresent(clientID) then Effect.reply(replyTo)(StatusReply.Error(s"client $clientID already joined"))
+      else
+        Effect.persist(ClientJoinedToGroup(clientID)).thenReply(replyTo): state =>
+          StatusReply.Success(ClientSuccessfullyJoined(state.clientIDList))
+
+    case ClientLeavesGroup(clientID, replyTo) =>
+      if !state.isPresent(clientID) then
+        Effect.reply(replyTo)(StatusReply.Error(s"client $clientID doesn't belongs to the group"))
+      else
+        Effect.persist(ClientLeavedFromGroup(clientID)).thenReply(replyTo): state =>
+          StatusReply.Success(ClientSuccessfullyLeaved(clientID))
 
   /** Handle a triggered event letting the entity pass to a new state
     * @param state The actual state of the entity
@@ -58,6 +69,11 @@ object GroupEventSourceHandler:
     */
   private def eventHandler(state: State, event: Event): State = event match
     case ClientJoinedToGroup(clientID) =>
-      state.addClient(clientID, "a") match
+      state.addClient(clientID, "a") match // TODO: Remember to replace with actual reference of the external actor
+        case Right(newState: State) => newState
+        case _ => state
+
+    case ClientLeavedFromGroup(clientID) =>
+      state.removeClient(clientID) match
         case Right(newState: State) => newState
         case _ => state

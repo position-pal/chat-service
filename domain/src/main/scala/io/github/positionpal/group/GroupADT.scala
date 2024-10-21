@@ -6,6 +6,7 @@ object GroupADT:
 
   enum ErrorCode:
     case ClientAlreadyPresent(clientID: ClientID)
+    case ClientDoesntExists(clientID: ClientID)
 
   trait GroupOps[O]:
     /** Add a new client inside a [[GroupOps]]
@@ -13,6 +14,17 @@ object GroupADT:
       * @return the updated group
       */
     def addClient(clientID: ClientID, outputRef: O): Either[ErrorCode, GroupOps[O]]
+
+    /** Remove a client inside a [[GroupOps]]
+      * @param clientID the reference of the client to remove
+      * @return
+      */
+    def removeClient(clientID: ClientID): Either[ErrorCode, GroupOps[O]]
+
+    /** Check if a [[ClientID]] is already present inside the group
+      * @param clientID The [[ClientID]] to search
+      */
+    def isPresent(clientID: ClientID): Boolean
 
     /** List of clients IDs that are inside the group
       * @return A list of clients that are inside the group
@@ -26,13 +38,20 @@ object GroupADT:
 
   import ErrorCode.*
 
-  case class Group[O](clients: Map[ClientID, O], name: String) extends GroupOps[O]:
+  case class Group[O](private val _clients: Map[ClientID, O], name: String) extends GroupOps[O]:
     override def addClient(clientID: ClientID, outputRef: O): Either[ErrorCode, GroupOps[O]] =
-      if clients isDefinedAt clientID then Left(ClientAlreadyPresent(clientID))
-      else Right(Group(clients + (clientID -> outputRef), name))
+      if _clients isDefinedAt clientID then Left(ClientAlreadyPresent(clientID))
+      else Right(Group(_clients + (clientID -> outputRef), name))
 
-    override def clientIDList: List[ClientID] = clients.keys.toList
-    override def executeOnClients(action: O => Unit): Unit = clients.values.foreach(action)
+    override def removeClient(clientID: ClientID): Either[ErrorCode, GroupOps[O]] =
+      if !(_clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
+      else Right(Group(_clients - clientID, name))
+
+    override def isPresent(clientID: ClientID): Boolean = _clients isDefinedAt clientID
+
+    override def clientIDList: List[ClientID] = _clients.keys.toList
+
+    override def executeOnClients(action: O => Unit): Unit = _clients.values.foreach(action)
 
   object Group:
     /** Return a group without clients inside of it
