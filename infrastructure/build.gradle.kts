@@ -1,5 +1,5 @@
 dependencies {
-    api(project(":domain"))
+    api(project(":presentation"))
     with(rootProject.libs) {
         implementation(akka.cluster.typed)
         implementation(akka.cluster.sharding.typed)

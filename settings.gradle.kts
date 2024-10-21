@@ -6,6 +6,7 @@ plugins {
 rootProject.name = "chat-service"
 
 include(
+    "application",
     "common",
     "domain",
     "presentation",
