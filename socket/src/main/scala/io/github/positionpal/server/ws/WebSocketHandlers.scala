@@ -2,7 +2,7 @@ package io.github.positionpal.server.ws
 
 import akka.NotUsed
 import akka.actor.typed.ActorRef
-import akka.http.scaladsl.model.ws.{Message, TextMessage}
+import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
 import akka.stream.scaladsl.{Flow, Sink, Source}
 import akka.stream.typed.scaladsl.{ActorSink, ActorSource}
 import akka.stream.{CompletionStrategy, OverflowStrategy}
@@ -55,3 +55,9 @@ object WebSocketHandlers:
     Flow.fromSinkAndSourceMat(incomingMessage, outgoingMessage):
       case (_, outgoingActorRef) =>
         WebSocketHandler(outgoingActorRef.narrow[Commands.OutgoingMessage])
+
+  def testingWsHandler: Flow[Message, Message, Any] = Flow[Message].mapConcat:
+    case tm: TextMessage =>
+      TextMessage(Source.single("Hello ") ++ tm.textStream ++ Source.single("!")) :: Nil
+    case _: BinaryMessage =>
+      TextMessage(Source.single("Other ")) :: Nil

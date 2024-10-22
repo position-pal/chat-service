@@ -1,31 +1,29 @@
 package io.github.positionpal.server.routes
 
 import akka.actor.typed.ActorSystem
-import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
-import io.github.positionpal.handler.Handler.{Commands, incomingHandler}
-import io.github.positionpal.server.ws.WebSocketHandlers.websocketHandler
+import io.github.positionpal.server.ws.WebSocketHandlers
 
 /** Object that contains the routes definition for the websocket server */
 object Routes:
 
-  /** Routes used for handling the websockett
-    * @param system implicit system where the actor that handles connections are spawned
-    * @return The route where the clients connect to the server and exchanges messages using websocket
-    */
-  def webSocketFlowRoute(using system: ActorSystem[?]): Route =
-    val actorName = s"websocket-${java.util.UUID.randomUUID().toString}"
-    val incomingActorReference = system.systemActorOf(incomingHandler, actorName)
+  private case class ApplicationV1Routes(system: ActorSystem[?]) extends RoutesProvider:
+    override def routes: Route = webSocketFlowRoute
+    override def version: String = "v1"
 
-    path("affirm"):
-      handleWebSocketMessages:
-        websocketHandler(incomingActorReference)
+    /** Routes used for handling the websocket
+      * @return The route where the clients connect to the server and exchanges messages using websocket
+      */
+    private def webSocketFlowRoute: Route =
+      // val actorName = s"websocket-${java.util.UUID.randomUUID().toString}"
+      // val incomingActorReference = system.systemActorOf(incomingHandler, actorName)
+      pathPrefix("messages" / Segment): groupId =>
+        parameter("user"): userId =>
+          handleWebSocketMessages(WebSocketHandlers.testingWsHandler)
 
-  /** Default route for the server
-    * @return The route
+  /** Return the routes for the v1 api version
+    * @param system the implicit actor system
+    * @return A [[Route]] object containing the routes of the server.
     */
-  def defaultRoute: Route =
-    path("hello"):
-      get:
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+  def v1Routes(using system: ActorSystem[?]): Route = ApplicationV1Routes(system).versionedRoutes
