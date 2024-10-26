@@ -27,9 +27,10 @@ allprojects {
         dependencies {
             implementation(scala.library)
             implementation(cats.core)
+            implementation(cats.effect)
+            implementation(cats.mtl)
             implementation(akka.actor.typed)
             implementation(logback.classic)
-
             testImplementation(bundles.scala.testing)
             testImplementation(akka.actor.testkit.typed)
             testImplementation(akka.persistence.testkit)
