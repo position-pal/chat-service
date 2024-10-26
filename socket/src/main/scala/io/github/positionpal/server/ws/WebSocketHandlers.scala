@@ -49,7 +49,7 @@ object WebSocketHandlers:
         overflowStrategy = OverflowStrategy.fail,
       ).map: (protocolMessage: Commands) =>
         protocolMessage match
-          case OutgoingMessage(content: ChatMessage) => TextMessage.Strict(content.text)
+          case OutgoingMessage(content: ChatMessage[String]) => TextMessage.Strict(content.text)
           case _ => TextMessage.Strict("Error")
 
     Flow.fromSinkAndSourceMat(incomingMessage, outgoingMessage):

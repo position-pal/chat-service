@@ -1,18 +1,16 @@
 package io.github.positionpal.message
 
-import io.github.positionpal.client.ClientADT.ClientID
-
 object ChatMessageADT:
 
-  type ChatMessage = ChatMessageImpl
+  type ChatMessage[I] = ChatMessageImpl[I]
 
   /** Represents the data that a ChatMessage exposes */
-  trait MessageOps:
+  trait MessageOps[I]:
     def text: String
     def timestamp: String
-    def from: ClientID
+    def from: I
 
-  case class ChatMessageImpl(text: String, timestamp: String, from: ClientID) extends MessageOps
+  case class ChatMessageImpl[I](text: String, timestamp: String, from: I) extends MessageOps[I]
 
   /** Create a new chat message.
     *
@@ -22,5 +20,5 @@ object ChatMessageADT:
     *
     * @return a [[ChatMessage]] instance
     */
-  def message(text: String, timestamp: String, from: ClientID): ChatMessage =
+  def message[I](text: String, timestamp: String, from: I): ChatMessage[I] =
     ChatMessageImpl(text, timestamp, from)

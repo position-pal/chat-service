@@ -2,22 +2,15 @@ package io.github.positionpal.client
 
 object ClientADT:
 
-  /** Represent a unique ID that's associated to a [[Client]]
-    *
-    * @param id the ID of the client
-    * @param email the email associated to the client
-    */
-  case class ClientID(id: String, email: String)
-
   enum ClientStatus:
     case ONLINE
     case OFFLINE
 
-  trait ClientOps:
+  trait ClientOps[I]:
     /** The ID associated to the client
-      * @return the [[ClientID]] of the current [[Client]]
+      * @return the [[I]] of the current [[Client]]
       */
-    def clientID: ClientID
+    def id: I
 
     /** The current status of a client
       * @return the [[ClientStatus]] representing the status of a [[Client]]
@@ -28,7 +21,7 @@ object ClientADT:
       * @param newStatus the new status
       * @return a new [[ClientOps]] instance with the new status
       */
-    def setStatus(newStatus: ClientStatus): ClientOps
+    def setStatus(newStatus: ClientStatus): ClientOps[I]
 
-  case class Client(clientID: ClientID, status: ClientStatus) extends ClientOps:
-    override def setStatus(newStatus: ClientStatus): ClientOps = Client(clientID, newStatus)
+  case class Client[I](id: I, status: ClientStatus) extends ClientOps[I]:
+    override def setStatus(newStatus: ClientStatus): ClientOps[I] = Client(id, newStatus)

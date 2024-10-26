@@ -17,7 +17,7 @@ object Handler:
     /** Command representing an outgoing WebSocket message.
       * @param content The outgoing chat message to be sent via WebSocket.
       */
-    case OutgoingMessage(content: ChatMessage)
+    case OutgoingMessage(content: ChatMessage[String])
 
     /** Command signaling that the WebSocket stream has completed successfully. */
     case StreamCompletedSuccessfully

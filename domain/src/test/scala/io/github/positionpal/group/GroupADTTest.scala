@@ -1,6 +1,5 @@
 package io.github.positionpal.group
 
-import io.github.positionpal.client.ClientADT.ClientID
 import io.github.positionpal.group.GroupADT.ErrorCode.ClientAlreadyPresent
 import io.github.positionpal.group.GroupADT.Group
 import org.scalatest.matchers.should.Matchers
@@ -17,18 +16,18 @@ class GroupADTTest extends AnyWordSpecLike with Matchers:
 
   "Group" should:
     "add a new client" in:
-      val group = Group.empty[ExternalRefOps]("testGroup")
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
       val container = StringContainer("testString")
-      val clientID = ClientID("1b23", "email@prova.it")
+      val clientID = "123"
       val updatedGroup = group.addClient(clientID, container)
       updatedGroup match
         case Right(group @ Group(_, _)) => assert(group.clientIDList.contains(clientID))
         case _ => fail("Error while trying to insert a client in a group")
 
     "remove a client" in:
-      val group = Group.empty[ExternalRefOps]("testGroup")
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
       val container = StringContainer("testString")
-      val clientID = ClientID("1b23", "email@prova.it")
+      val clientID = "123"
 
       val updatedGroup = for
         grp1 <- group.addClient(clientID, container)
@@ -40,9 +39,9 @@ class GroupADTTest extends AnyWordSpecLike with Matchers:
         case _ => fail("Error while trying to remove a client in a group")
 
     "check if a client is already inside a Group" in:
-      val group = Group.empty[ExternalRefOps]("testGroup")
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
       val container = StringContainer("testString")
-      val clientID = ClientID("1a24", "email2@prova.it")
+      val clientID = "1a24"
 
       val updatedGroup =
         for grp1 <- group.addClient(clientID, container)
@@ -53,10 +52,11 @@ class GroupADTTest extends AnyWordSpecLike with Matchers:
         case _ => fail("Error while trying to insert a client in a group")
 
     "return a error code while trying to insert a client with the same ClientID" in:
-      val group = Group.empty[ExternalRefOps]("testGroup")
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
       val container = StringContainer("testString")
       val container2 = StringContainer("testString2")
-      val clientID = ClientID("1b23", "email@prova.it")
+      val clientID = "1b23"
+
       val updatedGroup = for
         grp1 <- group.addClient(clientID, container)
         grp2 <- grp1.addClient(clientID, container2)
@@ -67,9 +67,9 @@ class GroupADTTest extends AnyWordSpecLike with Matchers:
         case _ => fail("It should return a ClientAlreadyPresent error code")
 
     "execute an operation on all the external references of the group" in:
-      val group = Group.empty[ExternalRefOps]("testGroup")
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
       val container = StringContainer("testString")
-      val clientID = ClientID("1b23", "email@prova.it")
+      val clientID = "1b23"
       group.addClient(clientID, container) match
         case Right(grp @ Group(_, _)) =>
           grp.executeOnClients: externalRef =>
