@@ -15,6 +15,7 @@ scalatestplus-junit5 = "org.scalatestplus:junit-5-10_3:3.2.19.1"
 cats-core = "org.typelevel:cats-core_3:2.12.0"
 cats-effect = "org.typelevel:cats-effect_3:3.6-623178c"
 cats-mtl = "org.typelevel:cats-mtl_3:1.5.0"
+cats-effect-testing-scalatest = "org.typelevel:cats-effect-testing-scalatest_3:1.5.0"
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 akka-actor-typed = { module = "com.typesafe.akka:akka-actor-typed_3", version.ref = "akka" }
