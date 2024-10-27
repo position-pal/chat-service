@@ -18,8 +18,8 @@ import org.scalatest.wordspec.AnyWordSpecLike
 
 class GroupAlgebraTest extends ScalaTestWithActorTestKit with AnyWordSpecLike with Matchers:
 
-  private type TestF[A] = ReaderT[IO, ActorSystem[?], A]
-  private given ExecutionContext = system.executionContext
+  opaque type TestF[A] = ReaderT[IO, ActorSystem[?], A]
+  given ExecutionContext = system.executionContext
 
   private val algebra = LiveGroupAlgebra[TestF]
 

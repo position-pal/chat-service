@@ -12,10 +12,9 @@ import io.github.positionpal.command.Command
 
 object GroupAlgebra:
 
-  type GroupID = String
   trait GroupAlgebra[F[_]]:
     def initSharding: F[ActorRef[ShardingEnvelope[Command]]]
-    def getGroupRef(groupId: GroupID): F[EntityRef[Command]]
+    def getGroupRef(groupId: String): F[EntityRef[Command]]
 
   sealed trait GroupError extends NoStackTrace
   object GroupError:
@@ -39,7 +38,7 @@ object GroupAlgebra:
         .adaptError:
           case e => GroupError.ShardingError(s"Failed to initialize sharding: ${e.getMessage}")
 
-    override def getGroupRef(groupId: GroupID): F[EntityRef[Command]] =
+    override def getGroupRef(groupId: String): F[EntityRef[Command]] =
       getSharding.map: sharding =>
         sharding.entityRefFor(GroupEventSourceHandler.entityKey, groupId)
 
