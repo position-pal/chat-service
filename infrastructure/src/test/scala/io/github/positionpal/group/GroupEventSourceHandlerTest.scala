@@ -6,15 +6,9 @@ import akka.pattern.StatusReply.{Error, Success}
 import akka.persistence.testkit.scaladsl.EventSourcedBehaviorTestKit
 import com.typesafe.config.ConfigFactory
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.group.GroupEventSourceHandler.{
-  ClientJoinsGroup,
-  ClientLeavesGroup,
-  ClientSuccessfullyJoined,
-  ClientSuccessfullyLeaved,
-  Command,
-  Event,
-  Reply,
-}
+import io.github.positionpal.command.{ClientJoinsGroup, ClientLeavesGroup, Command}
+import io.github.positionpal.event.GroupEvent as Event
+import io.github.positionpal.reply.{ClientSuccessfullyJoined, ClientSuccessfullyLeaved, Reply}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -41,7 +35,7 @@ class GroupEventSourceHandlerTest
   "Group Event Source Handler" should:
 
     "allow a new user to join the group" in:
-      val clientID = ClientID(id = "1a2b4")
+      val clientID = ClientID(value = "1a2b4")
       val result1 = eventSourcedBehaviorTestKit
         .runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID, replyTo))
       result1.reply.isSuccess should ===(true)
@@ -49,7 +43,7 @@ class GroupEventSourceHandlerTest
 
     "return an error when a client tries to join again in the group" in:
 
-      val clientID = ClientID(id = "1a2b4")
+      val clientID = ClientID(value = "1a2b4")
 
       eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID, replyTo))
       val invalidRequest = eventSourcedBehaviorTestKit
@@ -60,7 +54,7 @@ class GroupEventSourceHandlerTest
 
     "allow a user to leave from the group" in:
 
-      val clientID = ClientID(id = "1a2b4")
+      val clientID = ClientID(value = "1a2b4")
       eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID, replyTo))
       val result = eventSourcedBehaviorTestKit
         .runCommand[StatusReply[Reply]](replyTo => ClientLeavesGroup(clientID, replyTo))
@@ -69,7 +63,7 @@ class GroupEventSourceHandlerTest
       result.reply should ===(Success(ClientSuccessfullyLeaved(clientID)))
 
   "return an error when receive a leave request from a client that doesn't belongs to the group" in:
-    val clientID = ClientID(id = "1a2b4")
+    val clientID = ClientID(value = "1a2b4")
 
     val result = eventSourcedBehaviorTestKit
       .runCommand[StatusReply[Reply]](replyTo => ClientLeavesGroup(clientID, replyTo))

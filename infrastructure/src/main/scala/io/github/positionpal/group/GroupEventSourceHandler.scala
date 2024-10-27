@@ -1,28 +1,19 @@
 package io.github.positionpal.group
 
-import akka.actor.typed.{ActorRef, ActorSystem, Behavior}
+import akka.actor.typed.{ActorSystem, Behavior}
 import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityTypeKey}
 import akka.pattern.StatusReply
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior, ReplyEffect}
 import io.github.positionpal.client.ClientID
+import io.github.positionpal.command.{ClientJoinsGroup, ClientLeavesGroup, Command}
+import io.github.positionpal.event.{ClientJoinedToGroup, ClientLeavedFromGroup, GroupEvent as Event}
 import io.github.positionpal.group.GroupADT.Group
+import io.github.positionpal.reply.{ClientSuccessfullyJoined, ClientSuccessfullyLeaved}
 
 object GroupEventSourceHandler:
 
   opaque type State = Group[ClientID, String]
-
-  sealed trait Command
-  case class ClientJoinsGroup(clientID: ClientID, replyTo: ActorRef[StatusReply[Reply]]) extends Command
-  case class ClientLeavesGroup(clientID: ClientID, replyTo: ActorRef[StatusReply[Reply]]) extends Command
-
-  sealed trait Event
-  case class ClientJoinedToGroup(clientID: ClientID) extends Event
-  case class ClientLeavedFromGroup(clientID: ClientID) extends Event
-
-  sealed trait Reply
-  case class ClientSuccessfullyJoined(users: List[ClientID]) extends Reply
-  case class ClientSuccessfullyLeaved(clientID: ClientID) extends Reply
 
   def apply(groupId: String): Behavior[Command] =
     EventSourcedBehavior[Command, Event, State](
