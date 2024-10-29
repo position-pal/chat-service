@@ -2,15 +2,16 @@ package io.github.positionpal.message
 
 object ChatMessageADT:
 
-  type ChatMessage[I] = ChatMessageImpl[I]
+  type ChatMessage[I, T] = ChatMessageImpl[I, T]
 
   /** Represents the data that a ChatMessage exposes */
-  trait MessageOps[I]:
+  trait MessageOps[I, T]:
     def text: String
     def timestamp: String
     def from: I
+    def to: T
 
-  case class ChatMessageImpl[I](text: String, timestamp: String, from: I) extends MessageOps[I]
+  case class ChatMessageImpl[I, T](text: String, timestamp: String, from: I, to: T) extends MessageOps[I, T]
 
   /** Create a new chat message.
     *
@@ -20,5 +21,5 @@ object ChatMessageADT:
     *
     * @return a [[ChatMessage]] instance
     */
-  def message[I](text: String, timestamp: String, from: I): ChatMessage[I] =
-    ChatMessageImpl(text, timestamp, from)
+  def message[I, T](text: String, timestamp: String, from: I, to: T): ChatMessage[I, T] =
+    ChatMessageImpl(text, timestamp, from, to)

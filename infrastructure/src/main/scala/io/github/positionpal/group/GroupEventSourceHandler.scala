@@ -1,19 +1,21 @@
 package io.github.positionpal.group
 
-import akka.actor.typed.{ActorSystem, Behavior}
-import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityTypeKey}
+import akka.actor.typed.Behavior
+import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
 import akka.pattern.StatusReply
 import akka.persistence.typed.PersistenceId
-import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior, ReplyEffect}
+import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.command.{ClientJoinsGroup, ClientLeavesGroup, Command}
-import io.github.positionpal.event.{ClientJoinedToGroup, ClientLeavedFromGroup, GroupEvent as Event}
+import io.github.positionpal.command.{ClientJoinsGroup, ClientLeavesGroup, GroupCommand}
+import io.github.positionpal.event.{ClientJoinedToGroup, ClientLeavedFromGroup, GroupEvent}
 import io.github.positionpal.group.GroupADT.Group
 import io.github.positionpal.reply.{ClientSuccessfullyJoined, ClientSuccessfullyLeaved}
 
 object GroupEventSourceHandler:
 
-  opaque type State = Group[ClientID, String]
+  type State = Group[ClientID, String]
+  type Event = GroupEvent
+  type Command = GroupCommand
 
   def apply(groupId: String): Behavior[Command] =
     EventSourcedBehavior[Command, Event, State](
@@ -22,11 +24,6 @@ object GroupEventSourceHandler:
       commandHandler = commandHandler,
       eventHandler = eventHandler,
     )
-
-  /** Init the source handler */
-  def init(using system: ActorSystem[?]): Unit =
-    ClusterSharding(system).init:
-      Entity(entityKey)(ctx => GroupEventSourceHandler(ctx.entityId))
 
   /** The [[EntityTypeKey]] for the source handler
     * @return an instance of [[EntityTypeKey]]
@@ -38,7 +35,7 @@ object GroupEventSourceHandler:
     * @param command The received command
     * @return Return a [[ReplyEffect]] with the response of the operation
     */
-  private def commandHandler(state: State, command: Command): ReplyEffect[Event, State] = command match
+  private def commandHandler(state: State, command: Command): Effect[Event, State] = command match
     case ClientJoinsGroup(clientID, replyTo) =>
       if state.isPresent(clientID) then Effect.reply(replyTo)(StatusReply.Error(s"client $clientID already joined"))
       else

@@ -1,7 +1,7 @@
 package io.github.positionpal.utils
 
 import scala.concurrent.TimeoutException
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration.*
 
 import akka.Done
 import akka.actor.CoordinatedShutdown
@@ -11,7 +11,7 @@ import cats.effect.kernel.Deferred
 import cats.effect.std.Dispatcher
 import cats.effect.{IO, Resource}
 import cats.syntax.all.*
-import com.typesafe.config.Config
+import com.typesafe.config.{Config, ConfigFactory}
 import org.slf4j.{Logger, LoggerFactory}
 
 object AkkaUtils:
@@ -106,10 +106,10 @@ object AkkaUtils:
   def startTypedSystem[T](
       systemName: String,
       behavior: Behavior[T] = Behaviors.empty,
-      config: Config,
-      useIOExecutionContext: Boolean,
-      timeoutAwaitCatsEffect: Duration,
-      timeoutAwaitAkkaTermination: Duration,
+      config: Config = ConfigFactory.defaultApplication(),
+      useIOExecutionContext: Boolean = true,
+      timeoutAwaitCatsEffect: Duration = 5.seconds,
+      timeoutAwaitAkkaTermination: Duration = 5.seconds,
   ): Resource[IO, ActorSystem[T]] =
     for
       dispatcher <- Dispatcher.parallel[IO](await = true)

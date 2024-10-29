@@ -12,6 +12,6 @@ class ClientADTTest extends AnyWordSpecLike with Matchers:
 
     "change status" in:
       val clientID = "123"
-      val client = Client(clientID, ClientStatus.ONLINE)
+      val client = Client.empty(clientID)
       val updatedClient = client.setStatus(ClientStatus.OFFLINE)
       updatedClient.status should ===(ClientStatus.OFFLINE)
