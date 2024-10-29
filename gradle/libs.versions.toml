@@ -1,6 +1,7 @@
 [versions]
 scala = "3.5.1"
 scalatest = "3.3.0-SNAP4"
+borer = "1.14.1"
 junit = "1.11.2"
 akka = "2.9.6"
 logback = "1.5.11"
@@ -15,6 +16,8 @@ scalatestplus-junit5 = "org.scalatestplus:junit-5-10_3:3.2.19.1"
 cats-core = "org.typelevel:cats-core_3:2.12.0"
 cats-effect = "org.typelevel:cats-effect_3:3.6-623178c"
 cats-mtl = "org.typelevel:cats-mtl_3:1.5.0"
+borer-core = { module = "io.bullet:borer-core_3", version.ref = "borer" }
+borer-derivation = { module = "io.bullet:borer-derivation_3", version.ref = "borer" }
 cats-effect-testing-scalatest = "org.typelevel:cats-effect-testing-scalatest_3:1.5.0"
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
@@ -32,9 +35,6 @@ akka-stream-typed = { module = "com.typesafe.akka:akka-stream-typed_3", version.
 akka-http = { module = "com.typesafe.akka:akka-http_3", version.ref = "akka-http" }
 akka-http-testkit = { module = "com.typesafe.akka:akka-http-testkit_3", version.ref = "akka-http" }
 akka-stream-testkit = { module = "com.typesafe.akka:akka-stream-testkit_3", version.ref = "akka" }
-
-
-
 
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
