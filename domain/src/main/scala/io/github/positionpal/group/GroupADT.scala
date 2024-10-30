@@ -35,23 +35,23 @@ object GroupADT:
       */
     def executeOnClients(action: O => Unit): Unit
 
-  case class Group[I, O](private val _clients: Map[I, O], name: String) extends GroupOps[I, O]:
+  case class Group[I, O](clients: Map[I, O], name: String) extends GroupOps[I, O]:
 
     import ErrorCode.*
 
     override def addClient(clientID: I, outputRef: O): Either[ErrorCode[I], GroupOps[I, O]] =
-      if _clients isDefinedAt clientID then Left(ClientAlreadyPresent(clientID))
-      else Right(Group(_clients + (clientID -> outputRef), name))
+      if clients isDefinedAt clientID then Left(ClientAlreadyPresent(clientID))
+      else Right(Group(clients + (clientID -> outputRef), name))
 
     override def removeClient(clientID: I): Either[ErrorCode[I], GroupOps[I, O]] =
-      if !(_clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
-      else Right(Group(_clients - clientID, name))
+      if !(clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
+      else Right(Group(clients - clientID, name))
 
-    override def isPresent(clientID: I): Boolean = _clients isDefinedAt clientID
+    override def isPresent(clientID: I): Boolean = clients isDefinedAt clientID
 
-    override def clientIDList: List[I] = _clients.keys.toList
+    override def clientIDList: List[I] = clients.keys.toList
 
-    override def executeOnClients(action: O => Unit): Unit = _clients.values.foreach(action)
+    override def executeOnClients(action: O => Unit): Unit = clients.values.foreach(action)
 
   object Group:
     /** Return a group without clients inside of it

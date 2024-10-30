@@ -1,11 +1,10 @@
-package io.github.positionpal.command
+package io.github.positionpal.group
 
 import akka.actor.typed.ActorRef
 import akka.pattern.StatusReply
-import akka.serialization.jackson.CborSerializable
+import io.github.positionpal.borer.BorerSerialization
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.reply.Reply
 
-sealed trait GroupCommand extends CborSerializable
+sealed trait GroupCommand extends BorerSerialization
 case class ClientJoinsGroup(clientID: ClientID, replyTo: ActorRef[StatusReply[Reply]]) extends GroupCommand
 case class ClientLeavesGroup(clientID: ClientID, replyTo: ActorRef[StatusReply[Reply]]) extends GroupCommand

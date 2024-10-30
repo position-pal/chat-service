@@ -1,4 +1,4 @@
-package io.github.positionpal.reply
+package io.github.positionpal.group
 
 import akka.serialization.jackson.CborSerializable
 import io.github.positionpal.client.ClientID

@@ -5,15 +5,12 @@ import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
 import akka.pattern.StatusReply
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
-import io.github.positionpal.client.ClientID
-import io.github.positionpal.command.{ClientJoinsGroup, ClientLeavesGroup, GroupCommand}
-import io.github.positionpal.event.{ClientJoinedToGroup, ClientLeavedFromGroup, GroupEvent}
+import io.github.positionpal.client.{ClientID, ClientStatusHandler}
 import io.github.positionpal.group.GroupADT.Group
-import io.github.positionpal.reply.{ClientSuccessfullyJoined, ClientSuccessfullyLeaved}
 
 object GroupEventSourceHandler:
 
-  type State = Group[ClientID, String]
+  type State = Group[ClientID, ClientStatusHandler]
   type Event = GroupEvent
   type Command = GroupCommand
 
@@ -55,12 +52,13 @@ object GroupEventSourceHandler:
     * @return The new state of the entity
     */
   private def eventHandler(state: State, event: Event): State = event match
-    case ClientJoinedToGroup(clientID) =>
-      state.addClient(clientID, "a") match // TODO: Remember to replace with actual reference of the external actor
+    case ClientJoinedToGroup(clientID: ClientID) =>
+      val emptyClient = ClientStatusHandler.empty(clientID)
+      state.addClient(clientID, emptyClient) match
         case Right(newState: State) => newState
         case _ => state
 
-    case ClientLeavedFromGroup(clientID) =>
+    case ClientLeavedFromGroup(clientID: ClientID) =>
       state.removeClient(clientID) match
         case Right(newState: State) => newState
         case _ => state

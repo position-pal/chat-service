@@ -6,10 +6,8 @@ import akka.pattern.StatusReply.{Error, Success}
 import akka.persistence.testkit.scaladsl.EventSourcedBehaviorTestKit
 import com.typesafe.config.ConfigFactory
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.command.{ClientJoinsGroup, ClientLeavesGroup}
-import io.github.positionpal.event.GroupEvent as Event
+import io.github.positionpal.group.GroupEvent as Event
 import io.github.positionpal.group.GroupEventSourceHandler.{Command, State}
-import io.github.positionpal.reply.{ClientSuccessfullyJoined, ClientSuccessfullyLeaved, Reply}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
