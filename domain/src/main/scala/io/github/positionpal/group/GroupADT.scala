@@ -14,9 +14,22 @@ object GroupADT:
       */
     def addClient(clientID: I, outputRef: O): Either[ErrorCode[I], GroupOps[I, O]]
 
+    /** Return a client reference that is currently inside the group
+      * @param clientID the id of the client
+      * @return An [[Either]] object indicating an error for the retrieval or the actual reference
+      */
+    def getClient(clientID: I): Either[ErrorCode[I], O]
+
+    /** Update a client inside the group
+      * @param clientID the id of the client
+      * @param update the update function for the
+      * @return
+      */
+    def updateClient(clientID: I)(update: O => O): Either[ErrorCode[I], GroupOps[I, O]]
+
     /** Remove a client inside a [[GroupOps]]
       * @param clientID the reference of the client to remove
-      * @return
+      * @return An [[Either]] object indicating an error for the deletion or the updated Group
       */
     def removeClient(clientID: I): Either[ErrorCode[I], GroupOps[I, O]]
 
@@ -42,6 +55,14 @@ object GroupADT:
     override def addClient(clientID: I, outputRef: O): Either[ErrorCode[I], GroupOps[I, O]] =
       if clients isDefinedAt clientID then Left(ClientAlreadyPresent(clientID))
       else Right(Group(clients + (clientID -> outputRef), name))
+
+    override def getClient(clientID: I): Either[ErrorCode[I], O] =
+      if !(clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
+      else Right(clients(clientID))
+
+    override def updateClient(clientID: I)(update: O => O): Either[ErrorCode[I], GroupOps[I, O]] =
+      if !(clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
+      else Right(Group(clients.updated(clientID, update(clients(clientID))), name))
 
     override def removeClient(clientID: I): Either[ErrorCode[I], GroupOps[I, O]] =
       if !(clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))

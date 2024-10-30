@@ -5,6 +5,7 @@ import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
 import akka.pattern.StatusReply
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
+import io.github.positionpal.client.ClientADT.OutputReference
 import io.github.positionpal.client.{ClientID, ClientStatusHandler}
 import io.github.positionpal.group.GroupADT.Group
 
@@ -43,8 +44,15 @@ object GroupEventSourceHandler:
       if !state.isPresent(clientID) then
         Effect.reply(replyTo)(StatusReply.Error(s"client $clientID doesn't belongs to the group"))
       else
-        Effect.persist(ClientLeavedFromGroup(clientID)).thenReply(replyTo): state =>
+        Effect.persist(ClientLeavedFromGroup(clientID)).thenReply(replyTo): _ =>
           StatusReply.Success(ClientSuccessfullyLeaved(clientID))
+
+    case ClientConnects(clientID, communicationChannel, replyTo) =>
+      if !state.isPresent(clientID) then
+        Effect.reply(replyTo)(StatusReply.Error(s"client $clientID doesn't belongs to the group"))
+      else
+        Effect.persist(ClientConnected(clientID, communicationChannel)).thenReply(replyTo): _ =>
+          StatusReply.Success(ClientSuccessfullyConnected(clientID))
 
   /** Handle a triggered event letting the entity pass to a new state
     * @param state The actual state of the entity
@@ -60,5 +68,13 @@ object GroupEventSourceHandler:
 
     case ClientLeavedFromGroup(clientID: ClientID) =>
       state.removeClient(clientID) match
+        case Right(newState: State) => newState
+        case _ => state
+
+    case ClientConnected(clientID, communicationChannel) =>
+      val updatedClient = state.updateClient(clientID): client =>
+        client.setOutputRef(OutputReference.OUT(communicationChannel)).asInstanceOf[ClientStatusHandler]
+
+      updatedClient match
         case Right(newState: State) => newState
         case _ => state
