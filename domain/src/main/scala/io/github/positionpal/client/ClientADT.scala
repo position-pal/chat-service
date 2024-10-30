@@ -6,8 +6,8 @@ object ClientADT:
     case ONLINE
     case OFFLINE
 
-  enum OutputReference:
-    case OUT[O](value: O)
+  enum OutputReference[+O]:
+    case OUT(value: O)
     case EMPTY
 
   trait ClientOps[I]:
@@ -20,12 +20,12 @@ object ClientADT:
       * actually exchange a message with the [[Client]].
       * @return
       */
-    def outputRef: OutputReference
+    def outputRef: OutputReference[?]
 
     /** Set a new [[OutputReference]] for the client
       * @return a new [[ClientOps]] instance with a new [[OutputReference]].
       */
-    def setOutputRef(reference: OutputReference): Client[I]
+    def setOutputRef[O](reference: OutputReference[O]): Client[I]
 
     /** The current status of a client
       * @return the [[ClientStatus]] representing the status of a [[Client]]
@@ -41,9 +41,9 @@ object ClientADT:
   import io.github.positionpal.client.ClientADT.OutputReference.EMPTY
   import io.github.positionpal.client.ClientADT.ClientStatus.OFFLINE
 
-  case class Client[I](id: I, outputRef: OutputReference = EMPTY, status: ClientStatus) extends ClientOps[I]:
+  case class Client[I](id: I, outputRef: OutputReference[?] = EMPTY, status: ClientStatus) extends ClientOps[I]:
     override def setStatus(newStatus: ClientStatus): Client[I] = Client(id, outputRef, newStatus)
-    override def setOutputRef(newReference: OutputReference): Client[I] = Client(id, newReference, status)
+    override def setOutputRef[O](newReference: OutputReference[O]): Client[I] = Client(id, newReference, status)
 
   object Client:
     def empty[I](id: I): Client[I] = Client(id, EMPTY, OFFLINE)
