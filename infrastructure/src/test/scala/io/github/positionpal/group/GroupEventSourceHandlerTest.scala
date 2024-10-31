@@ -92,7 +92,7 @@ class GroupEventSourceHandlerTest
       stateAfterConnect.getClient(clientID) match
         case Right(client) =>
           client.outputRef should ===(OutputReference.OUT(communicationChannel))
-          client.status should ===(ClientStatus.OFFLINE)
+          client.status should ===(ClientStatus.ONLINE)
         case Left(error) => fail(s"Expected client to exist, but got error: $error")
 
     "return an error when a client tries to connect without joining first" in:
@@ -121,7 +121,7 @@ class GroupEventSourceHandlerTest
       stateAfterFirstConnect.getClient(clientID) match {
         case Right(client) =>
           client.outputRef should ===(OutputReference.OUT(firstChannel))
-          client.status should ===(ClientStatus.OFFLINE)
+          client.status should ===(ClientStatus.ONLINE)
         case Left(error) => fail(s"Expected client to exist, but got error: $error")
       }
 
@@ -135,5 +135,5 @@ class GroupEventSourceHandlerTest
       stateAfterReconnect.getClient(clientID) match
         case Right(client) =>
           client.outputRef should ===(OutputReference.OUT(secondChannel))
-          client.status should ===(ClientStatus.OFFLINE)
+          client.status should ===(ClientStatus.ONLINE)
         case Left(error) => fail(s"Expected client to exist, but got error: $error")

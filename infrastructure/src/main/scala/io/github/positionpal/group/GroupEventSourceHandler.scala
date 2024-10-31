@@ -5,7 +5,8 @@ import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
 import akka.pattern.StatusReply
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
-import io.github.positionpal.client.ClientADT.OutputReference
+import io.github.positionpal.client.ClientADT.ClientStatus.*
+import io.github.positionpal.client.ClientADT.OutputReference.*
 import io.github.positionpal.client.{ClientID, ClientStatusHandler}
 import io.github.positionpal.group.GroupADT.Group
 
@@ -73,7 +74,7 @@ object GroupEventSourceHandler:
 
     case ClientConnected(clientID, communicationChannel) =>
       val updatedClient = state.updateClient(clientID): client =>
-        client.setOutputRef(OutputReference.OUT(communicationChannel)).asInstanceOf[ClientStatusHandler]
+        client.setOutputRef(OUT(communicationChannel)).setStatus(ONLINE).asInstanceOf[ClientStatusHandler]
 
       updatedClient match
         case Right(newState: State) => newState
