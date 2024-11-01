@@ -1,19 +1,12 @@
 package io.github.positionpal.group
 
-import io.github.positionpal.group.GroupADT.ErrorCode.ClientAlreadyPresent
+import io.github.positionpal.group.GroupADT.ErrorCode.{ClientAlreadyPresent, ClientDoesntExists}
 import io.github.positionpal.group.GroupADT.Group
+import io.github.positionpal.utils.{ExternalRefOps, StringContainer}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
 class GroupADTTest extends AnyWordSpecLike with Matchers:
-
-  trait ExternalRefOps:
-    def containedString: String
-    def executeCommand(command: String => String): ExternalRefOps
-
-  case class StringContainer(containedString: String) extends ExternalRefOps:
-    override def executeCommand(command: String => String): ExternalRefOps = StringContainer(command(containedString))
-
   "Group" should:
     "add a new client" in:
       val group = Group.empty[String, ExternalRefOps]("testGroup")
@@ -76,3 +69,55 @@ class GroupADTTest extends AnyWordSpecLike with Matchers:
             val newRef = externalRef.executeCommand(_.toUpperCase)
             assert(newRef.containedString == "TESTSTRING")
         case _ => fail("Error while trying to insert a client in a group")
+
+    "execute an operation on a specific client by ID" in:
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
+      val container = StringContainer("testString")
+      val clientID = "1c34"
+
+      val result = for
+        grp <- group.addClient(clientID, container)
+        executionResult <- grp.executeOnClient(clientID)(_.containedString.toUpperCase)
+      yield executionResult
+
+      result match
+        case Right(resultString) => assert(resultString == "TESTSTRING")
+        case _ => fail("Failed to execute operation on client")
+
+    "return an error when trying to execute on a non-existent client" in:
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
+      val clientID = "1d45"
+
+      group.executeOnClient(clientID)(_.containedString) match
+        case Left(ClientDoesntExists(cl)) => assert(cl == clientID)
+        case _ => fail("Should return ClientDoesntExists error")
+
+    "execute ok function when condition is true" in:
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
+      val container = StringContainer("testString")
+      val clientID = "1e56"
+
+      val result = for
+        grp <- group.addClient(clientID, container)
+        executionResult <- grp.executeOnCondition(clientID)(
+          _.containedString.startsWith("test"),
+        )(
+          client => client.containedString.toUpperCase,
+          client => client.containedString.toLowerCase,
+        )
+      yield executionResult
+
+      result match
+        case Right(resultString) => assert(resultString == "TESTSTRING")
+        case _ => fail("Failed to execute ok function")
+
+    "ddfsadf an error when trying to execute on a non-existent client" in:
+      val group = Group.empty[String, ExternalRefOps]("testGroup")
+      val clientID = "1g78"
+
+      group.executeOnCondition(clientID)(_ => true)(
+        _ => "ok",
+        _ => "ko",
+      ) match
+        case Left(ClientDoesntExists(cl)) => assert(cl == clientID)
+        case _ => fail("Should return ClientDoesntExists error")

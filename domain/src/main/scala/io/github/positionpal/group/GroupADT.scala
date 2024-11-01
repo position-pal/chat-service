@@ -48,24 +48,42 @@ object GroupADT:
       */
     def executeOnClients(action: O => Unit): Unit
 
+    /** Executes a function on a client if it exists in the group
+      * @param id The client identifier
+      * @param ex The function that is executed if the client exists
+      * @tparam R The expected return value type
+      * @return An [[Either]] object with an error occurred or the result of the function
+      */
+    def executeOnClient[R](id: I)(ex: O => R): Either[ErrorCode[I], R]
+
+    /** Execute an action on a client if it belongs to the group and a specific condition is met
+      * @param id The client identifier
+      * @param condition A function that takes a client as input and return a Boolean
+      * @param ok The function that is executed if the condition returns true
+      * @param ko The function that is executed if the condition returns false
+      * @tparam R The expected return value type
+      * @return An [[Either]] object with an error occurred or the result of the function
+      */
+    def executeOnCondition[R](id: I)(condition: O => Boolean)(ok: O => R, ko: O => R): Either[ErrorCode[I], R]
+
   case class Group[I, O](clients: Map[I, O], name: String) extends GroupOps[I, O]:
 
     import ErrorCode.*
 
     override def addClient(clientID: I, outputRef: O): Either[ErrorCode[I], GroupOps[I, O]] =
-      if clients isDefinedAt clientID then Left(ClientAlreadyPresent(clientID))
+      if isPresent(clientID) then Left(ClientAlreadyPresent(clientID))
       else Right(Group(clients + (clientID -> outputRef), name))
 
     override def getClient(clientID: I): Either[ErrorCode[I], O] =
-      if !(clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
+      if !isPresent(clientID) then Left(ClientDoesntExists(clientID))
       else Right(clients(clientID))
 
     override def updateClient(clientID: I)(update: O => O): Either[ErrorCode[I], GroupOps[I, O]] =
-      if !(clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
+      if !isPresent(clientID) then Left(ClientDoesntExists(clientID))
       else Right(Group(clients.updated(clientID, update(clients(clientID))), name))
 
     override def removeClient(clientID: I): Either[ErrorCode[I], GroupOps[I, O]] =
-      if !(clients isDefinedAt clientID) then Left(ClientDoesntExists(clientID))
+      if !isPresent(clientID) then Left(ClientDoesntExists(clientID))
       else Right(Group(clients - clientID, name))
 
     override def isPresent(clientID: I): Boolean = clients isDefinedAt clientID
@@ -73,6 +91,19 @@ object GroupADT:
     override def clientIDList: List[I] = clients.keys.toList
 
     override def executeOnClients(action: O => Unit): Unit = clients.values.foreach(action)
+
+    override def executeOnClient[R](id: I)(ex: O => R): Either[ErrorCode[I], R] =
+      if !isPresent(id) then Left(ClientDoesntExists(id))
+      else Right(ex(clients(id)))
+
+    override def executeOnCondition[R](
+        id: I,
+    )(condition: O => Boolean)(ok: O => R, ko: O => R): Either[ErrorCode[I], R] =
+      if !isPresent(id) then Left(ClientDoesntExists(id))
+      else
+        val client = clients(id)
+        if condition(client) then Right(ok(client))
+        else Right(ko(client))
 
   object Group:
     /** Return a group without clients inside of it

@@ -40,3 +40,11 @@ object ClientADT:
       * @return a new [[ClientOps]] instance with the new status
       */
     def setStatus(newStatus: ClientStatus): Client[I, O]
+
+    /** Perform an operation only if an output resource is set
+      * @param f the operation to perform
+      */
+    def executeOnOutput(f: O => Unit): Unit =
+      outputRef match
+        case OutputReference.OUT(comm) => f(comm)
+        case _ =>

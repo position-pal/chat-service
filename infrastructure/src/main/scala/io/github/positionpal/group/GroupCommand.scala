@@ -21,3 +21,8 @@ case class ClientConnects(
     commChannel: ActorRef[String],
     replyTo: ActorRef[StatusReply[Reply]],
 ) extends GroupCommand
+
+case class ClientDisconnects(
+    clientID: ClientID,
+    replyTo: ActorRef[StatusReply[Reply]],
+) extends GroupCommand

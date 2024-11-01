@@ -7,8 +7,10 @@ import akka.persistence.testkit.scaladsl.EventSourcedBehaviorTestKit
 import com.typesafe.config.ConfigFactory
 import io.github.positionpal.client.ClientADT.{ClientStatus, OutputReference}
 import io.github.positionpal.client.ClientID
+import io.github.positionpal.group.ErrorValues.*
 import io.github.positionpal.group.GroupEvent as Event
 import io.github.positionpal.group.GroupEventSourceHandler.{Command, State}
+import io.github.positionpal.group.InformationValues.*
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -49,7 +51,7 @@ class GroupEventSourceHandlerTest
         .runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID, replyTo))
 
       invalidRequest.reply.isError should ===(true)
-      invalidRequest.reply should ===(Error(s"client $clientID already joined"))
+      invalidRequest.reply should ===(Error(CLIENT_ALREADY_JOINED withClientId clientID))
 
     "allow a user to leave from the group" in:
 
@@ -67,7 +69,7 @@ class GroupEventSourceHandlerTest
       val result = eventSourcedBehaviorTestKit
         .runCommand[StatusReply[Reply]](replyTo => ClientLeavesGroup(clientID, replyTo))
       result.reply.isError should ===(true)
-      result.reply should ===(Error(s"client $clientID doesn't belongs to the group"))
+      result.reply should ===(Error(CLIENT_DOESNT_BELONGS_TO_GROUP withClientId clientID))
 
     "allow a client to connect to the group after joining" in:
       val clientID = ClientID(value = "1a2b4")
@@ -103,7 +105,7 @@ class GroupEventSourceHandlerTest
         .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID, communicationChannel, replyTo))
 
       result.reply.isError should ===(true)
-      result.reply should ===(Error(s"client $clientID doesn't belongs to the group"))
+      result.reply should ===(Error(CLIENT_DOESNT_BELONGS_TO_GROUP withClientId clientID))
 
       val state = eventSourcedBehaviorTestKit.getState()
       state.isPresent(clientID) should ===(false)
@@ -137,3 +139,47 @@ class GroupEventSourceHandlerTest
           client.outputRef should ===(OutputReference.OUT(secondChannel))
           client.status should ===(ClientStatus.ONLINE)
         case Left(error) => fail(s"Expected client to exist, but got error: $error")
+
+    "Group Event Source Handler broadcast mechanism" should:
+      "broadcast a message when a client joins the group" in:
+        val clientID1 = ClientID(value = "client1")
+        val clientID2 = ClientID(value = "client2")
+
+        val probe1 = testKit.createTestProbe[String]()
+        val probe2 = testKit.createTestProbe[String]()
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID1, replyTo))
+        eventSourcedBehaviorTestKit
+          .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID1, probe1.ref, replyTo))
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID2, replyTo))
+        eventSourcedBehaviorTestKit
+          .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
+
+        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID1)
+        probe2.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+
+      "broadcast message when a client leaves the group" in:
+        val clientID1 = ClientID(value = "client1")
+        val clientID2 = ClientID(value = "client2")
+
+        val probe1 = testKit.createTestProbe[String]()
+        val probe2 = testKit.createTestProbe[String]()
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID1, replyTo))
+        probe1.expectNoMessage()
+        eventSourcedBehaviorTestKit
+          .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID1, probe1.ref, replyTo))
+        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID1)
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID2, replyTo))
+        probe1.expectMessage(CLIENT_JOINED withClientId clientID2)
+        probe1.expectNoMessage()
+
+        eventSourcedBehaviorTestKit
+          .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
+        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+        probe2.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientLeavesGroup(clientID1, replyTo))
+        probe2.expectMessage(CLIENT_LEAVED withClientId clientID1)
