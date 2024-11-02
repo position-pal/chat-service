@@ -4,6 +4,7 @@ import io.bullet.borer.derivation.ArrayBasedCodecs.deriveCodec
 import io.bullet.borer.{Codec, Decoder, Encoder}
 import io.github.positionpal.client.ClientADT.{ClientStatus, OutputReference}
 import io.github.positionpal.client.ClientID
+import io.github.positionpal.message.ChatMessageADT.ChatMessage
 
 /** Here are implemented the default [[Codec]]s used for serializing object inside the system */
 trait ModelCodecs:
@@ -35,3 +36,6 @@ trait ModelCodecs:
             OutputReference.EMPTY
         reader.readArrayClose(unbounded, output),
     )
+
+  given chatMessageCodec[I: Encoder: Decoder, T: Encoder: Decoder]: Codec[ChatMessage[I, T]] =
+    deriveCodec[ChatMessage[I, T]]
