@@ -1,5 +1,7 @@
 package io.github.positionpal.borer
 
+import java.time.Instant
+
 import io.bullet.borer.derivation.ArrayBasedCodecs.deriveCodec
 import io.bullet.borer.{Codec, Decoder, Encoder}
 import io.github.positionpal.client.ClientADT.{ClientStatus, OutputReference}
@@ -8,6 +10,9 @@ import io.github.positionpal.message.ChatMessageADT.ChatMessage
 
 /** Here are implemented the default [[Codec]]s used for serializing object inside the system */
 trait ModelCodecs:
+
+  given instantCodec: Codec[Instant] = Codec.bimap(_.toString, Instant.parse)
+
   given clientIdCodec: Codec[ClientID] = deriveCodec[ClientID]
   given clientStatusCodec: Codec[ClientStatus] = deriveCodec[ClientStatus]
   given clientOutputReferenceCodec[O: Encoder: Decoder]: Codec[OutputReference[O]] =
