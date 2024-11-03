@@ -13,7 +13,7 @@ import io.github.positionpal.group.{GroupCommand, GroupEvent, GroupEventSourceHa
   * @param system The [[ExtendedActorSystem]]
   */
 class AkkaSerializer(system: ExtendedActorSystem) extends DefaultAkkaBorerSerializer(system):
-  /*Client*/
+  /* Client */
   given clientStatusHandlerCodec: Codec[ClientStatusHandler] = Codec(
     Encoder[ClientStatusHandler]: (writer, value) =>
       writer.writeArrayOpen(3).write(value.id).write(value.outputRef).write(value.status).writeArrayClose(),
