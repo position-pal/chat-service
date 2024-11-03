@@ -1,5 +1,6 @@
 package io.github.positionpal.group
 
+import akka.Done
 import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
 import akka.pattern.StatusReply
 import akka.pattern.StatusReply.{Error, Success}
@@ -11,14 +12,30 @@ import io.github.positionpal.group.ErrorValues.*
 import io.github.positionpal.group.GroupEvent as Event
 import io.github.positionpal.group.GroupEventSourceHandler.{Command, State}
 import io.github.positionpal.group.InformationValues.*
+import io.github.positionpal.message.ChatMessageADT
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
 class GroupEventSourceHandlerTest
     extends ScalaTestWithActorTestKit(
-      ConfigFactory.parseString("akka.actor.allow-java-serialization = on")
-        .withFallback(EventSourcedBehaviorTestKit.config),
+      ConfigFactory.parseString("""
+          akka.actor {
+            allow-java-serialization = on
+            provider = "cluster"
+            serializers {
+              jackson-cbor = "akka.serialization.jackson.JacksonCborSerializer"
+              borer-cbor = "io.github.positionpal.serializer.AkkaSerializer"
+            }
+            serialization-bindings {
+              "io.github.positionpal.borer.BorerSerialization" = borer-cbor
+            }
+          }
+          akka.remote.artery.canonical {
+            hostname = "127.0.0.1"
+            port = 0
+          }
+      """).withFallback(EventSourcedBehaviorTestKit.config),
     )
     with AnyWordSpecLike
     with BeforeAndAfterEach
@@ -183,3 +200,31 @@ class GroupEventSourceHandlerTest
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientLeavesGroup(clientID1, replyTo))
         probe2.expectMessage(CLIENT_LEAVED withClientId clientID1)
+
+      "broadcast a message sent from a client" in:
+
+        val clientID1 = ClientID(value = "client1")
+        val clientID2 = ClientID(value = "client2")
+
+        val probe1 = testKit.createTestProbe[String]()
+        val probe2 = testKit.createTestProbe[String]()
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID1, replyTo))
+        eventSourcedBehaviorTestKit
+          .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID1, probe1.ref, replyTo))
+        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID1)
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID2, replyTo))
+        probe1.expectMessage(CLIENT_JOINED withClientId clientID2)
+        eventSourcedBehaviorTestKit
+          .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
+        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+        probe2.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+
+        val textOfMessage = "This is actually a test"
+        val messageToGroup = ChatMessageADT.now(textOfMessage, from = clientID1, to = "testGroup")
+
+        eventSourcedBehaviorTestKit.runCommand[StatusReply[Done]](replyTo => SendMessage(messageToGroup, replyTo))
+
+        probe1.expectMessage(textOfMessage)
+        probe2.expectMessage(textOfMessage)

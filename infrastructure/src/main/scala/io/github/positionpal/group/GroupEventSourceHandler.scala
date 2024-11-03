@@ -10,6 +10,7 @@ import io.github.positionpal.client.ClientADT.OutputReference.*
 import io.github.positionpal.client.{ClientID, ClientStatusHandler}
 import io.github.positionpal.group.GroupADT.{Group, GroupOps}
 import io.github.positionpal.group.GroupDSL.*
+import io.github.positionpal.message.ChatMessageADT.ChatMessageImpl
 
 object GroupEventSourceHandler:
 
@@ -71,6 +72,10 @@ object GroupEventSourceHandler:
         Effect.persist(ClientDisconnected(clientID)).thenReply(replyTo): _ =>
           StatusReply.Success(ClientSuccessfullyDisconnected(clientID))
 
+    case SendMessage(ChatMessageImpl(text, _, _, _), replyTo) =>
+      Effect.persist(Message(text)).thenReply(replyTo): _ =>
+        StatusReply.Ack
+
   /** Handle a triggered event letting the entity pass to a new state
     * @param state The actual state of the entity
     * @param event The triggered event
@@ -111,6 +116,10 @@ object GroupEventSourceHandler:
           newState broadcast (CLIENT_DISCONNECTED withClientId clientID)
           newState
         case _ => state
+
+    case Message(text: String) =>
+      state broadcast text
+      state
 
   extension (group: Group[ClientID, ClientStatusHandler])
     /** Broadcast a message to the online members of the group

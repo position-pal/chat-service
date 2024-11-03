@@ -9,3 +9,4 @@ case class ClientJoinedToGroup(clientID: ClientID) extends GroupEvent
 case class ClientLeavedFromGroup(clientID: ClientID) extends GroupEvent
 case class ClientConnected(clientID: ClientID, communicationChannel: ActorRef[String]) extends GroupEvent
 case class ClientDisconnected(clientID: ClientID) extends GroupEvent
+case class Message(text: String) extends GroupEvent

@@ -7,7 +7,7 @@ import io.bullet.borer.{Codec, Decoder, Encoder}
 import io.github.positionpal.borer.DefaultAkkaBorerSerializer
 import io.github.positionpal.client.ClientADT.{ClientStatus, OutputReference}
 import io.github.positionpal.client.{ClientID, ClientStatusHandler}
-import io.github.positionpal.group.GroupEventSourceHandler
+import io.github.positionpal.group.{GroupCommand, GroupEvent, GroupEventSourceHandler}
 
 /** Serializer used for register object that should be used inside the entity of the system.
   * @param system The [[ExtendedActorSystem]]
@@ -26,11 +26,11 @@ class AkkaSerializer(system: ExtendedActorSystem) extends DefaultAkkaBorerSerial
       reader.readArrayClose(unbounded, output),
   )
 
-  given groupEventSourceStateCodec: Codec[GroupEventSourceHandler.State] = deriveCodec[GroupEventSourceHandler.State]
   /* Group */
-  given eventCommandCodec: Codec[GroupEventSourceHandler.Event] = deriveAllCodecs[GroupEventSourceHandler.Event]
-  given groupCommandCodec: Codec[GroupEventSourceHandler.Command] = deriveAllCodecs[GroupEventSourceHandler.Command]
+  given groupEventSourceStateCodec: Codec[GroupEventSourceHandler.State] = deriveCodec[GroupEventSourceHandler.State]
+  given eventCommandCodec: Codec[GroupEvent] = deriveAllCodecs[GroupEvent]
+  given groupCommandCodec: Codec[GroupCommand] = deriveAllCodecs[GroupCommand]
 
   register[GroupEventSourceHandler.State]()
-  register[GroupEventSourceHandler.Command]()
-  register[GroupEventSourceHandler.Event]()
+  register[GroupCommand]()
+  register[GroupEvent]()
