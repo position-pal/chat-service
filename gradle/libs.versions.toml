@@ -30,6 +30,7 @@ akka-cluster-sharding-typed = {module= "com.typesafe.akka:akka-cluster-sharding-
 akka-persistence-typed = {module = "com.typesafe.akka:akka-persistence-typed_3", version.ref = "akka"}
 akka-persistence-cassandra = {module = "com.typesafe.akka:akka-persistence-cassandra_3", version.ref = "cassandra"}
 akka-persistence-testkit = { module = "com.typesafe.akka:akka-persistence-testkit_3", version.ref = "akka" }
+akka-persistence-query = {module = "com.typesafe.akka:akka-persistence-query_3", version.ref = "akka"}
 akka-stream = { module = "com.typesafe.akka:akka-stream_3", version.ref = "akka" }
 akka-stream-typed = { module = "com.typesafe.akka:akka-stream-typed_3", version.ref = "akka" }
 akka-http = { module = "com.typesafe.akka:akka-http_3", version.ref = "akka-http" }
