@@ -10,7 +10,7 @@ enum ErrorValues(value: String) extends FormatCodes(value: String):
   case CLIENT_DOESNT_BELONGS_TO_GROUP extends ErrorValues("client doesn't belongs to the group")
 
 enum InformationValues(value: String) extends FormatCodes(value: String):
-  case CLIENT_JOINED extends InformationValues("client joined to the group")
-  case CLIENT_LEAVED extends InformationValues("client leaved from the group")
-  case CLIENT_CONNECTED extends InformationValues("client connected from the group")
+  case CLIENT_JOINED extends InformationValues("client joined the group")
+  case CLIENT_LEAVED extends InformationValues("client leaved the group")
+  case CLIENT_CONNECTED extends InformationValues("client connected to the group")
   case CLIENT_DISCONNECTED extends InformationValues("client disconnected from the group")

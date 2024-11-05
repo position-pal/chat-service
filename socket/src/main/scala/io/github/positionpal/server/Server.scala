@@ -7,11 +7,14 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.{ActorSystem, SpawnProtocol}
 import akka.http.scaladsl.Http
 import io.github.positionpal.server.routes.Routes.*
+import io.github.positionpal.service.GroupService
+import io.github.positionpal.services.GroupHandlerService
 
 object Server:
 
-  given actorSystem: ActorSystem[SpawnProtocol.Command] = ActorSystem(Behaviors.empty[Any], "messaging-actor-system")
+  given actorSystem: ActorSystem[SpawnProtocol.Command] = ActorSystem(Behaviors.empty[Any], "ClusterSystem")
   given executionContext: ExecutionContextExecutor = actorSystem.executionContext
+  given service: GroupHandlerService = GroupService(actorSystem)
 
   def startup(): Unit =
     val binding = Http().newServerAt("localhost", 8080).bind(v1Routes)

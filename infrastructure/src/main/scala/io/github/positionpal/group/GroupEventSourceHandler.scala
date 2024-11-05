@@ -73,8 +73,7 @@ object GroupEventSourceHandler:
           StatusReply.Success(ClientSuccessfullyDisconnected(clientID))
 
     case SendMessage(ChatMessageImpl(text, _, _, _), replyTo) =>
-      Effect.persist(Message(text)).thenReply(replyTo): _ =>
-        StatusReply.Ack
+      Effect.persist(Message(text)).thenReply(replyTo)(_ => StatusReply.Ack)
 
   /** Handle a triggered event letting the entity pass to a new state
     * @param state The actual state of the entity

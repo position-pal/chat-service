@@ -1,57 +1,55 @@
 package io.github.positionpal.server.ws
 
-import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
-import akka.stream.scaladsl.{Flow, Source}
+import scala.concurrent.ExecutionContext
+
+import akka.actor.typed.ActorRef
+import akka.http.scaladsl.model.ws.{Message, TextMessage}
+import akka.http.scaladsl.server.RouteResult.Complete
+import akka.stream.OverflowStrategy
+import akka.stream.scaladsl.{Flow, Sink, Source}
+import akka.stream.typed.scaladsl.ActorSource
+import io.bullet.borer.Json
+import io.github.positionpal.client.ClientID
+import io.github.positionpal.message.ChatMessageADT
+import io.github.positionpal.services.GroupHandlerService
 
 /** Object that contains the Flow handlers for websocket connections. */
 object WebSocketHandlers:
 
-//  /** Default websocket handler.
-//    * @param incomingActorRef The incomingMessage flow.
-//    * @return The [[Flow]] object used for handling the messages on the websocket routes
-//    */
-//  def websocketHandler(incomingActorRef: ActorRef[Commands]): Flow[Message, Message, WebSocketHandler] =
-//
-//    import io.github.positionpal.handler.Handler.Commands.{
-//      IncomingMessage,
-//      OutgoingMessage,
-//      StreamCompletedSuccessfully,
-//      StreamCompletedWithException,
-//    }
-//    import io.github.positionpal.handler.Handler.{Commands, WebSocketHandler}
-//
-//    val incomingMessage: Sink[Message, NotUsed] =
-//      Flow[Message].map:
-//        case TextMessage.Strict(text) => IncomingMessage(text)
-//        case _ => StreamCompletedWithException(Exception("Not supported message"))
-//      .to:
-//        ActorSink.actorRef(
-//          incomingActorRef,
-//          onCompleteMessage = StreamCompletedSuccessfully,
-//          onFailureMessage = ex => StreamCompletedWithException(ex),
-//        )
-//
-//    val outgoingMessage: Source[Message, ActorRef[Commands]] =
-//      ActorSource.actorRef[Commands](
-//        completionMatcher = { case StreamCompletedSuccessfully =>
-//          CompletionStrategy.draining
-//        },
-//        failureMatcher = { case StreamCompletedWithException(ex: Throwable) =>
-//          ex
-//        },
-//        bufferSize = 8,
-//        overflowStrategy = OverflowStrategy.fail,
-//      ).map: (protocolMessage: Commands) =>
-//        protocolMessage match
-//          case OutgoingMessage(content: ChatMessage[String]) => TextMessage.Strict(content.text)
-//          case _ => TextMessage.Strict("Error")
-//
-//    Flow.fromSinkAndSourceMat(incomingMessage, outgoingMessage):
-//      case (_, outgoingActorRef) =>
-//        WebSocketHandler(outgoingActorRef.narrow[Commands.OutgoingMessage])
+  /** Create a [[Flow]] used for communicating messages between a client and a group
+    * @param clientID The identifier of the client that is connecting
+    * @param groupID The identifier of the group in which we should connect
+    * @param ec  The implicit execution context
+    * @param service The implicit service that handles the requests
+    * @return A flow used for handling websoscket connections.
+    */
+  def connect(
+      clientID: ClientID,
+      groupID: String,
+  )(using
+      ec: ExecutionContext,
+      service: GroupHandlerService,
+  ): Flow[Message, Message, ?] =
 
-  def testingWsHandler: Flow[Message, Message, Any] = Flow[Message].mapConcat:
-    case tm: TextMessage =>
-      TextMessage(Source.single("Hello ") ++ tm.textStream ++ Source.single("!")) :: Nil
-    case _: BinaryMessage =>
-      TextMessage(Source.single("Other ")) :: Nil
+    val toGroup: Sink[Message, Unit] = Flow[Message].collect:
+      case TextMessage.Strict(msg) => msg
+    .map: text =>
+      ChatMessageADT.now(text, clientID, groupID)
+    .watchTermination(): (_, watcher) =>
+      watcher.onComplete: _ =>
+        service.disconnect(groupID)(clientID)
+    .to:
+      Sink.foreach(message => service.message(groupID)(message))
+
+    val toClient: Source[Message, ActorRef[String]] = ActorSource.actorRef(
+      completionMatcher = { case Complete => },
+      failureMatcher = { case ex: Throwable => ex },
+      bufferSize = 1000,
+      overflowStrategy = OverflowStrategy.fail,
+    ).mapMaterializedValue: ref =>
+      service.connect(groupID)(clientID, ref)
+      ref
+    .map:
+      case text: String => TextMessage(Json.encode(text).toUtf8String)
+
+    Flow.fromSinkAndSource(toGroup, toClient)

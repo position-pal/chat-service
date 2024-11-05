@@ -1,4 +1,4 @@
-package utils
+package io.github.positionpal.utils
 
 import scala.concurrent.Future
 import scala.concurrent.duration.*
@@ -11,7 +11,6 @@ import akka.actor.typed.{Behavior, PostStop}
 import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
 import com.typesafe.config.ConfigFactory
-import io.github.positionpal.utils.AkkaUtils
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AsyncWordSpecLike
