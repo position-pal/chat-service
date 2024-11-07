@@ -11,7 +11,8 @@ include(
     "domain",
     "presentation",
     "infrastructure",
-    "socket"
+    "socket",
+    "storage"
 )
 
 develocity {

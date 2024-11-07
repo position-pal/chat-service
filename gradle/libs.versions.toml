@@ -27,16 +27,17 @@ akka-serialization-jackson = { module = "com.typesafe.akka:akka-serialization-ja
 akka-projection-core = { module = "com.lightbend.akka:akka-projection-core_3", version.ref = "projection" }
 akka-cluster-typed = { module = "com.typesafe.akka:akka-cluster-typed_3", version.ref = "akka" }
 akka-cluster-sharding-typed = {module= "com.typesafe.akka:akka-cluster-sharding-typed_3", version.ref = "akka"}
-akka-persistence-typed = {module = "com.typesafe.akka:akka-persistence-typed_3", version.ref = "akka"}
 akka-persistence-cassandra = {module = "com.typesafe.akka:akka-persistence-cassandra_3", version.ref = "cassandra"}
-akka-persistence-testkit = { module = "com.typesafe.akka:akka-persistence-testkit_3", version.ref = "akka" }
+akka-persistence-typed = {module = "com.typesafe.akka:akka-persistence-typed_3", version.ref = "akka"}
 akka-persistence-query = {module = "com.typesafe.akka:akka-persistence-query_3", version.ref = "akka"}
+akka-persistence-testkit = { module = "com.typesafe.akka:akka-persistence-testkit_3", version.ref = "akka" }
 akka-stream = { module = "com.typesafe.akka:akka-stream_3", version.ref = "akka" }
 akka-stream-typed = { module = "com.typesafe.akka:akka-stream-typed_3", version.ref = "akka" }
 akka-http = { module = "com.typesafe.akka:akka-http_3", version.ref = "akka-http" }
 akka-http-testkit = { module = "com.typesafe.akka:akka-http-testkit_3", version.ref = "akka-http" }
 akka-stream-testkit = { module = "com.typesafe.akka:akka-stream-testkit_3", version.ref = "akka" }
-
+esri-geometry-api = "com.esri.geometry:esri-geometry-api:2.2.0"
+tinkerpop-gremlin = "org.apache.tinkerpop:gremlin-core:3.5.4"
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [bundles]
