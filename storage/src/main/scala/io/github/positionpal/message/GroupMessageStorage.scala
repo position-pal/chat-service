@@ -1,7 +1,7 @@
 package io.github.positionpal.message
 
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{Await, ExecutionContext}
 
 import akka.actor.typed.ActorSystem
 import akka.persistence.cassandra.query.scaladsl.CassandraReadJournal
@@ -20,11 +20,9 @@ class GroupMessageStorage(using system: ActorSystem[?]) extends MessageStorage:
   override def getLastMessages(groupID: String)(n: Int): Seq[String] =
     val persistenceId = PersistenceId(GroupEventSourceHandler.entityKey.name, groupID)
 
-    val futureSeq = readJournal.currentEventsByPersistenceId(persistenceId.id, 0L, Long.MaxValue).mapAsync(1):
-      envelope =>
-        envelope.event match
-          case message: Message => Future.successful(message.text)
-          case _ => Future.successful("")
-    .take(n).runWith(Sink.seq).map(_.filterNot(_.isEmpty))
+    val futureSeq = readJournal.currentEventsByPersistenceId(persistenceId.id, 0L, Long.MaxValue).collect: envelope =>
+      envelope.event match
+        case message: Message => message.text
+    .take(n).runWith(Sink.seq)
 
     Await.result(futureSeq, 5.seconds)

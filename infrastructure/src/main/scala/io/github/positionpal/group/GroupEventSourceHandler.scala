@@ -11,12 +11,15 @@ import io.github.positionpal.client.{ClientID, ClientStatusHandler}
 import io.github.positionpal.group.GroupADT.{Group, GroupOps}
 import io.github.positionpal.group.GroupDSL.*
 import io.github.positionpal.message.ChatMessageADT.ChatMessageImpl
+import org.slf4j.LoggerFactory
 
 object GroupEventSourceHandler:
 
   type State = Group[ClientID, ClientStatusHandler]
   type Event = GroupEvent
   type Command = GroupCommand
+
+  private val logger = LoggerFactory.getLogger(getClass.getName)
 
   def apply(groupId: String): Behavior[Command] =
     EventSourcedBehavior[Command, Event, State](
@@ -97,6 +100,7 @@ object GroupEventSourceHandler:
         case _ => state
 
     case ClientConnected(clientID, communicationChannel) =>
+      logger.info(s"$clientID connected")
       val updatedClient = state.updateClient(clientID):
         _.setOutputRef(OUT(communicationChannel)).setStatus(ONLINE).asInstanceOf[ClientStatusHandler]
 
@@ -107,6 +111,7 @@ object GroupEventSourceHandler:
         case _ => state
 
     case ClientDisconnected(clientID) =>
+      logger.info(s"$clientID disconnected")
       val updatedClient = state.updateClient(clientID):
         _.setOutputRef(EMPTY).setStatus(OFFLINE).asInstanceOf[ClientStatusHandler]
 
