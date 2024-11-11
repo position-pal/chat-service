@@ -25,8 +25,10 @@ jobs:
       - name: Assemble main and test classes
         run: ./gradlew classes testClasses
       - name: Test
+        if: matrix.os
         run: |
-          if [[ "$OS_NAME" == "Windows" || "$OS_NAME" == "macOS" ]]; then
+          echo $RUNNER_OS
+          if [[ "$RUNNER_OS" == "Windows" || "$RUNNER_OS" == "macOS" ]]; then
             ./gradlew test --exclude-task ':storage:test'
           else
             ./gradlew test
