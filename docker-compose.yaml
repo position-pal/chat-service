@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   cassandra:
     image: cassandra:5.0.2
@@ -7,3 +5,9 @@ services:
       - 9042:9042
     environment:
       - CASSANDRA_CLUSTER_NAME=akka-cassandra-cluster
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-e", "SELECT now() FROM system.local;" ]
+      interval: 1s
+      timeout: 1s
+      retries: 50
+      start_period: 10s
