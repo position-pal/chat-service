@@ -24,17 +24,13 @@ jobs:
           java-version: ${{ matrix.jvm-version }}
       - name: Assemble main and test classes
         run: ./gradlew classes testClasses
-      - name: Test
-        if: matrix.os
-        run: |
-          echo $RUNNER_OS
-          if [[ "$RUNNER_OS" == "Windows" || "$RUNNER_OS" == "macOS" ]]; then
-            ./gradlew test --exclude-task ':storage:test'
-          else
-            ./gradlew test
-          fi
       - name: Check
-        run: ./gradlew check
+        run:
+          if [[ "$RUNNER_OS" == "Windows" || "$RUNNER_OS" == "macOS" ]]; then
+            ./gradlew check --exclude-task ':storage:test'
+          else
+            ./gradlew check
+          fi
 
   success:
     needs:
