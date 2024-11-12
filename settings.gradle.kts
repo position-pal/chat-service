@@ -6,9 +6,13 @@ plugins {
 rootProject.name = "chat-service"
 
 include(
+    "application",
     "common",
     "domain",
-    "socket"
+    "presentation",
+    "infrastructure",
+    "socket",
+    "storage"
 )
 
 develocity {

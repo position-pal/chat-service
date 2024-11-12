@@ -1,31 +1,61 @@
 package io.github.positionpal.server.routes
 
+import scala.concurrent.ExecutionContextExecutor
+
 import akka.actor.typed.ActorSystem
-import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
-import io.github.positionpal.handler.Handler.{Commands, incomingHandler}
-import io.github.positionpal.server.ws.WebSocketHandlers.websocketHandler
+import io.github.positionpal.client.ClientID
+import io.github.positionpal.server.Server.actorSystem
+import io.github.positionpal.server.ws.WebSocketHandlers
+import io.github.positionpal.service.GroupService
+import io.github.positionpal.services.GroupHandlerService
 
 /** Object that contains the routes definition for the websocket server */
 object Routes:
 
-  /** Routes used for handling the websockett
-    * @param system implicit system where the actor that handles connections are spawned
-    * @return The route where the clients connect to the server and exchanges messages using websocket
-    */
-  def webSocketFlowRoute(using system: ActorSystem[?]): Route =
-    val actorName = s"websocket-${java.util.UUID.randomUUID().toString}"
-    val incomingActorReference = system.systemActorOf(incomingHandler, actorName)
+  private case class ApplicationV1Routes(system: ActorSystem[?]) extends RoutesProvider:
+    override def routes: Route = webSocketFlowRoute
+    override def version: String = "v1"
 
-    path("affirm"):
-      handleWebSocketMessages:
-        websocketHandler(incomingActorReference)
+    given executionContext: ExecutionContextExecutor = actorSystem.executionContext
+    given service: GroupHandlerService = GroupService(actorSystem)
 
-  /** Default route for the server
-    * @return The route
+    /** Routes used for handling the websocket
+      * @return The route where the clients connect to the server and exchanges messages using websocket
+      */
+    private def webSocketFlowRoute: Route =
+      pathPrefix("messages" / Segment): groupID =>
+        parameter("user"): clientID =>
+          handleWebSocketMessages(WebSocketHandlers.connect(ClientID(clientID), groupID))
+
+//    private def getMessages: Route =
+//      pathPrefix("messages" / Segment): groupID =>
+//        get:
+//          parameter("limit".as[Int].withDefault(10)): limit =>
+//            try
+//              val messages = messageStorage.getLastMessages(groupID)(limit)
+//              println(messages)
+//              complete(StatusCodes.OK, "ok")
+//            catch
+//              case ex: Exception =>
+//                complete(StatusCodes.InternalServerError -> s"Error retrieving messages: ${ex.getMessage}")
+//
+//    private def joinRoute: Route =
+//      pathPrefix("join" / Segment): groupID =>
+//        parameter("user"): clientID =>
+//          post:
+//            service.join(groupID)(ClientID(clientID))
+//            complete(StatusCodes.OK, "nice")
+//
+//    private def test: Route =
+//      pathPrefix("test" / Segment): groupID =>
+//        get:
+//          println(messageStorage.getLastMessages(groupID)(10))
+//          complete(StatusCodes.OK, "nice")
+
+  /** Return the routes for the v1 api version
+    * @param system the implicit actor system
+    * @return A [[Route]] object containing the routes of the server.
     */
-  def defaultRoute: Route =
-    path("hello"):
-      get:
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+  def v1Routes(using system: ActorSystem[?]): Route = ApplicationV1Routes(system).versionedRoutes

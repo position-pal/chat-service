@@ -2,25 +2,36 @@ package io.github.positionpal.client
 
 object ClientADT:
 
-  /** Represent a unique ID that's associated to a [[Client]]
-    *
-    * @param id the ID of the client
-    * @param email the email associated to the client
-    */
-  case class ClientID(id: String, email: String)
-
   enum ClientStatus:
     case ONLINE
     case OFFLINE
 
-  trait ClientOps:
+  enum OutputReference[+O]:
+    case OUT(value: O)
+    case EMPTY
+
+  trait Client[I, O]:
     /** The ID associated to the client
-      * @return the [[ClientID]] of the current [[Client]]
+      *
+      * @return the [[I]] of the current [[ClientStatus]]
       */
-    def clientID: ClientID
+    def id: I
+
+    /** The [[OutputReference]] indicating the channel where we can
+      * actually exchange a message with the [[ClientStatus]].
+      *
+      * @return
+      */
+    def outputRef: OutputReference[O]
+
+    /** Set a new [[OutputReference]] for the client
+      * @return a new [[ClientOps]] instance with a new [[OutputReference]].
+      */
+    def setOutputRef(reference: OutputReference[O]): Client[I, O]
 
     /** The current status of a client
-      * @return the [[ClientStatus]] representing the status of a [[Client]]
+      *
+      * @return the [[ClientStatus]] representing the status of a [[ClientStatus]]
       */
     def status: ClientStatus
 
@@ -28,7 +39,12 @@ object ClientADT:
       * @param newStatus the new status
       * @return a new [[ClientOps]] instance with the new status
       */
-    def setStatus(newStatus: ClientStatus): ClientOps
+    def setStatus(newStatus: ClientStatus): Client[I, O]
 
-  case class Client(clientID: ClientID, status: ClientStatus) extends ClientOps:
-    override def setStatus(newStatus: ClientStatus): ClientOps = Client(clientID, newStatus)
+    /** Perform an operation only if an output resource is set
+      * @param f the operation to perform
+      */
+    def executeOnOutput(f: O => Unit): Unit =
+      outputRef match
+        case OutputReference.OUT(comm) => f(comm)
+        case _ =>

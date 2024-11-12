@@ -1,5 +1,5 @@
 dependencies {
-    api(project(":domain"))
+    api(project(":storage"))
     with(rootProject.libs) {
         implementation(akka.stream)
         implementation(akka.stream.typed)
