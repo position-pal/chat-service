@@ -1,6 +1,6 @@
 services:
   cassandra:
-    image: cassandra:5.0.2
+    image: cassandra:5.0.2@sha256:5d4795c41491654e2bda432179e020c7c2cd702bbb22b7d1314747658efd71b4
     ports:
       - 9042:9042
     environment:
