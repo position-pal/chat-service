@@ -37,7 +37,7 @@ akka-http-testkit = { module = "com.typesafe.akka:akka-http-testkit_3", version.
 akka-persistence-testkit = { module = "com.typesafe.akka:akka-persistence-testkit_3", version.ref = "akka" }
 akka-stream-testkit = { module = "com.typesafe.akka:akka-stream-testkit_3", version.ref = "akka" }
 esri-geometry-api = "com.esri.geometry:esri-geometry-api:2.2.4"
-tinkerpop-gremlin = "org.apache.tinkerpop:gremlin-core:3.5.8"
+tinkerpop-gremlin = "org.apache.tinkerpop:gremlin-core:3.7.3"
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [bundles]
