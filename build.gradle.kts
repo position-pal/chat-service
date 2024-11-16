@@ -16,6 +16,7 @@ allprojects {
         apply(plugin = scala.extras.get().pluginId)
     }
 
+
     repositories {
         mavenCentral()
         maven {

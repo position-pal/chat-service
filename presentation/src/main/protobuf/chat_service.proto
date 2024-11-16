@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package chatservice;
+option java_multiple_files = true;
+option java_package = "io.github.positionpal.proto";
+
+/* START GRPC DEFINITION */
+
+service ChatService {
+  rpc RetrieveLastMessages(RetrieveLastMessagesRequest) returns (MessageResponse) {}
+}
+
+// 1. Retrieve last messages from the group
+message RetrieveLastMessagesRequest {
+  string group_id = 1;
+  string client_id = 2;
+}
+
+message MessageResponse {
+  repeated Message messages = 1;
+}
+
+message Message {
+  string content = 1;
+}
