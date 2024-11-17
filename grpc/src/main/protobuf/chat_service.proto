@@ -5,7 +5,6 @@ option java_multiple_files = true;
 option java_package = "io.github.positionpal.proto";
 
 /* START GRPC DEFINITION */
-
 service ChatService {
   rpc RetrieveLastMessages(RetrieveLastMessagesRequest) returns (MessageResponse) {}
 }
@@ -14,6 +13,7 @@ service ChatService {
 message RetrieveLastMessagesRequest {
   string group_id = 1;
   string client_id = 2;
+  string number_of_messages = 3;
 }
 
 message MessageResponse {
