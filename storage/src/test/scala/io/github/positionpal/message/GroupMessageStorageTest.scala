@@ -1,86 +1,20 @@
 package io.github.positionpal.message
 
-import scala.concurrent.duration.DurationInt
-import scala.concurrent.{ExecutionContext, Future}
-
-import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.{ActorRef, ActorSystem, Behavior}
+import akka.actor.typed.javadsl.Behaviors
+import akka.actor.typed.{ActorSystem, Behavior}
 import akka.cluster.Cluster
 import com.typesafe.config.ConfigFactory
-import io.github.positionpal.client.ClientID
-import io.github.positionpal.message.PipeUtils.TestProtocol.{Start, TestComplete}
-import io.github.positionpal.service.GroupService
-import io.github.positionpal.services.GroupHandlerService
-import io.github.positionpal.storage.MessageStorage
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpecLike
+import org.scalatest.wordspec.AsyncWordSpecLike
 
-object PipeUtils:
+class GroupMessageStorageTest extends AsyncWordSpecLike with Matchers with BeforeAndAfterAll:
 
-  enum TestProtocol:
-    case Start
-    case Joined
-    case Connected
-    case MessagesSent
-    case TestComplete(result: Seq[String])
-
-  def sendMessages(
-      remaining: Seq[String],
-      userID: ClientID,
-      groupID: String,
-  )(using groupService: GroupHandlerService, executionContext: ExecutionContext): Future[Unit] =
-    remaining match
-      case Nil =>
-        Future.successful(())
-      case msg :: tail =>
-        val messageNow = ChatMessageADT.now(msg, userID, groupID)
-        groupService.message(groupID)(messageNow).flatMap(_ => sendMessages(tail, userID, groupID))
-
-  def testPipe(userID: ClientID, groupID: String, testName: String)(
-      testingBehaviour: (MessageStorage, String) => Unit,
-  )(using groupService: GroupHandlerService, system: ActorSystem[?]): Behavior[TestProtocol] =
-    import TestProtocol.*
-
-    given executionContext: ExecutionContext = system.executionContext
-    val storage = GroupMessageStorage()
-
-    Behaviors.setup: context =>
-      Behaviors.receiveMessage:
-        case Start =>
-          context.pipeToSelf(groupService.join(groupID)(userID)): _ =>
-            Joined
-          context.log.info("[ACTOR]: Start")
-          Behaviors.same
-
-        case Joined =>
-          context.pipeToSelf(
-            groupService.connect(groupID)(userID, system.systemActorOf[String](Behaviors.empty, s"test-$testName")),
-          ): _ =>
-            Connected
-
-          context.log.info("[ACTOR]: joining")
-          Behaviors.same
-
-        case Connected =>
-          context.log.info("[ACTOR]: connecting")
-          val messages = Seq("message1", "message2", "message3", "message4", "message5")
-          context.pipeToSelf(sendMessages(messages, userID, groupID)): _ =>
-            MessagesSent
-          Behaviors.same
-
-        case MessagesSent =>
-          context.log.info("[ACTOR]: sent all messages")
-          testingBehaviour(storage, groupID)
-          Behaviors.stopped
-
-        case TestComplete(msgs) =>
-          context.log.info(msgs.toString())
-          Behaviors.stopped
-
-class GroupMessageStorageTest
-    extends ScalaTestWithActorTestKit(
-      ConfigFactory.parseString("""
+  private val testBehavior: Behavior[Nothing] = Behaviors.empty
+  given system: ActorSystem[Nothing] = ActorSystem(
+    testBehavior,
+    "GroupMessageStorageTest",
+    ConfigFactory.parseString("""
      akka.actor {
         allow-java-serialization = on
         provider = "cluster"
@@ -112,8 +46,6 @@ class GroupMessageStorageTest
 
         cassandra {
           journal.keyspace = "chatservice"
-          journal.keyspace-autocreate = true
-          journal.tables-autocreate = true
 
           connection-timeout = 30s
           init-retry-interval = 2s
@@ -121,36 +53,41 @@ class GroupMessageStorageTest
         }
      }
     """).withFallback(ConfigFactory.defaultApplication()),
-    )
-    with AnyWordSpecLike
-    with Matchers:
+  )
 
   private val cluster = Cluster(system)
+  private val storage = new GroupMessageStorage()
 
   override def beforeAll(): Unit =
     super.beforeAll()
     cluster.join(cluster.selfMember.address)
 
-  import PipeUtils.*
-  import scala.util.Success
-
-  given service: GroupHandlerService = GroupService(system)
-  given ExecutionContext = system.executionContext
-
   "GroupMessageStorage" should:
-    "retrieve the last n messages for a group" in:
+    "retrieve last messages from a known group" in:
 
-      val probe = createTestProbe[TestProtocol]()
-      val pipe = spawn:
-        testPipe(ClientID("123"), "testingPipe", "nMessages"): (storage, groupID) =>
-          val result = storage.getLastMessages(groupID)(3)
-          result.onComplete:
-            case Success(result) => probe.ref ! TestComplete(result)
-            case _ => fail("The operation completed with a failure")
+      val knownGroupId = "123"
 
-      pipe ! Start
+      storage.getLastMessages(knownGroupId)(3).map: messages =>
+        messages should not be empty
+        messages.length should be <= 3
 
-      probe.expectMessageType[TestComplete](10.seconds) match
-        case TestComplete(messages) =>
-          messages should have size 3
-          messages should contain allOf ("message5", "message4", "message3")
+        messages should be(
+          Vector(
+            "aaa\n",
+            "ddd\n",
+            "cxcmkxmvxv\n",
+          ),
+        )
+
+    "handle a group with no messages" in:
+      val emptyGroupId = "empty-group"
+
+      storage.getLastMessages(emptyGroupId)(5).map: messages =>
+        messages should be(empty)
+
+    "handle requesting more messages than available" in:
+      val smallGroupId = "123" // We've exactly 3 messages in the group
+
+      storage.getLastMessages(smallGroupId)(10).map: messages =>
+        messages should not be empty
+        messages.length should be <= 3

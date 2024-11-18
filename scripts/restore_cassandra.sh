@@ -45,4 +45,4 @@ done
 echo "Cleaning up temporary files..."
 rm -rf "$RESTORE_DIR"
 
-echo "Restore completed successfully!"
+touch /tmp/.init-completed
