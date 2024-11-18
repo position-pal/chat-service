@@ -1,6 +1,9 @@
 services:
   cassandra:
+    networks:
+      - cassandra-network
     image: cassandra:5.0.2@sha256:5d4795c41491654e2bda432179e020c7c2cd702bbb22b7d1314747658efd71b4
+    container_name: cassandra
     ports:
       - 9042:9042
     environment:
@@ -11,3 +14,24 @@ services:
       timeout: 1s
       retries: 50
       start_period: 10s
+
+  cassandra-init:
+    networks:
+      - cassandra-network
+    image: cassandra:latest
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    environment:
+      - CQLSH_HOST=cassandra
+      - CASSANDRA_HOST=cassandra
+    volumes:
+      - ./scripts/restore_cassandra.sh:/tmp/restore_cassandra.sh
+      - ./common/src/test/resources/db/cassandra_data:/tmp/backup
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: >
+      "chmod +x /tmp/restore_cassandra.sh && /tmp/restore_cassandra.sh"
+
+networks:
+  cassandra-network:
+    driver: bridge
