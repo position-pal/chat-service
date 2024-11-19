@@ -16,9 +16,8 @@ class GrpcServer(using system: ActorSystem[?]):
   private val service: HttpRequest => Future[HttpResponse] =
     GrpcServiceHandler.concatOrNotFound(
       ChatServiceHandler.partial(new ServiceHandler()),
-      ServerReflection.partial(List(ChatService))
+      ServerReflection.partial(List(ChatService)),
     )
-
 
   def run(): Future[ServerBinding] =
     val bound = Http().newServerAt(interface = "127.0.0.1", port = 8080).bind(service)

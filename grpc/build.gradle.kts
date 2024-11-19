@@ -20,3 +20,5 @@ tasks.withType<ScalaCompile> {
         "-Wconf:src=.*generated.*:silent"
     )
 }
+
+dockerCompose.isRequiredBy(tasks.test)

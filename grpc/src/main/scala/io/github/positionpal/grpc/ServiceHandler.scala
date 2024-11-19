@@ -1,6 +1,7 @@
 package io.github.positionpal.grpc
 
 import scala.concurrent.{ExecutionContext, Future}
+
 import akka.actor.typed.ActorSystem
 import io.github.positionpal.message.GroupMessageStorage
 import io.github.positionpal.proto.{ChatService, Message, MessageResponse, RetrieveLastMessagesRequest}
