@@ -10,9 +10,4 @@ dependencies {
     }
 }
 
-dockerCompose {
-
-    
-}
-
 dockerCompose.isRequiredBy(tasks.test)
