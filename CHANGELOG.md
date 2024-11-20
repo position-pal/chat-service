@@ -1,3 +1,18 @@
+## [0.5.0](https://github.com/position-pal/chat-service/compare/0.4.0...0.5.0) (2024-11-20)
+
+### Features
+
+* **grpc:** add grpc support for the chat service  ([#85](https://github.com/position-pal/chat-service/issues/85)) ([e1810a7](https://github.com/position-pal/chat-service/commit/e1810a72d223b891dc76b73f39eb2f6c7d29f6d7))
+
+### Dependency updates
+
+* **deps:** pin cassandra docker tag to 5d4795c ([#80](https://github.com/position-pal/chat-service/issues/80)) ([1992424](https://github.com/position-pal/chat-service/commit/1992424a509e5333bdf1c332b7c493c96055a6f6))
+* **deps:** update dependency com.esri.geometry:esri-geometry-api to v2.2.4 ([#81](https://github.com/position-pal/chat-service/issues/81)) ([cfc5a52](https://github.com/position-pal/chat-service/commit/cfc5a52a4115dffc8ba5507855e15086a2633b8e))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.6.2 ([#86](https://github.com/position-pal/chat-service/issues/86)) ([525bbe1](https://github.com/position-pal/chat-service/commit/525bbe1631d36eb5d73827ec2bd07dcffcefd20d))
+* **deps:** update dependency org.apache.tinkerpop:gremlin-core to v3.5.8 ([#82](https://github.com/position-pal/chat-service/issues/82)) ([dc70e0a](https://github.com/position-pal/chat-service/commit/dc70e0a410a3a005f7e6c51fb3fd8561d9b1d510))
+* **deps:** update dependency org.apache.tinkerpop:gremlin-core to v3.7.3 ([#83](https://github.com/position-pal/chat-service/issues/83)) ([78f8bf0](https://github.com/position-pal/chat-service/commit/78f8bf06854d050a6b932ec3b693bb0d1fa51560))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.115 ([#84](https://github.com/position-pal/chat-service/issues/84)) ([cacdb01](https://github.com/position-pal/chat-service/commit/cacdb019766ce2a8959a251886f5ec9e5f7a2f77))
+
 ## [0.4.0](https://github.com/position-pal/chat-service/compare/0.3.1...0.4.0) (2024-11-12)
 
 ### Features
