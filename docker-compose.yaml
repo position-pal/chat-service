@@ -1,13 +1,48 @@
 services:
   cassandra:
+    networks:
+      - cassandra-network
     image: cassandra:5.0.2@sha256:5d4795c41491654e2bda432179e020c7c2cd702bbb22b7d1314747658efd71b4
+    container_name: cassandra
     ports:
       - 9042:9042
-    environment:
-      - CASSANDRA_CLUSTER_NAME=akka-cassandra-cluster
     healthcheck:
-      test: [ "CMD", "cqlsh", "-e", "SELECT now() FROM system.local;" ]
-      interval: 1s
-      timeout: 1s
-      retries: 50
-      start_period: 10s
+      test: [ "CMD", "cqlsh", "-e", "describe keyspaces" ]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  cassandra-init:
+    networks:
+      - cassandra-network
+    image: cassandra:latest
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    environment:
+      - CQLSH_HOST=cassandra
+      - CASSANDRA_HOST=cassandra
+    volumes:
+      - ./scripts/restore_cassandra.sh:/tmp/restore_cassandra.sh
+      - ./common/src/test/resources/db/cassandra_data:/tmp/backup
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: >
+      "chmod +x /tmp/restore_cassandra.sh && /tmp/restore_cassandra.sh"
+    healthcheck:
+      test: [ "CMD-SHELL", "[ -f /tmp/.init-completed ]" ]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 5s
+
+  test-runner:
+    image: busybox
+    depends_on:
+      cassandra:
+        condition: service_healthy
+      cassandra-init:
+        condition: service_completed_successfully
+
+networks:
+  cassandra-network:
+    driver: bridge

@@ -28,7 +28,7 @@ jobs:
         shell: pwsh
         run: |
           if ("${{ runner.os }}" -in 'Windows', 'macOS') {
-            ./gradlew check --exclude-task ':storage:test'
+            ./gradlew check --exclude-task ':storage:test' --exclude-task ':grpc:test'
           }
           else {
             ./gradlew check

@@ -12,6 +12,7 @@ include(
     "presentation",
     "infrastructure",
     "socket",
+    "grpc",
     "storage"
 )
 
