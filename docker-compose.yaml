@@ -15,7 +15,7 @@ services:
   cassandra-init:
     networks:
       - cassandra-network
-    image: cassandra:latest
+    image: cassandra:latest@sha256:5d4795c41491654e2bda432179e020c7c2cd702bbb22b7d1314747658efd71b4
     depends_on:
       cassandra:
         condition: service_healthy
@@ -36,7 +36,7 @@ services:
       start_period: 5s
 
   test-runner:
-    image: busybox
+    image: busybox@sha256:db142d433cdde11f10ae479dbf92f3b13d693fd1c91053da9979728cceb1dc68
     depends_on:
       cassandra:
         condition: service_healthy
