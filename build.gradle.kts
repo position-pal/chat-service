@@ -34,6 +34,7 @@ allprojects {
             implementation(cats.mtl)
             implementation(akka.actor.typed)
             implementation(logback.classic)
+            implementation(dotenv)
             testImplementation(cats.effect.testing.scalatest)
             testImplementation(bundles.scala.testing)
             testImplementation(akka.actor.testkit.typed)

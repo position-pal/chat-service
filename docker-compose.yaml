@@ -1,7 +1,7 @@
 services:
   cassandra:
     networks:
-      - cassandra-network
+      - service-network
     image: cassandra:5.0.2@sha256:5d4795c41491654e2bda432179e020c7c2cd702bbb22b7d1314747658efd71b4
     container_name: cassandra
     ports:
@@ -14,7 +14,7 @@ services:
 
   cassandra-init:
     networks:
-      - cassandra-network
+      - service-network
     image: cassandra:latest@sha256:5d4795c41491654e2bda432179e020c7c2cd702bbb22b7d1314747658efd71b4
     depends_on:
       cassandra:
@@ -43,6 +43,18 @@ services:
       cassandra-init:
         condition: service_completed_successfully
 
+  rabbitmq-broker:
+    networks:
+      - service-network
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - "5672:5672"
+      - "8080:15672"
+
 networks:
-  cassandra-network:
+  service-network:
     driver: bridge
