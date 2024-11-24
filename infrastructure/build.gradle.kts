@@ -5,7 +5,6 @@ dependencies {
         implementation(akka.cluster.sharding.typed)
         implementation(akka.persistence.cassandra)
         implementation(akka.serialization.jackson)
-        implementation(akka.projection.core)
         implementation(akka.persistence.typed)
     }
 }
