@@ -11,6 +11,14 @@ object Configuration:
       ssl: Boolean = false,
   )
 
+  extension (config: RabbitMQConfig)
+    def toUri: String =
+      val scheme = if config.ssl then "amqps" else "amqp"
+      val encodedVHost =
+        if config.virtualHost.isEmpty || config.virtualHost == "/" then ""
+        else s"/${java.net.URLEncoder.encode(config.virtualHost, "UTF-8")}"
+      s"$scheme://${config.username}:${config.password}@${config.host}:${config.port}$encodedVHost"
+
   enum Validation:
     case InvalidField(field: String, msg: String)
 
