@@ -8,7 +8,9 @@ import akka.stream.alpakka.amqp.{AmqpUriConnectionProvider, NamedQueueSourceSett
 import akka.stream.scaladsl.{Flow, Sink, Source}
 import io.github.positionpal.connection.Connection.*
 import io.github.positionpal.consumer.QueueConsumer
+import io.github.positionpal.consumer.QueueConsumer.Exchange.GROUP_UPDATE
 import io.github.positionpal.consumer.QueueConsumer.Queue
+import io.github.positionpal.handler.Handlers
 
 @main
 def executeTest(): Unit =
@@ -52,5 +54,9 @@ def graphTest(): Unit =
   )
 
   configuration.toProvider.foreach: provider =>
-    val graph = QueueConsumer.start(provider, List(Queue("test1"), Queue("test2")))
+    val queues = List(
+      Queue(name = "test1", exchanges = List(GROUP_UPDATE)),
+    )
+
+    val graph = QueueConsumer.start(provider, queues, Handlers.basic)
     graph.run()

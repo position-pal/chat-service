@@ -1,5 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import EnvHelper
 
 plugins {
     `java-library`
@@ -23,6 +24,13 @@ allprojects {
         mavenCentral()
         maven {
             url = uri("https://repo.akka.io/maven")
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/position-pal/shared-kernel")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: EnvHelper.getEnv("GH_USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: EnvHelper.getEnv("GH_TOKEN")
+            }
         }
     }
 
