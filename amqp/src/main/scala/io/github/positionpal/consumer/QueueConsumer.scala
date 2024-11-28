@@ -28,7 +28,7 @@ object QueueConsumer:
 
   private val logger: Logger = LoggerFactory.getLogger(getClass.getName)
 
-  def graph(provider: AmqpConnectionProvider, queues: List[Queue], messageHandler: MessageHandler)(using
+  def graph[F[_]](provider: AmqpConnectionProvider, queues: List[Queue], messageHandler: MessageHandler[F])(using
       ExecutionContext,
   ): Graph[ClosedShape, NotUsed] =
     GraphDSL.create():
@@ -66,10 +66,10 @@ object QueueConsumer:
 
         ClosedShape
 
-  def start(
+  def start[F[_]](
       provider: AmqpConnectionProvider,
       queues: List[Queue],
-      messageHandler: MessageHandler,
+      messageHandler: MessageHandler[F],
   )(using system: ActorSystem[?]): RunnableGraph[NotUsed] =
     given ExecutionContext = system.executionContext
     RunnableGraph.fromGraph(graph(provider, queues, messageHandler))

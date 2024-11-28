@@ -3,5 +3,5 @@ package io.github.positionpal.handler
 import akka.util.ByteString
 import io.github.positionpal.MessageType
 
-trait MessageHandler:
-  def handle(messageType: MessageType, message: ByteString): Unit
+trait MessageHandler[F[_]]:
+  def handle[A](messageType: MessageType, message: ByteString): F[A]
