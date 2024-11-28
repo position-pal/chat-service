@@ -21,13 +21,34 @@ import io.github.positionpal.handler.MessageHandler
 import org.slf4j.{Logger, LoggerFactory}
 
 object QueueConsumer:
+  /** Represents a queue configuration including its name, associated exchanges, and an optional routing key.
+    *
+    * @param name       The name of the queue.
+    * @param exchanges  A list of exchanges associated with the queue.
+    * @param routingKey An optional routing key for message routing.
+    */
   case class Queue(name: String, exchanges: List[Exchange] = Nil, routingKey: Option[String] = None)
 
+  /** Represents an exchange declaration for RabbitMQ.
+    *
+    * @param name         The name of the exchange.
+    * @param exchangeType The type of the exchange (e.g., "direct", "topic", "headers").
+    * @param routingKey   An optional routing key for binding.
+    */
   enum Exchange(val name: String, val exchangeType: String, val routingKey: Option[String] = None):
+    /** A predefined exchange for handling group updates. */
     case GROUP_UPDATE extends Exchange("group_updates_exchange", "headers")
 
   private val logger: Logger = LoggerFactory.getLogger(getClass.getName)
 
+  /** Creates a stream graph for consuming messages from multiple RabbitMQ queues.
+    *
+    * @param provider         The AMQP connection provider used to connect to RabbitMQ.
+    * @param queues           A list of queues to consume from, each with its associated configuration.
+    * @param messageHandler   A handler for processing messages based on their type.
+    * @tparam F The effect type used by the [[MessageHandler]].
+    * @return A closed Akka Stream graph that consumes messages and processes them using the provided handler.
+    */
   def graph[F[_]](provider: AmqpConnectionProvider, queues: List[Queue], messageHandler: MessageHandler[F])(using
       ExecutionContext,
   ): Graph[ClosedShape, NotUsed] =
@@ -66,6 +87,15 @@ object QueueConsumer:
 
         ClosedShape
 
+  /** Starts the queue consumer by running the Akka Stream graph.
+    *
+    * @param provider       The AMQP connection provider used to connect to RabbitMQ.
+    * @param queues         A list of queues to consume from, each with its associated configuration.
+    * @param messageHandler A handler for processing messages based on their type.
+    * @param system         The Akka actor system used for running the stream.
+    * @tparam F The effect type used by the [[MessageHandler]].
+    * @return A [[RunnableGraph]] that can be executed to start the consumer.
+    */
   def start[F[_]](
       provider: AmqpConnectionProvider,
       queues: List[Queue],

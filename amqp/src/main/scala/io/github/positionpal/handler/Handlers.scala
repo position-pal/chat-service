@@ -10,7 +10,6 @@ object Handlers:
   def basic: MessageHandler[Id] = new MessageHandler[Id]:
     def handle[A](messageType: MessageType, message: ByteString): Id[A] =
       val byteArray = message.toArray
-
       messageType match
         case MessageType.GROUP_CREATED =>
           val result = serializer.deserializeGroupCreated(byteArray)
