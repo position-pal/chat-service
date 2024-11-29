@@ -2,6 +2,7 @@ package io.github.positionpal.service
 
 import scala.concurrent.duration.*
 import scala.concurrent.{ExecutionContext, Future}
+import scala.language.postfixOps
 
 import akka.actor.typed.{ActorRef, ActorSystem}
 import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityRef}
@@ -17,6 +18,7 @@ import io.github.positionpal.group.{
   ClientSuccessfullyDisconnected,
   ClientSuccessfullyJoined,
   ClientSuccessfullyLeaved,
+  DeleteGroup,
   GroupCommand,
   GroupEventSourceHandler,
   SendMessage,
@@ -41,6 +43,10 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService:
     */
   private def entityRefFor(groupId: String): EntityRef[GroupCommand] =
     sharding.entityRefFor(GroupEventSourceHandler.entityKey, groupId)
+
+  override def delete(groupID: String): Future[Unit] =
+    Future:
+      entityRefFor(groupID) ! DeleteGroup()
 
   override def join(groupID: String)(clientID: ClientID): Future[List[ClientID]] =
     entityRefFor(groupID).ask(ref => ClientJoinsGroup(clientID, ref)).map:

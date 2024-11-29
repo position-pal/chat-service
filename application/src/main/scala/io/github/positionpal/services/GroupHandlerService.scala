@@ -8,6 +8,12 @@ import io.github.positionpal.message.ChatMessageADT.ChatMessageImpl
 
 trait GroupHandlerService:
 
+  /** Delete the group
+   * @param groupID The ID of the group to delete
+   * @return A [[Future]] representing the completion of the operation
+   */
+  def delete(groupID: String): Future[Unit]
+  
   /** Join a client to a specific group
     * @param groupID The ID of the group to join
     * @param clientID The ID of the client joining
