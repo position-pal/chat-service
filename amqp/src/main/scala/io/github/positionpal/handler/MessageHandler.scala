@@ -13,7 +13,6 @@ trait MessageHandler[F[_]]:
     *
     * @param messageType The type of the message being handled.
     * @param message     The raw message payload, represented as a [[ByteString]].
-    * @tparam A The result type of the operation after processing the message.
     * @return An effectful computation that processes the message and produces a result of type `A`.
     */
-  def handle[A](messageType: MessageType, message: ByteString): F[A]
+  def handle(messageType: MessageType, message: ByteString): F[Any]

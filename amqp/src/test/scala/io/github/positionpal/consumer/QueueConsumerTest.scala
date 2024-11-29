@@ -32,9 +32,9 @@ class QueueConsumerTest
   given ExecutionContext = system.executionContext
 
   private class TestingHandler extends MessageHandler[Future]:
-    override def handle[A](messageType: MessageType, message: ByteString): Future[A] =
+    override def handle(messageType: MessageType, message: ByteString): Future[Any] =
       processedMessages.put(messageType, message)
-      Future.successful(Done.asInstanceOf[A])
+      Future.successful(Done)
 
   override def beforeEach(): Unit =
     super.beforeEach()
