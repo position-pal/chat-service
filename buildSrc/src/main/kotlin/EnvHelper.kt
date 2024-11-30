@@ -59,8 +59,8 @@ object EnvHelper {
      */
     fun validate(vararg requiredKeys: String) {
         val missingKeys = requiredKeys.filter { envMap[it] == null }
-        if (missingKeys.isNotEmpty()) {
-            throw IllegalStateException("Missing required environment variables: ${missingKeys.joinToString(", ")}")
+        check(missingKeys.isEmpty()) {
+            "Missing required environment variables: ${missingKeys.joinToString(", ")}"
         }
     }
 }
