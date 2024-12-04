@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  release-and-delivery:
+  release:
     permissions: # Not specified scopes are set to `none`!
       packages: write
       contents: write
@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       release-status: ${{ env.release_status }} # see release.config.js
+      container_version: ${{ env.CONTAINER_VERSION }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -34,3 +35,14 @@ jobs:
           npx semantic-release
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
+  docker:
+    needs:
+      - release
+    if: ${{ needs.release.outputs.release-status == 'released' }}
+    uses: ./.github/workflows/docker.yml
+    with:
+      container_version: ${{ needs.release.outputs.container_version }}
+    secrets: inherit
+
