@@ -1,3 +1,20 @@
+## [0.6.0](https://github.com/position-pal/chat-service/compare/0.5.0...0.6.0) (2024-12-04)
+
+### Features
+
+* **amqp:** Adding AMQP support for the service ([#94](https://github.com/position-pal/chat-service/issues/94)) ([40112b2](https://github.com/position-pal/chat-service/commit/40112b2cd51efb7459d8d327aae66c693d7e69a3))
+
+### Dependency updates
+
+* **deps:** pin dependencies ([#87](https://github.com/position-pal/chat-service/issues/87)) ([abe1ea2](https://github.com/position-pal/chat-service/commit/abe1ea203620fdedc0af84b75ec61ea696e03139))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.6.3 ([#92](https://github.com/position-pal/chat-service/issues/92)) ([7ae8066](https://github.com/position-pal/chat-service/commit/7ae8066509537b9405b97344ad12a9f979db6cb9))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.6.4 ([#95](https://github.com/position-pal/chat-service/issues/95)) ([f6bd5e3](https://github.com/position-pal/chat-service/commit/f6bd5e3d20262d796c72a90fdc9aa5574c9bd391))
+* **deps:** update dependency com.lightbend.akka:akka-projection-core_3 to v1.6.5 ([#96](https://github.com/position-pal/chat-service/issues/96)) ([506bbfe](https://github.com/position-pal/chat-service/commit/506bbfe959897b6d729ed1c1b3bc2478f6e29935))
+* **deps:** update dependency gradle to v8.11.1 ([#90](https://github.com/position-pal/chat-service/issues/90)) ([d075ce7](https://github.com/position-pal/chat-service/commit/d075ce72cc117b338cb25fa5d1f90e7042fa037c))
+* **deps:** update plugin com.gradle.develocity to v3.18.2 ([#89](https://github.com/position-pal/chat-service/issues/89)) ([41a494a](https://github.com/position-pal/chat-service/commit/41a494a424e54285cb1b687384f42d5fa04bd016))
+* **deps:** update plugin gradle-docker-compose to v0.17.11 ([#91](https://github.com/position-pal/chat-service/issues/91)) ([fb274cd](https://github.com/position-pal/chat-service/commit/fb274cd8e14657d573bd64df01912b9e1aa3e5f1))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.15 ([#88](https://github.com/position-pal/chat-service/issues/88)) ([bde198b](https://github.com/position-pal/chat-service/commit/bde198b90de8078a76bf5ec1d7b2479625e1ecad))
+
 ## [0.5.0](https://github.com/position-pal/chat-service/compare/0.4.0...0.5.0) (2024-11-20)
 
 ### Features
