@@ -26,4 +26,8 @@ case class ClientConnected(clientID: ClientID, communicationChannel: ActorRef[St
   * @param clientID the reference of the client
   */
 case class ClientDisconnected(clientID: ClientID) extends GroupEvent
+
+/** Event triggered when a client send a message in the group
+  * @param text The body of the message that is sent in the group
+  */
 case class Message(text: String) extends GroupEvent

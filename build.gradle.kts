@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
+
 plugins {
     `java-library`
     id("scala")
@@ -24,6 +25,13 @@ allprojects {
         maven {
             url = uri("https://repo.akka.io/maven")
         }
+        maven {
+            url = uri("https://maven.pkg.github.com/position-pal/shared-kernel")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: EnvHelper.getEnv("GH_USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: EnvHelper.getEnv("GH_TOKEN")
+            }
+        }
     }
 
     with(rootProject.libs) {
@@ -34,6 +42,7 @@ allprojects {
             implementation(cats.mtl)
             implementation(akka.actor.typed)
             implementation(logback.classic)
+            implementation(dotenv)
             testImplementation(cats.effect.testing.scalatest)
             testImplementation(bundles.scala.testing)
             testImplementation(akka.actor.testkit.typed)

@@ -9,11 +9,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, macos-14, windows-2022]
-        jvm-version: [ 11, 17, 21 ]
+        jvm-version: [ 17, 21 ]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     env:
-      MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+      GH_USERNAME: ${{ secrets.USERNAME }}
+      GH_TOKEN: ${{ secrets.TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -28,7 +29,7 @@ jobs:
         shell: pwsh
         run: |
           if ("${{ runner.os }}" -in 'Windows', 'macOS') {
-            ./gradlew check --exclude-task ':storage:test' --exclude-task ':grpc:test'
+            ./gradlew check --exclude-task ':storage:test' --exclude-task ':grpc:test' --exclude-task ':amqp:test'
           }
           else {
             ./gradlew check

@@ -137,12 +137,11 @@ class GroupEventSourceHandlerTest
         .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID, firstChannel, replyTo))
 
       val stateAfterFirstConnect = eventSourcedBehaviorTestKit.getState()
-      stateAfterFirstConnect.getClient(clientID) match {
+      stateAfterFirstConnect.getClient(clientID) match
         case Right(client) =>
           client.outputRef should ===(OutputReference.OUT(firstChannel))
           client.status should ===(ClientStatus.ONLINE)
         case Left(error) => fail(s"Expected client to exist, but got error: $error")
-      }
 
       val result = eventSourcedBehaviorTestKit
         .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID, secondChannel, replyTo))

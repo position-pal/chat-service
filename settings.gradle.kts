@@ -13,7 +13,8 @@ include(
     "infrastructure",
     "socket",
     "grpc",
-    "storage"
+    "storage",
+    "amqp"
 )
 
 develocity {

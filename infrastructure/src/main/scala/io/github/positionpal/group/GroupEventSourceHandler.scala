@@ -43,6 +43,9 @@ object GroupEventSourceHandler:
     * @return Return a [[ReplyEffect]] with the response of the operation
     */
   private def commandHandler(state: State, command: Command): Effect[Event, State] = command match
+
+    case DeleteGroup() => Effect.stop()
+
     case ClientJoinsGroup(clientID, replyTo) =>
       if state.isPresent(clientID) then
         Effect.reply(replyTo):
@@ -84,6 +87,7 @@ object GroupEventSourceHandler:
     * @return The new state of the entity
     */
   private def eventHandler(state: State, event: Event): State = event match
+
     case ClientJoinedToGroup(clientID: ClientID) =>
       val emptyClient = ClientStatusHandler.empty(clientID)
       state.addClient(clientID, emptyClient) match

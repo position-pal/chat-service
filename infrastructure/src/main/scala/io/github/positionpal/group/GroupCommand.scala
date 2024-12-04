@@ -9,6 +9,11 @@ import io.github.positionpal.message.ChatMessageADT.ChatMessageImpl
 
 sealed trait GroupCommand extends BorerSerialization
 
+/** Command for deleting the group.
+  * This is a poison pill for the group event source entity.
+  */
+case class DeleteGroup() extends GroupCommand
+
 /** Client that join a group.
   * @param clientID The client reference to pass to the group
   * @param replyTo Who receives the response of the command
