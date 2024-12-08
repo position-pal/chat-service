@@ -49,6 +49,6 @@ positionpal-kernel-presentation = { module = "io.github.positionpal:kernel-prese
 scala-testing = [ "scalatest", "junit-platform-engine", "junit-platform-launcher", "scalatestplus-junit5" ]
 
 [plugins]
-scala-extras = "io.github.tassiluca.gradle-scala-extras:2.1.4"
+scala-extras = "io.github.tassiluca.gradle-scala-extras:2.1.6"
 akka-grpc = "com.lightbend.akka.grpc.gradle:2.5.0"
 gradle-docker-compose = "com.avast.gradle.docker-compose:0.17.11"
