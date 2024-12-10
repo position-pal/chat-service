@@ -2,11 +2,12 @@ package io.github.positionpal.grpc
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
+
 import akka.actor.typed.ActorSystem
+import akka.grpc.scaladsl.{ServerReflection, ServiceHandler as GrpcServiceHandler}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
-import akka.grpc.scaladsl.{ServerReflection, ServiceHandler as GrpcServiceHandler}
 import io.github.positionpal.proto.{ChatService, ChatServiceHandler}
 
 class GrpcServer(using system: ActorSystem[?]):
