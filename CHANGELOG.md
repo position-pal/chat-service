@@ -1,3 +1,22 @@
+## [0.6.1](https://github.com/position-pal/chat-service/compare/0.6.0...0.6.1) (2024-12-10)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.scala-lang:scala3-library_3 to v3.6.2 ([#107](https://github.com/position-pal/chat-service/issues/107)) ([3ec21f6](https://github.com/position-pal/chat-service/commit/3ec21f684ecf3a9b9167b9454bff94d9472bcd9a))
+* **deps:** pin rabbitmq docker tag to 5c3ead8 ([#97](https://github.com/position-pal/chat-service/issues/97)) ([cc7748c](https://github.com/position-pal/chat-service/commit/cc7748c05fa9f6a6ce9a87c80f188834f46491c0))
+* **deps:** update borer to v1.15.0 ([#105](https://github.com/position-pal/chat-service/issues/105)) ([5b3da39](https://github.com/position-pal/chat-service/commit/5b3da3980f2c537c7150c620dc0c1754223ab56a))
+* **deps:** update dependency io.github.cdimascio:dotenv-java to v3.0.2 ([#98](https://github.com/position-pal/chat-service/issues/98)) ([2744f15](https://github.com/position-pal/chat-service/commit/2744f15864e8a69c6e4f4f84f350ae03f23d9c4a))
+* **deps:** update dependency org.typelevel:cats-effect-testing-scalatest_3 to v1.6.0 ([#101](https://github.com/position-pal/chat-service/issues/101)) ([d085795](https://github.com/position-pal/chat-service/commit/d08579577e7898d7da243a471c10f28b74fbe17c))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.116 ([#106](https://github.com/position-pal/chat-service/issues/106)) ([a8c6d9c](https://github.com/position-pal/chat-service/commit/a8c6d9c76629bb6de493067cd9ecb71926ddd889))
+* **deps:** update node.js to 22.12 ([#102](https://github.com/position-pal/chat-service/issues/102)) ([9f587bb](https://github.com/position-pal/chat-service/commit/9f587bb68c6e575205c0173a018f6faacb072a0e))
+* **deps:** update rabbitmq docker tag to v4 ([#100](https://github.com/position-pal/chat-service/issues/100)) ([cddc4ea](https://github.com/position-pal/chat-service/commit/cddc4eaf525622ef7fe2e85d6006f40ad38f3025))
+* **deps:** update rabbitmq:4-management docker digest to 8340b65 ([#104](https://github.com/position-pal/chat-service/issues/104)) ([77e6a80](https://github.com/position-pal/chat-service/commit/77e6a80248a1ab6038267a81fc87f09b43bef7ca))
+* **deps:** update rabbitmq:4-management docker digest to b25420a ([#103](https://github.com/position-pal/chat-service/issues/103)) ([46f0a61](https://github.com/position-pal/chat-service/commit/46f0a6178428d2fc988f73127cdf033e97292e4e))
+
+### Build and continuous integration
+
+* synchronize with template repository ([#99](https://github.com/position-pal/chat-service/issues/99)) ([4541bd0](https://github.com/position-pal/chat-service/commit/4541bd0b825b2a12c1861345807cd55e0bfcfae8)), closes [#66](https://github.com/position-pal/chat-service/issues/66) [#67](https://github.com/position-pal/chat-service/issues/67) [#68](https://github.com/position-pal/chat-service/issues/68) [#70](https://github.com/position-pal/chat-service/issues/70) [#71](https://github.com/position-pal/chat-service/issues/71) [#69](https://github.com/position-pal/chat-service/issues/69)
+
 ## [0.6.0](https://github.com/position-pal/chat-service/compare/0.5.0...0.6.0) (2024-12-04)
 
 ### Features
