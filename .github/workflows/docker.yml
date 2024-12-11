@@ -47,5 +47,5 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
           secrets: |
-            GITHUB_USERNAME=${{ secrets.GH_USERNAME }}
-            GITHUB_TOKEN=${{ secrets.GH_TOKEN }}
+            github_username=${{ secrets.USERNAME }}
+            github_token=${{ secrets.TOKEN }}
