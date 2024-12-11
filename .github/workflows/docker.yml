@@ -1,13 +1,16 @@
 name: Publish on Dockerhub
 
+#on:
+#  workflow_call:
+#    inputs:
+#      container_version:
+#        description: 'The version of the new container'
+#        required: true
+#        type: string
+#  workflow_dispatch:
+
 on:
-  workflow_call:
-    inputs:
-      container_version:
-        description: 'The version of the new container'
-        required: true
-        type: string
-  workflow_dispatch:
+  push:
 
 jobs:
   docker:
@@ -40,4 +43,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.container_version }}
+
+          secrets: |
+            github_username=${{ secrets.GH_USERNAME }}
+            github_token=${{ secrets.GH_TOKEN }}

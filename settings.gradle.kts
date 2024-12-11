@@ -14,7 +14,8 @@ include(
     "socket",
     "grpc",
     "storage",
-    "amqp"
+    "amqp",
+    "entrypoint"
 )
 
 develocity {
