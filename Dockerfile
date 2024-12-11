@@ -9,12 +9,12 @@ RUN --mount=type=secret,id=github_username,target=/run/secrets/github_username,r
     GH_USERNAME=$(if [ -f "/run/secrets/github_username" ]; then \
         grep -E "^GH_USERNAME=" /run/secrets/github_username | cut -d '=' -f2; \
     else \
-        echo "GH_USERNAME"; \
+        echo "$GH_USERNAME"; \
     fi) \
     GH_TOKEN=$(if [ -f "/run/secrets/github_token" ]; then \
         grep -E "^GH_TOKEN=" /run/secrets/github_token | cut -d '=' -f2; \
     else \
-        echo "GH_TOKEN"; \
+        echo "$GH_TOKEN"; \
     fi) \
     gradle :entrypoint:shadowJar
 
