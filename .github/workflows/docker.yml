@@ -1,16 +1,13 @@
 name: Publish on Dockerhub
 
-#on:
-#  workflow_call:
-#    inputs:
-#      container_version:
-#        description: 'The version of the new container'
-#        required: true
-#        type: string
-#  workflow_dispatch:
-
 on:
-  push:
+  workflow_call:
+    inputs:
+      container_version:
+        description: 'The version of the new container'
+        required: true
+        type: string
+  workflow_dispatch:
 
 jobs:
   docker:
