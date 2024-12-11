@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN --mount=type=secret,id=github_username,target=/run/secrets/github_username,required=true \
-    --mount=type=secret,id=github_token,target=/run/secrets/github_token,required=true \
+RUN --mount=type=secret,id=github_username,target=/run/secrets/github_username,required=false \
+    --mount=type=secret,id=github_token,target=/run/secrets/github_token,required=false \
     GH_USERNAME=$(if [ -f "/run/secrets/github_username" ]; then \
         grep -E "^GH_USERNAME=" /run/secrets/github_username | cut -d '=' -f2; \
     else \
