@@ -1,0 +1,94 @@
+name: CD
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  release:
+    permissions: # Not specified scopes are set to `none`!
+      packages: write
+      contents: write
+    concurrency:
+      group: release-and-delivery-${{ github.event.number || github.ref }}
+    runs-on: ubuntu-24.04
+    outputs: # see release.config.js
+      release-status: ${{ env.RELEASE_STATUS }}
+      container_version: ${{ env.CONTAINER_VERSION }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Find the version of Node from package.json
+        id: node-version
+        run: echo "version=$(jq -r .engines.node package.json)" >> $GITHUB_OUTPUT
+      - name: Install Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: ${{ steps.node-version.outputs.version }}
+      - name: Release
+        run: |
+          npm install
+          npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  publish-images:
+    needs:
+      - release
+    # Trigger this job only if the semantic release bot has released a new version
+    if: ${{ needs.release.outputs.release-status == 'released' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3
+
+      - name: Build and push
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.container_version }}
+          secrets: |
+            github_username=${{ secrets.USERNAME }}
+            github_token=${{ secrets.TOKEN }}
+
+  publish-doc:
+    needs:
+      - release
+    # Trigger this job only if the semantic release bot has released a new version
+    if: ${{ needs.release.outputs.release-status == 'released' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Generate scaladoc
+        run: ./gradlew :aggregateScaladoc
+      - name: Publish on Github pages
+        uses: JamesIves/github-pages-deploy-action@15de0f09300eea763baee31dff6c6184995c5f6a # v4
+        with:
+          folder: build/docs/aggregated-scaladoc
