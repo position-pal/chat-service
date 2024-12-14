@@ -1,3 +1,8 @@
+import Utils.inCI
+import Utils.normally
+import Utils.onMac
+import Utils.onWindows
+
 dependencies {
     api(project(":storage"))
     with(rootProject.libs) {
@@ -10,9 +15,8 @@ plugins {
 }
 
 apply(plugin = libs.plugins.akka.grpc.get().pluginId)
-
-tasks.matching { it.name in listOf("checkScalafixMain", "checkScalafmt", "jar") }.configureEach {
-    enabled = false
+scalafix {
+    excludes = setOf("**/proto/**")
 }
 
 tasks.withType<ScalaCompile> {
@@ -21,4 +25,15 @@ tasks.withType<ScalaCompile> {
     )
 }
 
-dockerCompose.isRequiredBy(tasks.test)
+tasks.named("checkScalafmt") {
+    dependsOn("generateProto")
+}
+
+normally {
+    dockerCompose {
+        startedServices = listOf("cassandra", "cassandra-init", "test-runner")
+        isRequiredBy(tasks.test)
+    }
+} except { inCI and (onMac or onWindows) } where {
+    tasks.test { enabled = false }
+} cause "GitHub Actions runner does not support Docker Compose"

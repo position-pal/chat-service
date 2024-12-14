@@ -1,3 +1,5 @@
+import DotenvUtils.dotenv
+import DotenvUtils.injectInto
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
@@ -7,6 +9,8 @@ plugins {
     id("scala")
     alias(libs.plugins.scala.extras)
     alias(libs.plugins.gradle.docker.compose)
+    alias(libs.plugins.com.gradleup.shadow)
+    alias(libs.plugins.git.sensitive.semver)
 }
 
 allprojects {
@@ -17,6 +21,8 @@ allprojects {
         apply(plugin = "scala")
         apply(plugin = scala.extras.get().pluginId)
         apply(plugin = gradle.docker.compose.get().pluginId)
+        apply(plugin = com.gradleup.shadow.get().pluginId)
+        apply(plugin = git.sensitive.semver.get().pluginId)
     }
 
 
@@ -28,8 +34,8 @@ allprojects {
         maven {
             url = uri("https://maven.pkg.github.com/position-pal/shared-kernel")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: EnvHelper.getEnv("GH_USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: EnvHelper.getEnv("GH_TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GH_USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GH_TOKEN")
             }
         }
     }
@@ -60,5 +66,13 @@ allprojects {
             events(TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.STARTED)
             exceptionFormat = TestExceptionFormat.FULL
         }
+    }
+
+    afterEvaluate {
+        rootProject.dotenv?.let { dotenv -> injectInto(JavaExec::class, Test::class) environmentsFrom dotenv }
+    }
+
+    gitSemVer {
+        assignGitSemanticVersion()
     }
 }

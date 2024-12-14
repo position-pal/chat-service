@@ -26,15 +26,8 @@ jobs:
       - name: Assemble main and test classes
         run: ./gradlew classes testClasses
       - name: Check
-        shell: pwsh
         run: |
-          if ("${{ runner.os }}" -in 'Windows', 'macOS') {
-            ./gradlew check --exclude-task ':storage:test' --exclude-task ':grpc:test' --exclude-task ':amqp:test'
-          }
-          else {
-            ./gradlew check
-          }
-
+          ./gradlew check
   success:
     needs:
       - build
@@ -55,6 +48,6 @@ jobs:
   deploy:
     needs:
       - success
-    uses: ./.github/workflows/release.yml
+    uses: ./.github/workflows/cd.yml
     if: github.ref_name == github.event.repository.default_branch
     secrets: inherit

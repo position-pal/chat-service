@@ -1,3 +1,8 @@
+import Utils.inCI
+import Utils.normally
+import Utils.onMac
+import Utils.onWindows
+
 dependencies {
     api(project(":infrastructure"))
     with(rootProject.libs) {
@@ -10,4 +15,11 @@ dependencies {
     }
 }
 
-dockerCompose.isRequiredBy(tasks.test)
+normally {
+    dockerCompose {
+        startedServices = listOf("cassandra", "cassandra-init", "test-runner")
+        isRequiredBy(tasks.test)
+    }
+} except { inCI and (onMac or onWindows) } where {
+    tasks.test { enabled = false }
+} cause "GitHub Actions runner does not support Docker Compose"

@@ -4,7 +4,6 @@ scalatest = "3.3.0-SNAP4"
 borer = "1.15.0"
 junit = "1.11.3"
 logback = "1.5.12"
-projection = "1.6.5"
 cassandra = "1.3.0"
 akka = "2.10.0"
 akka-http = "10.7.0"
@@ -49,6 +48,8 @@ positionpal-kernel-presentation = { module = "io.github.positionpal:kernel-prese
 scala-testing = [ "scalatest", "junit-platform-engine", "junit-platform-launcher", "scalatestplus-junit5" ]
 
 [plugins]
-scala-extras = "io.github.tassiluca.gradle-scala-extras:2.1.4"
+scala-extras = "io.github.tassiluca.gradle-scala-extras:3.1.1"
 akka-grpc = "com.lightbend.akka.grpc.gradle:2.5.0"
 gradle-docker-compose = "com.avast.gradle.docker-compose:0.17.11"
+com-gradleup-shadow = "com.gradleup.shadow:9.0.0-beta4"
+git-sensitive-semver = "org.danilopianini.git-sensitive-semantic-versioning:3.1.7"
