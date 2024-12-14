@@ -1,4 +1,4 @@
-FROM gradle:8-jdk17 AS builder
+FROM gradle:8-jdk17@sha256:91d559b8d55f522de5bc6882f73bcedc4e2cc7b0a58e839a9fa0ed95811a988d AS builder
 
 WORKDIR /app
 
