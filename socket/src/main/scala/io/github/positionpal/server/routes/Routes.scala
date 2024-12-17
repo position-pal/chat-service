@@ -30,30 +30,12 @@ object Routes:
         parameter("user"): clientID =>
           handleWebSocketMessages(WebSocketHandlers.connect(ClientID(clientID), groupID))
 
-//    private def getMessages: Route =
-//      pathPrefix("messages" / Segment): groupID =>
-//        get:
-//          parameter("limit".as[Int].withDefault(10)): limit =>
-//            try
-//              val messages = messageStorage.getLastMessages(groupID)(limit)
-//              println(messages)
-//              complete(StatusCodes.OK, "ok")
-//            catch
-//              case ex: Exception =>
-//                complete(StatusCodes.InternalServerError -> s"Error retrieving messages: ${ex.getMessage}")
-//
     private def joinRoute: Route =
       pathPrefix("join" / Segment): groupID =>
         parameter("user"): clientID =>
           post:
             service.join(groupID)(ClientID(clientID))
             complete(StatusCodes.OK, "nice")
-//
-//    private def test: Route =
-//      pathPrefix("test" / Segment): groupID =>
-//        get:
-//          println(messageStorage.getLastMessages(groupID)(10))
-//          complete(StatusCodes.OK, "nice")
 
   /** Return the routes for the v1 api version
     * @param system the implicit actor system
