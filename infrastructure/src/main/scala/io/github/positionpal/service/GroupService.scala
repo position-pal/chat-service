@@ -24,6 +24,7 @@ import io.github.positionpal.group.{
   SendMessage,
 }
 import io.github.positionpal.message.ChatMessageADT
+import io.github.positionpal.message.ChatMessageADT.MessageOps
 import io.github.positionpal.services.GroupHandlerService
 
 class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService:
@@ -68,7 +69,7 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService:
       case StatusReply.Success(ClientSuccessfullyDisconnected(id)) => id
       case StatusReply.Error(ex) => throw ex
 
-  override def message(groupID: String)(message: ChatMessageADT.ChatMessageImpl[ClientID, String]): Future[Unit] =
+  override def message(groupID: String)(message: MessageOps[ClientID, String]): Future[Unit] =
     entityRefFor(groupID).ask(ref => SendMessage(message, ref)).map:
       case StatusReply.Ack => ()
       case StatusReply.Error(ex) => throw ex

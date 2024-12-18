@@ -10,7 +10,7 @@ import io.github.positionpal.client.ClientADT.OutputReference.*
 import io.github.positionpal.client.{ClientID, ClientStatusHandler}
 import io.github.positionpal.group.GroupADT.{Group, GroupOps}
 import io.github.positionpal.group.GroupDSL.*
-import io.github.positionpal.message.ChatMessageADT.ChatMessageImpl
+import io.github.positionpal.message.ChatMessageADT.MessageOps
 import org.slf4j.LoggerFactory
 
 object GroupEventSourceHandler:
@@ -78,8 +78,8 @@ object GroupEventSourceHandler:
         Effect.persist(ClientDisconnected(clientID)).thenReply(replyTo): _ =>
           StatusReply.Success(ClientSuccessfullyDisconnected(clientID))
 
-    case SendMessage(ChatMessageImpl(text, _, _, _), replyTo) =>
-      Effect.persist(Message(text)).thenReply(replyTo)(_ => StatusReply.Ack)
+    case SendMessage(msg: MessageOps[ClientID, String], replyTo) =>
+      Effect.persist(Message(msg.text)).thenReply(replyTo)(_ => StatusReply.Ack)
 
   /** Handle a triggered event letting the entity pass to a new state
     * @param state The actual state of the entity

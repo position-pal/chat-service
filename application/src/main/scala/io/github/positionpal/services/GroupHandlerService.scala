@@ -4,7 +4,7 @@ import scala.concurrent.Future
 
 import akka.actor.typed.ActorRef
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.message.ChatMessageADT.ChatMessageImpl
+import io.github.positionpal.message.ChatMessageADT.MessageOps
 
 trait GroupHandlerService:
 
@@ -50,4 +50,4 @@ trait GroupHandlerService:
     * @param message The message that should be broadcast
     * @return A [[Future]] wit the [[ClientID]] that have disconnected from the group
     */
-  def message(groupID: String)(message: ChatMessageImpl[ClientID, String]): Future[Unit]
+  def message(groupID: String)(message: MessageOps[ClientID, String]): Future[Unit]
