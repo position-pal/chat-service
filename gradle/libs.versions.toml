@@ -50,6 +50,6 @@ scala-testing = [ "scalatest", "junit-platform-engine", "junit-platform-launcher
 [plugins]
 scala-extras = "io.github.tassiluca.gradle-scala-extras:3.1.1"
 akka-grpc = "com.lightbend.akka.grpc.gradle:2.5.0"
-gradle-docker-compose = "com.avast.gradle.docker-compose:0.17.11"
+gradle-docker-compose = "com.avast.gradle.docker-compose:0.17.12"
 com-gradleup-shadow = "com.gradleup.shadow:9.0.0-beta4"
 git-sensitive-semver = "org.danilopianini.git-sensitive-semantic-versioning:3.1.7"
