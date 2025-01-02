@@ -30,22 +30,26 @@ class ChatMessageADTTest extends AnyWordSpecLike with Matchers:
       message.from shouldBe userId
       message.to shouldBe groupId
 
-  "ChatMessageADT.now" should:
-    "create a message with current timestamp" in:
-      val userId = UUID.randomUUID()
-      val groupId = "test-group"
-      val text = "Hello, world!"
+    "ChatMessageADT.now" should:
+      "create a message with current timestamp" in:
+        val userId = UUID.randomUUID()
+        val groupId = "test-group"
+        val text = "Hello, world!"
 
-      val message = ChatMessageADT.now[UserId, GroupId](
-        text = text,
-        from = userId,
-        to = groupId,
-      )
+        val beforeTest = Instant.now()
+        val message = ChatMessageADT.now[UserId, GroupId](
+          text = text,
+          from = userId,
+          to = groupId,
+        )
+        val afterTest = Instant.now()
 
-      message.text shouldBe text
-      message.from shouldBe userId
-      message.to shouldBe groupId
-      message.timestamp.isBefore(Instant.now()) shouldBe true
+        message.text shouldBe text
+        message.from shouldBe userId
+        message.to shouldBe groupId
+
+        message.timestamp.compareTo(beforeTest) >= 0 shouldBe true
+        message.timestamp.compareTo(afterTest) <= 0 shouldBe true
 
   "ChatMessageADT" should:
     "support different identifier types" in:
