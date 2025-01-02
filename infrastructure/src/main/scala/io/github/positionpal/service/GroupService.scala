@@ -8,6 +8,7 @@ import akka.actor.typed.{ActorRef, ActorSystem}
 import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityRef}
 import akka.pattern.StatusReply
 import akka.util.Timeout
+import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 import io.github.positionpal.client.ClientID
 import io.github.positionpal.group.{
   ClientConnects,
@@ -27,7 +28,7 @@ import io.github.positionpal.message.ChatMessageADT
 import io.github.positionpal.message.ChatMessageADT.MessageOps
 import io.github.positionpal.services.GroupHandlerService
 
-class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService:
+class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[CommunicationProtocol]:
 
   private val sharding = ClusterSharding(actorSystem)
   private given timeout: Timeout = 10.seconds
@@ -59,7 +60,9 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService:
       case StatusReply.Success(ClientSuccessfullyLeaved(id)) => id
       case StatusReply.Error(ex) => throw ex
 
-  override def connect(groupID: String)(clientID: ClientID, channel: ActorRef[String]): Future[ClientID] =
+  override def connect(
+      groupID: String,
+  )(clientID: ClientID, channel: ActorRef[CommunicationProtocol]): Future[ClientID] =
     entityRefFor(groupID).ask(ref => ClientConnects(clientID, channel, ref)).map:
       case StatusReply.Success(ClientSuccessfullyConnected(id)) => id
       case StatusReply.Error(ex) => throw ex

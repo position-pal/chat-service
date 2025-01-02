@@ -7,7 +7,8 @@ import akka.pattern.StatusReply.{Error, Success}
 import akka.persistence.testkit.scaladsl.EventSourcedBehaviorTestKit
 import com.typesafe.config.ConfigFactory
 import io.github.positionpal.client.ClientADT.{ClientStatus, OutputReference}
-import io.github.positionpal.client.ClientID
+import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
+import io.github.positionpal.client.{ClientCommunications, ClientID}
 import io.github.positionpal.group.ErrorValues.*
 import io.github.positionpal.group.GroupEvent as Event
 import io.github.positionpal.group.GroupEventSourceHandler.{Command, State}
@@ -90,7 +91,7 @@ class GroupEventSourceHandlerTest
 
     "allow a client to connect to the group after joining" in:
       val clientID = ClientID(value = "1a2b4")
-      val communicationChannel = testKit.createTestProbe[String]().ref
+      val communicationChannel = testKit.createTestProbe[CommunicationProtocol]().ref
 
       eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID, replyTo))
 
@@ -116,7 +117,7 @@ class GroupEventSourceHandlerTest
 
     "return an error when a client tries to connect without joining first" in:
       val clientID = ClientID(value = "1a2b4")
-      val communicationChannel = testKit.createTestProbe[String]().ref
+      val communicationChannel = testKit.createTestProbe[CommunicationProtocol]().ref
 
       val result = eventSourcedBehaviorTestKit
         .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID, communicationChannel, replyTo))
@@ -129,8 +130,8 @@ class GroupEventSourceHandlerTest
 
     "allow a client to reconnect with a different communication channel" in:
       val clientID = ClientID(value = "1a2b4")
-      val firstChannel = testKit.createTestProbe[String]().ref
-      val secondChannel = testKit.createTestProbe[String]().ref
+      val firstChannel = testKit.createTestProbe[CommunicationProtocol]().ref
+      val secondChannel = testKit.createTestProbe[CommunicationProtocol]().ref
 
       eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID, replyTo))
       eventSourcedBehaviorTestKit
@@ -161,8 +162,8 @@ class GroupEventSourceHandlerTest
         val clientID1 = ClientID(value = "client1")
         val clientID2 = ClientID(value = "client2")
 
-        val probe1 = testKit.createTestProbe[String]()
-        val probe2 = testKit.createTestProbe[String]()
+        val probe1 = testKit.createTestProbe[CommunicationProtocol]()
+        val probe2 = testKit.createTestProbe[CommunicationProtocol]()
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID1, replyTo))
         eventSourcedBehaviorTestKit
@@ -172,58 +173,80 @@ class GroupEventSourceHandlerTest
         eventSourcedBehaviorTestKit
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
 
-        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID1)
-        probe2.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+        val messageProbe1 = probe1.expectMessageType[CommunicationProtocol.Information]
+        val messageProbe2 = probe2.expectMessageType[CommunicationProtocol.Information]
+
+        messageProbe1.content should ===(CLIENT_CONNECTED withClientId clientID1)
+        messageProbe2.content should ===(CLIENT_CONNECTED withClientId clientID2)
 
       "broadcast message when a client leaves the group" in:
         val clientID1 = ClientID(value = "client1")
         val clientID2 = ClientID(value = "client2")
 
-        val probe1 = testKit.createTestProbe[String]()
-        val probe2 = testKit.createTestProbe[String]()
+        val probe1 = testKit.createTestProbe[CommunicationProtocol]()
+        val probe2 = testKit.createTestProbe[CommunicationProtocol]()
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID1, replyTo))
         probe1.expectNoMessage()
         eventSourcedBehaviorTestKit
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID1, probe1.ref, replyTo))
-        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID1)
+
+        val probe1ConnectionMessage = probe1.expectMessageType[CommunicationProtocol.Information]
+        probe1ConnectionMessage.content should ===(CLIENT_CONNECTED withClientId clientID1)
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID2, replyTo))
-        probe1.expectMessage(CLIENT_JOINED withClientId clientID2)
-        probe1.expectNoMessage()
+        val probe1JoiningMessage = probe1.expectMessageType[CommunicationProtocol.Information]
+        probe1JoiningMessage.content should ===(CLIENT_JOINED withClientId clientID2)
 
         eventSourcedBehaviorTestKit
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
-        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID2)
-        probe2.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+
+        val probe1Client2Connection = probe1.expectMessageType[CommunicationProtocol.Information]
+        val probe2Client2Connection = probe2.expectMessageType[CommunicationProtocol.Information]
+
+        probe1Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
+        probe2Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientLeavesGroup(clientID1, replyTo))
-        probe2.expectMessage(CLIENT_LEAVED withClientId clientID1)
+
+        val probe2ClientLeave = probe2.expectMessageType[CommunicationProtocol.Information]
+        probe2ClientLeave.content should ===(CLIENT_LEAVED withClientId clientID1)
 
       "broadcast a message sent from a client" in:
 
         val clientID1 = ClientID(value = "client1")
         val clientID2 = ClientID(value = "client2")
 
-        val probe1 = testKit.createTestProbe[String]()
-        val probe2 = testKit.createTestProbe[String]()
+        val probe1 = testKit.createTestProbe[CommunicationProtocol]()
+        val probe2 = testKit.createTestProbe[CommunicationProtocol]()
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID1, replyTo))
         eventSourcedBehaviorTestKit
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID1, probe1.ref, replyTo))
-        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID1)
+
+        val probe1ConnectionMessage = probe1.expectMessageType[CommunicationProtocol.Information]
+        probe1ConnectionMessage.content should ===(CLIENT_CONNECTED withClientId clientID1)
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID2, replyTo))
-        probe1.expectMessage(CLIENT_JOINED withClientId clientID2)
+
+        val probe1JoiningMessage = probe1.expectMessageType[CommunicationProtocol.Information]
+        probe1JoiningMessage.content should ===(CLIENT_JOINED withClientId clientID2)
+
         eventSourcedBehaviorTestKit
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
-        probe1.expectMessage(CLIENT_CONNECTED withClientId clientID2)
-        probe2.expectMessage(CLIENT_CONNECTED withClientId clientID2)
+        val probe1Client2Connection = probe1.expectMessageType[CommunicationProtocol.Information]
+        val probe2Client2Connection = probe2.expectMessageType[CommunicationProtocol.Information]
+
+        probe1Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
+        probe2Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
 
         val textOfMessage = "This is actually a test"
         val messageToGroup = ChatMessageADT.now(textOfMessage, from = clientID1, to = "testGroup")
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Done]](replyTo => SendMessage(messageToGroup, replyTo))
 
-        probe1.expectMessage(textOfMessage)
-        probe2.expectMessage(textOfMessage)
+        val probe1ReceivedMsg = probe1.expectMessageType[CommunicationProtocol.NewMessage]
+        val probe2ReceivedMsg = probe2.expectMessageType[CommunicationProtocol.NewMessage]
+
+        probe1ReceivedMsg.content should ===(textOfMessage)
+        probe1ReceivedMsg.content should ===(probe2ReceivedMsg.content)

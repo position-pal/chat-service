@@ -72,7 +72,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.container_version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ needs.release.outputs.container_version }}
           secrets: |
             github_username=${{ secrets.USERNAME }}
             github_token=${{ secrets.TOKEN }}

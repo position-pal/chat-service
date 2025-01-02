@@ -4,6 +4,7 @@ import akka.Done
 import akka.actor.typed.ActorRef
 import akka.pattern.StatusReply
 import io.github.positionpal.borer.BorerSerialization
+import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 import io.github.positionpal.client.ClientID
 import io.github.positionpal.message.ChatMessageADT.MessageOps
 
@@ -39,7 +40,7 @@ case class ClientLeavesGroup(
   */
 case class ClientConnects(
     clientID: ClientID,
-    commChannel: ActorRef[String],
+    commChannel: ActorRef[CommunicationProtocol],
     replyTo: ActorRef[StatusReply[Reply]],
 ) extends GroupCommand
 

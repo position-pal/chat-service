@@ -4,12 +4,11 @@ import akka.actor.testkit.typed.scaladsl.ActorTestKit
 import akka.actor.typed.ActorSystem
 import com.typesafe.config.ConfigFactory
 import io.github.positionpal.grpc.ServiceHandler
-import io.github.positionpal.proto.{Message, MessageResponse, RetrieveLastMessagesRequest}
+import io.github.positionpal.proto.RetrieveLastMessagesRequest
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import scalapb.UnknownFieldSet
 
 class ServiceHandlerTest extends AnyWordSpec with BeforeAndAfterAll with Matchers with ScalaFutures:
 
@@ -27,16 +26,8 @@ class ServiceHandlerTest extends AnyWordSpec with BeforeAndAfterAll with Matcher
 
   "ServiceHandler" should:
     "handle requests for message history" in:
-      val request = RetrieveLastMessagesRequest("123", "444", "4")
+      val request = RetrieveLastMessagesRequest("a123", "123", "4")
       val reply = service.retrieveLastMessages(request)
-
-      reply.futureValue should ===(
-        MessageResponse(
-          Vector(
-            Message("aaa\n", UnknownFieldSet(Map())),
-            Message("ddd\n", UnknownFieldSet(Map())),
-            Message("cxcmkxmvxv\n", UnknownFieldSet(Map())),
-          ),
-          UnknownFieldSet(Map()),
-        ),
+      reply.futureValue.messages.map(_.content.strip()) should be(
+        Seq("Ok then, let's do this!", "It's getting late, I think", "See you then", "bye!"),
       )

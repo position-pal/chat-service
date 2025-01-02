@@ -6,6 +6,7 @@ import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
+import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 import io.github.positionpal.client.ClientID
 import io.github.positionpal.server.Server.actorSystem
 import io.github.positionpal.server.ws.WebSocketHandlers
@@ -20,7 +21,7 @@ object Routes:
     override def version: String = "v1"
 
     given executionContext: ExecutionContextExecutor = actorSystem.executionContext
-    given service: GroupHandlerService = GroupService(actorSystem)
+    given service: GroupHandlerService[CommunicationProtocol] = GroupService(actorSystem)
 
     /** Routes used for handling the websocket
       * @return The route where the clients connect to the server and exchanges messages using websocket

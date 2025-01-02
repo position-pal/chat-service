@@ -65,19 +65,15 @@ class GroupMessageStorageTest extends AsyncWordSpecLike with Matchers with Befor
   "GroupMessageStorage" should:
     "retrieve last messages from a known group" in:
 
-      val knownGroupId = "123"
+      val knownGroupId = "a123"
 
       storage.getLastMessages(knownGroupId)(3).map: messages =>
+        println(messages)
+
         messages should not be empty
         messages.length should be <= 3
 
-        messages should be(
-          Vector(
-            "aaa\n",
-            "ddd\n",
-            "cxcmkxmvxv\n",
-          ),
-        )
+        messages.map(_.strip()) should be(Seq("It's getting late, I think", "See you then", "bye!"))
 
     "handle a group with no messages" in:
       val emptyGroupId = "empty-group"
@@ -86,8 +82,8 @@ class GroupMessageStorageTest extends AsyncWordSpecLike with Matchers with Befor
         messages should be(empty)
 
     "handle requesting more messages than available" in:
-      val smallGroupId = "123" // We've exactly 3 messages in the group
+      val targetGroup = "a123"
 
-      storage.getLastMessages(smallGroupId)(10).map: messages =>
+      storage.getLastMessages(targetGroup)(10).map: messages =>
         messages should not be empty
-        messages.length should be <= 3
+        messages.length should be <= 9

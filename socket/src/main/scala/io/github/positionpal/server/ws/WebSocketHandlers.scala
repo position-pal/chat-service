@@ -9,8 +9,10 @@ import akka.stream.OverflowStrategy
 import akka.stream.scaladsl.{Flow, Sink, Source}
 import akka.stream.typed.scaladsl.ActorSource
 import io.bullet.borer.Json
+import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 import io.github.positionpal.client.ClientID
 import io.github.positionpal.message.ChatMessageADT
+import io.github.positionpal.serializer.CommunicationSerializersImporter.given
 import io.github.positionpal.services.GroupHandlerService
 
 /** Object that contains the Flow handlers for websocket connections. */
@@ -28,7 +30,7 @@ object WebSocketHandlers:
       groupID: String,
   )(using
       ec: ExecutionContext,
-      service: GroupHandlerService,
+      service: GroupHandlerService[CommunicationProtocol],
   ): Flow[Message, Message, ?] =
 
     val toGroup: Sink[Message, Unit] = Flow[Message].collect:
@@ -41,7 +43,7 @@ object WebSocketHandlers:
     .to:
       Sink.foreach(message => service.message(groupID)(message))
 
-    val toClient: Source[Message, ActorRef[String]] = ActorSource.actorRef(
+    val toClient: Source[Message, ActorRef[CommunicationProtocol]] = ActorSource.actorRef(
       completionMatcher = { case Complete => },
       failureMatcher = { case ex: Throwable => ex },
       bufferSize = 1000,
@@ -50,6 +52,6 @@ object WebSocketHandlers:
       service.connect(groupID)(clientID, ref)
       ref
     .map:
-      case text: String => TextMessage(Json.encode(text).toUtf8String)
+      case text: CommunicationProtocol => TextMessage(Json.encode(text).toUtf8String)
 
     Flow.fromSinkAndSource(toGroup, toClient)

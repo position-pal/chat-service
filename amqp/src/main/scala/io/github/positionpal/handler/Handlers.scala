@@ -6,7 +6,6 @@ import akka.actor.typed.ActorSystem
 import akka.util.ByteString
 import io.github.positionpal.client.ClientID
 import io.github.positionpal.service.GroupService
-import io.github.positionpal.services.GroupHandlerService
 import io.github.positionpal.{AvroSerializer, MessageType}
 
 object Handlers:
@@ -14,7 +13,7 @@ object Handlers:
 
   def basic(using actorSystem: ActorSystem[?]): MessageHandler[Future] =
     (messageType: MessageType, message: ByteString) =>
-      val service: GroupHandlerService = GroupService(actorSystem)
+      val service = GroupService(actorSystem)
       val byteArray = message.toArray
 
       messageType match

@@ -6,7 +6,7 @@ import akka.actor.typed.ActorRef
 import io.github.positionpal.client.ClientID
 import io.github.positionpal.message.ChatMessageADT.MessageOps
 
-trait GroupHandlerService:
+trait GroupHandlerService[T]:
 
   /** Delete the group
     * @param groupID The ID of the group to delete
@@ -35,7 +35,7 @@ trait GroupHandlerService:
     * @param channel An [[ActorRef]] that communicates directly with the client
     * @return A [[Future]] with the [[ClientID]] that connected to the group
     */
-  def connect(groupID: String)(clientID: ClientID, channel: ActorRef[String]): Future[ClientID]
+  def connect(groupID: String)(clientID: ClientID, channel: ActorRef[T]): Future[ClientID]
 
   /** Disconnects a client from the group. Note that the client must be a member of the group, therefore, [[GroupHandlerService.join]]
     *  should be called first.

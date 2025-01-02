@@ -10,11 +10,12 @@ import io.github.positionpal.message.ChatMessageADT.MessageOps
 
 /** Here are implemented the default [[Codec]]s used for serializing object inside the system */
 trait ModelCodecs:
-
   given instantCodec: Codec[Instant] = Codec.bimap(_.toString, Instant.parse)
 
   given clientIdCodec: Codec[ClientID] = deriveCodec[ClientID]
+
   given clientStatusCodec: Codec[ClientStatus] = deriveCodec[ClientStatus]
+
   given clientOutputReferenceCodec[O: Encoder: Decoder]: Codec[OutputReference[O]] =
     Codec(
       Encoder[OutputReference[O]]: (writer, outputReference) =>

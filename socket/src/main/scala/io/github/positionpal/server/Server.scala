@@ -13,14 +13,13 @@ import org.slf4j.LoggerFactory
 object Server:
 
   private val logger = LoggerFactory.getLogger(getClass.getName)
-  given actorSystem: ActorSystem[SpawnProtocol.Command] = ActorSystem(Behaviors.empty[Any], "HttpActor")
+  given actorSystem: ActorSystem[SpawnProtocol.Command] = ActorSystem(Behaviors.empty[Any], "ClusterSystem")
   given executionContext: ExecutionContextExecutor = actorSystem.executionContext
 
   /** Startup the Websocket Server */
   def startup(): Unit =
 
     val config = ConfigFactory.load()
-
     val port = config.getInt("akka.http.server.default-http-port")
     val interface = config.getString("akka.http.server.bind-interface")
 
@@ -33,3 +32,8 @@ object Server:
       case Failure(ex) =>
         logger.error("Error on Starting up the system", ex)
         actorSystem.terminate()
+
+@main
+def startTest(): Unit =
+  import Server.startup
+  startup()
