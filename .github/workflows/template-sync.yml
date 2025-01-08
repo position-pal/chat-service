@@ -17,6 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: actions-template-sync
-        uses: AndreasAugustin/actions-template-sync@978f21ac252565d7ed55b582533e2cdf9653f72f # v2
+        uses: AndreasAugustin/actions-template-sync@cf88b4ecc1bd025c198ba6ef8c56402c06103d3a # v2
         with:
           source_repo_path: position-pal/scala-template
