@@ -37,7 +37,3 @@ object Server:
       case Failure(ex) =>
         logger.error("Error on Starting up the system", ex)
         actorSystem.terminate()
-
-  @main
-  def run(): Unit =
-    Server.startup()
