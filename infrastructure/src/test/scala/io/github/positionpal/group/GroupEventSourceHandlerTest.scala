@@ -20,23 +20,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 
 class GroupEventSourceHandlerTest
     extends ScalaTestWithActorTestKit(
-      ConfigFactory.parseString("""
-          akka.actor {
-            allow-java-serialization = on
-            provider = "cluster"
-            serializers {
-              jackson-cbor = "akka.serialization.jackson.JacksonCborSerializer"
-              borer-cbor = "io.github.positionpal.serializer.AkkaSerializer"
-            }
-            serialization-bindings {
-              "io.github.positionpal.borer.BorerSerialization" = borer-cbor
-            }
-          }
-          akka.remote.artery.canonical {
-            hostname = "127.0.0.1"
-            port = 0
-          }
-      """).withFallback(EventSourcedBehaviorTestKit.config),
+      EventSourcedBehaviorTestKit.config.withFallback(ConfigFactory.load("local-config.conf")),
     )
     with AnyWordSpecLike
     with BeforeAndAfterEach

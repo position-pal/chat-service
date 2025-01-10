@@ -1,6 +1,6 @@
-package io.github.positionpal.server.ws
+package io.github.positionpal.server.ws.v1
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 import akka.actor.typed.ActorRef
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
@@ -28,10 +28,8 @@ object WebSocketHandlers:
   def connect(
       clientID: ClientID,
       groupID: String,
-  )(using
-      ec: ExecutionContext,
-      service: GroupHandlerService[CommunicationProtocol],
-  ): Flow[Message, Message, ?] =
+      service: GroupHandlerService[Future, CommunicationProtocol],
+  )(using ec: ExecutionContext): Flow[Message, Message, ?] =
 
     val toGroup: Sink[Message, Unit] = Flow[Message].collect:
       case TextMessage.Strict(msg) => msg

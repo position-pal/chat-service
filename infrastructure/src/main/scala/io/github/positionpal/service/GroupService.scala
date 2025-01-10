@@ -27,13 +27,14 @@ import io.github.positionpal.group.{
 import io.github.positionpal.message.ChatMessageADT
 import io.github.positionpal.message.ChatMessageADT.MessageOps
 import io.github.positionpal.services.GroupHandlerService
+import org.slf4j.LoggerFactory
 
-class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[CommunicationProtocol]:
+class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[Future, CommunicationProtocol]:
 
+  private val logger = LoggerFactory.getLogger(getClass.getName)
   private val sharding = ClusterSharding(actorSystem)
-  private given timeout: Timeout = 10.seconds
-  private given ec: ExecutionContext = actorSystem.executionContext
-
+  given timeout: Timeout = 10.seconds
+  given ec: ExecutionContext = actorSystem.executionContext
   sharding.init:
     Entity(GroupEventSourceHandler.entityKey): entityContext =>
       GroupEventSourceHandler(entityContext.entityId)
@@ -47,15 +48,18 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[Comm
     sharding.entityRefFor(GroupEventSourceHandler.entityKey, groupId)
 
   override def delete(groupID: String): Future[Unit] =
+    logger.debug(s"Deleting $groupID")
     Future:
       entityRefFor(groupID) ! DeleteGroup()
 
   override def join(groupID: String)(clientID: ClientID): Future[List[ClientID]] =
+    logger.debug(s"${clientID.value} is joining to $groupID")
     entityRefFor(groupID).ask(ref => ClientJoinsGroup(clientID, ref)).map:
       case StatusReply.Success(ClientSuccessfullyJoined(clients)) => clients
       case StatusReply.Error(ex) => throw ex
 
   override def leave(groupID: String)(clientID: ClientID): Future[ClientID] =
+    logger.debug(s"${clientID.value} is leaving from $groupID")
     entityRefFor(groupID).ask(ref => ClientLeavesGroup(clientID, ref)).map:
       case StatusReply.Success(ClientSuccessfullyLeaved(id)) => id
       case StatusReply.Error(ex) => throw ex
@@ -63,16 +67,19 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[Comm
   override def connect(
       groupID: String,
   )(clientID: ClientID, channel: ActorRef[CommunicationProtocol]): Future[ClientID] =
+    logger.debug(s"${clientID.value} is connecting to $groupID using $channel as connection channel")
     entityRefFor(groupID).ask(ref => ClientConnects(clientID, channel, ref)).map:
       case StatusReply.Success(ClientSuccessfullyConnected(id)) => id
       case StatusReply.Error(ex) => throw ex
 
   override def disconnect(groupID: String)(clientID: ClientID): Future[ClientID] =
+    logger.debug(s"${clientID.value} is disconnecting from $groupID")
     entityRefFor(groupID).ask(ref => ClientDisconnects(clientID, ref)).map:
       case StatusReply.Success(ClientSuccessfullyDisconnected(id)) => id
       case StatusReply.Error(ex) => throw ex
 
   override def message(groupID: String)(message: MessageOps[ClientID, String]): Future[Unit] =
+    logger.debug(s"Sending message with text \"${message.text}\" to $groupID")
     entityRefFor(groupID).ask(ref => SendMessage(message, ref)).map:
       case StatusReply.Ack => ()
       case StatusReply.Error(ex) => throw ex

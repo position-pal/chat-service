@@ -21,7 +21,7 @@ class GrpcServer(using system: ActorSystem[?]):
     )
 
   def run(): Future[ServerBinding] =
-    val bound = Http().newServerAt(interface = "127.0.0.1", port = 8080).bind(service)
+    val bound = Http().newServerAt(interface = "127.0.0.1", port = 5052).bind(service)
       .map(_.addToCoordinatedShutdown(hardTerminationDeadline = 10.seconds))
 
     import scala.util.{Failure, Success}
