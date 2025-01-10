@@ -13,11 +13,11 @@ import io.github.positionpal.service.GroupService
 import io.github.positionpal.services.GroupHandlerService
 import org.slf4j.LoggerFactory
 
-object Server:
+object WebsocketServer:
 
   private val logger = LoggerFactory.getLogger(getClass.getName)
 
-  given actorSystem: ActorSystem[SpawnProtocol.Command] = ActorSystem(Behaviors.empty[Any], "ClusterSystem")
+  given actorSystem: ActorSystem[SpawnProtocol.Command] = ActorSystem(Behaviors.empty[Any], "WebsocketSystem")
   given service: GroupHandlerService[Future, CommunicationProtocol] = GroupService(actorSystem)
   given executionContext: ExecutionContextExecutor = actorSystem.executionContext
 

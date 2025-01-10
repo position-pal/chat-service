@@ -9,8 +9,8 @@ plugins {
     id("scala")
     alias(libs.plugins.scala.extras)
     alias(libs.plugins.gradle.docker.compose)
-    alias(libs.plugins.com.gradleup.shadow)
     alias(libs.plugins.git.sensitive.semver)
+    alias(libs.plugins.shadowJar)
 }
 
 allprojects {
@@ -21,7 +21,7 @@ allprojects {
         apply(plugin = "scala")
         apply(plugin = scala.extras.get().pluginId)
         apply(plugin = gradle.docker.compose.get().pluginId)
-        apply(plugin = com.gradleup.shadow.get().pluginId)
+        apply(plugin = shadowJar.get().pluginId)
         apply(plugin = git.sensitive.semver.get().pluginId)
     }
 

@@ -4,17 +4,23 @@ on:
   workflow_call:
   workflow_dispatch:
 
+env:
+  USERNAME: ${{ secrets.USERNAME }}
+  TOKEN: ${{ secrets.TOKEN }}
+
 jobs:
   release:
     permissions: # Not specified scopes are set to `none`!
       packages: write
       contents: write
+      issues: write
+      pull-requests: write
     concurrency:
       group: release-and-delivery-${{ github.event.number || github.ref }}
     runs-on: ubuntu-24.04
     outputs: # see release.config.js
       release-status: ${{ env.RELEASE_STATUS }}
-      container_version: ${{ env.CONTAINER_VERSION }}
+      release_version: ${{ env.RELEASE_VERSION }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -34,7 +40,7 @@ jobs:
           npm install
           npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.POSITION_PAL_BOT_TOKEN }}
 
   publish-images:
     needs:
@@ -48,22 +54,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
       - name: Login to Docker Hub
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
-
       - name: Build and push
         uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6
         with:
@@ -72,7 +69,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ needs.release.outputs.container_version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ needs.release.outputs.release_version }}
           secrets: |
             github_username=${{ secrets.USERNAME }}
             github_token=${{ secrets.TOKEN }}
@@ -86,6 +83,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          ref: ${{ needs.release.outputs.release_version }}
+          fetch-tags: true
       - name: Generate scaladoc
         run: ./gradlew :aggregateScaladoc
       - name: Publish on Github pages

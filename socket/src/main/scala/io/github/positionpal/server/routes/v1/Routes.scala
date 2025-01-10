@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
 import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.server.Server.actorSystem
+import io.github.positionpal.server.WebsocketServer.actorSystem
 import io.github.positionpal.server.routes.RoutesProvider
 import io.github.positionpal.server.ws.v1.WebSocketHandlers
 import io.github.positionpal.services.GroupHandlerService

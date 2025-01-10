@@ -13,7 +13,7 @@ import com.typesafe.config.ConfigFactory
 import io.github.positionpal.proto.{ChatService, ChatServiceHandler}
 import org.slf4j.LoggerFactory
 
-class GrpcServer:
+object GrpcServer:
 
   private val logger = LoggerFactory.getLogger(getClass.getName)
 
