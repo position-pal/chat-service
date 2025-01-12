@@ -1,9 +1,9 @@
-const config = require('semantic-release-preconfigured-conventional-commits')
 const publishCommands = `
 echo "RELEASE_STATUS=released" >> $GITHUB_ENV
-echo "CONTAINER_VERSION="\${nextRelease.version} >> $GITHUB_ENV
+echo "RELEASE_VERSION="\${nextRelease.version} >> $GITHUB_ENV
 `
 const releaseBranches = ["main"]
+const config = require('semantic-release-preconfigured-conventional-commits')
 config.branches = releaseBranches
 config.plugins.push(
     // Custom release commands
