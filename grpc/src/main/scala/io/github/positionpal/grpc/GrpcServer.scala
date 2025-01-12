@@ -40,7 +40,7 @@ object GrpcServer:
         val address = binding.localAddress
         logger.info(s"gRPC server bound to ${address.getHostString}:${address.getPort}")
       case Failure(ex) =>
-        logger.info("Failed to bind gRPC endpoint, terminating system")
+        logger.error("Failed to bind gRPC endpoint, terminating system")
         ex.printStackTrace()
         system.terminate()
 
