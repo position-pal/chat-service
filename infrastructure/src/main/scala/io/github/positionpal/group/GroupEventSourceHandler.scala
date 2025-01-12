@@ -1,5 +1,7 @@
 package io.github.positionpal.group
 
+import java.time.Instant
+
 import akka.actor.typed.Behavior
 import akka.cluster.sharding.typed.scaladsl.EntityTypeKey
 import akka.pattern.StatusReply
@@ -7,10 +9,11 @@ import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
 import io.github.positionpal.client.ClientADT.ClientStatus.*
 import io.github.positionpal.client.ClientADT.OutputReference.*
-import io.github.positionpal.client.{ClientID, ClientStatusHandler}
+import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
+import io.github.positionpal.client.{ClientCommunications, ClientID, ClientStatusHandler}
 import io.github.positionpal.group.GroupADT.{Group, GroupOps}
 import io.github.positionpal.group.GroupDSL.*
-import io.github.positionpal.message.ChatMessageADT.ChatMessageImpl
+import io.github.positionpal.message.ChatMessageADT.MessageOps
 import org.slf4j.LoggerFactory
 
 object GroupEventSourceHandler:
@@ -78,8 +81,8 @@ object GroupEventSourceHandler:
         Effect.persist(ClientDisconnected(clientID)).thenReply(replyTo): _ =>
           StatusReply.Success(ClientSuccessfullyDisconnected(clientID))
 
-    case SendMessage(ChatMessageImpl(text, _, _, _), replyTo) =>
-      Effect.persist(Message(text)).thenReply(replyTo)(_ => StatusReply.Ack)
+    case SendMessage(msg: MessageOps[ClientID, String], replyTo) =>
+      Effect.persist(Message(msg.from, msg.text, msg.timestamp)).thenReply(replyTo)(_ => StatusReply.Ack)
 
   /** Handle a triggered event letting the entity pass to a new state
     * @param state The actual state of the entity
@@ -92,14 +95,14 @@ object GroupEventSourceHandler:
       val emptyClient = ClientStatusHandler.empty(clientID)
       state.addClient(clientID, emptyClient) match
         case Right(newState: State) =>
-          newState broadcast (CLIENT_JOINED withClientId clientID)
+          newState broadcast ClientCommunications.information(CLIENT_JOINED withClientId clientID)
           newState
         case _ => state
 
     case ClientLeavedFromGroup(clientID: ClientID) =>
       state.removeClient(clientID) match
         case Right(newState: State) =>
-          newState broadcast (CLIENT_LEAVED withClientId clientID)
+          newState broadcast ClientCommunications.information(CLIENT_LEAVED withClientId clientID)
           newState
         case _ => state
 
@@ -110,7 +113,7 @@ object GroupEventSourceHandler:
 
       updatedClient match
         case Right(newState: State) =>
-          newState broadcast (CLIENT_CONNECTED withClientId clientID)
+          newState broadcast ClientCommunications.information(CLIENT_CONNECTED withClientId clientID)
           newState
         case _ => state
 
@@ -121,19 +124,19 @@ object GroupEventSourceHandler:
 
       updatedClient match
         case Right(newState: State) =>
-          newState broadcast (CLIENT_DISCONNECTED withClientId clientID)
+          newState broadcast ClientCommunications.information(CLIENT_DISCONNECTED withClientId clientID)
           newState
         case _ => state
 
-    case Message(text: String) =>
-      state broadcast text
+    case Message(from: ClientID, text: String, time: Instant) =>
+      state broadcast ClientCommunications.message(state.name, from, text, time)
       state
 
   extension (group: Group[ClientID, ClientStatusHandler])
     /** Broadcast a message to the online members of the group
       * @param message the message to broadcast
       */
-    private infix def broadcast(message: String): Unit =
+    private infix def broadcast(message: CommunicationProtocol): Unit =
       group.|>> { client =>
         if client.status == ONLINE then
           client.executeOnOutput: out =>

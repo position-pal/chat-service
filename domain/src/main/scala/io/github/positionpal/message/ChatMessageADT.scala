@@ -4,8 +4,6 @@ import java.time.Instant
 
 object ChatMessageADT:
 
-  type ChatMessage[I, T] = ChatMessageImpl[I, T]
-
   /** Represents the data that a [[ChatMessage]] exposes */
   trait MessageOps[I, T]:
     /** The content of the message
@@ -28,7 +26,7 @@ object ChatMessageADT:
       */
     def to: T
 
-  case class ChatMessageImpl[I, T](text: String, timestamp: Instant, from: I, to: T) extends MessageOps[I, T]
+  private case class ChatMessageImpl[I, T](text: String, timestamp: Instant, from: I, to: T) extends MessageOps[I, T]
 
   /** Return a new [[ChatMessage]]
     * @param text The content of the message
@@ -38,7 +36,7 @@ object ChatMessageADT:
     * @tparam T The identifier type of the group
     * @return a [[ChatMessage]] instance
     */
-  def message[I, T](text: String, timestamp: Instant, from: I, to: T): ChatMessage[I, T] =
+  def message[I, T](text: String, timestamp: Instant, from: I, to: T): MessageOps[I, T] =
     ChatMessageImpl(text, timestamp, from, to)
 
   /** Return a new [[ChatMessage]] with the timestamp set on the creation time
@@ -49,4 +47,4 @@ object ChatMessageADT:
     * @tparam T The identifier type of the group
     * @return a [[ChatMessage]] instance
     */
-  def now[I, T](text: String, from: I, to: T): ChatMessage[I, T] = message(text, Instant.now(), from, to)
+  def now[I, T](text: String, from: I, to: T): MessageOps[I, T] = message(text, Instant.now(), from, to)

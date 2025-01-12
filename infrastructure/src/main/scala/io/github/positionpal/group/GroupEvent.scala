@@ -1,7 +1,10 @@
 package io.github.positionpal.group
 
+import java.time.Instant
+
 import akka.actor.typed.ActorRef
 import io.github.positionpal.borer.BorerSerialization
+import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 import io.github.positionpal.client.ClientID
 
 sealed trait GroupEvent extends BorerSerialization
@@ -20,7 +23,7 @@ case class ClientLeavedFromGroup(clientID: ClientID) extends GroupEvent
   * @param clientID the reference of the client
   * @param communicationChannel The communication channel of the client
   */
-case class ClientConnected(clientID: ClientID, communicationChannel: ActorRef[String]) extends GroupEvent
+case class ClientConnected(clientID: ClientID, communicationChannel: ActorRef[CommunicationProtocol]) extends GroupEvent
 
 /** Event triggered when a client connects to the group
   * @param clientID the reference of the client
@@ -28,6 +31,8 @@ case class ClientConnected(clientID: ClientID, communicationChannel: ActorRef[St
 case class ClientDisconnected(clientID: ClientID) extends GroupEvent
 
 /** Event triggered when a client send a message in the group
+  * @param from The message sender id
   * @param text The body of the message that is sent in the group
+  * @param time The message timestamp
   */
-case class Message(text: String) extends GroupEvent
+case class Message(from: ClientID, text: String, time: Instant) extends GroupEvent

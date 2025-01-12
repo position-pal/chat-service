@@ -4,17 +4,23 @@ on:
   workflow_call:
   workflow_dispatch:
 
+env:
+  USERNAME: ${{ secrets.USERNAME }}
+  TOKEN: ${{ secrets.TOKEN }}
+
 jobs:
   release:
     permissions: # Not specified scopes are set to `none`!
       packages: write
       contents: write
+      issues: write
+      pull-requests: write
     concurrency:
       group: release-and-delivery-${{ github.event.number || github.ref }}
     runs-on: ubuntu-24.04
     outputs: # see release.config.js
       release-status: ${{ env.RELEASE_STATUS }}
-      container_version: ${{ env.CONTAINER_VERSION }}
+      release_version: ${{ env.RELEASE_VERSION }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -34,7 +40,7 @@ jobs:
           npm install
           npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.POSITION_PAL_BOT_TOKEN }}
 
   publish-images:
     needs:
@@ -48,10 +54,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
       - name: Login to Docker Hub
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
         with:
@@ -72,7 +74,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.container_version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ needs.release.outputs.release_version }}
           secrets: |
             github_username=${{ secrets.USERNAME }}
             github_token=${{ secrets.TOKEN }}
@@ -86,6 +88,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          ref: ${{ needs.release.outputs.release_version }}
+          fetch-tags: true
       - name: Generate scaladoc
         run: ./gradlew :aggregateScaladoc
       - name: Publish on Github pages
