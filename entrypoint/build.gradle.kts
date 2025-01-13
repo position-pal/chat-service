@@ -11,6 +11,10 @@ dependencies {
     implementation(project(":socket"))
     implementation(project(":storage"))
     implementation(project(":grpc"))
+
+    with(libs) {
+        implementation(bundles.clusterman)
+    }
 }
 
 application {
