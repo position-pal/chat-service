@@ -4,7 +4,6 @@ import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
 
 import akka.actor.typed.ActorSystem
-import akka.actor.typed.scaladsl.Behaviors
 import akka.grpc.scaladsl.{ServerReflection, ServiceHandler as GrpcServiceHandler}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
@@ -13,11 +12,11 @@ import com.typesafe.config.ConfigFactory
 import io.github.positionpal.proto.{ChatService, ChatServiceHandler}
 import org.slf4j.LoggerFactory
 
-object GrpcServer:
+case class GrpcServer(actorSystem: ActorSystem[Any]):
 
   private val logger = LoggerFactory.getLogger(getClass.getName)
 
-  given system: ActorSystem[Any] = ActorSystem(Behaviors.empty[Any], "GrpcSystem")
+  given system: ActorSystem[Any] = actorSystem
   given executionContext: ExecutionContext = system.executionContext
 
   private val service: HttpRequest => Future[HttpResponse] =

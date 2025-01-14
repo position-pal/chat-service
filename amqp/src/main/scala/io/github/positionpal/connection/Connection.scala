@@ -4,7 +4,7 @@ import scala.util.Try
 
 import akka.stream.alpakka.amqp.{AmqpConnectionProvider, AmqpUriConnectionProvider}
 import cats.syntax.all.*
-import io.github.positionpal.connection.Configuration.{RabbitMQConfig, Validation, ValidationResult}
+import io.github.positionpal.connection.AmqpConfiguration.{RabbitMQConfig, Validation, ValidationResult}
 
 enum ConnectionProviderError:
   /** Indicates a configuration error with a list of validation issues.

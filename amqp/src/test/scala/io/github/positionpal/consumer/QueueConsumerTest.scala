@@ -6,7 +6,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import akka.Done
 import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
 import akka.util.ByteString
-import io.github.positionpal.connection.Configuration
+import io.github.positionpal.connection.AmqpConfiguration
 import io.github.positionpal.connection.Connection.toProvider
 import io.github.positionpal.consumer.QueueConsumer.*
 import io.github.positionpal.consumer.QueueConsumer.Exchange.GROUP_UPDATE
@@ -42,7 +42,7 @@ class QueueConsumerTest
 
   override def beforeAll(): Unit =
     super.beforeAll()
-    val configuration = Configuration.of(
+    val configuration = AmqpConfiguration.of(
       host = "localhost",
       port = 5672,
       virtualHost = "/",
@@ -56,7 +56,7 @@ class QueueConsumerTest
         Queue(name = "test2", exchanges = List(GROUP_UPDATE)),
       )
       val handler = new TestingHandler
-      QueueConsumer.start(provider, queues, handler).run()
+      QueueConsumer.create(provider, queues, handler).run()
 
   "QueueConsumer" should:
     "Accept message with correct header" in:

@@ -1,6 +1,6 @@
 package io.github.positionpal.connection
 
-object Configuration:
+object AmqpConfiguration:
   /** Configuration settings for connecting to a RabbitMQ server.
     *
     * @param host        The hostname of the RabbitMQ server. Must be a valid hostname.

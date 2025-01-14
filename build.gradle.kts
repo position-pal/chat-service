@@ -34,8 +34,8 @@ allprojects {
         maven {
             url = uri("https://maven.pkg.github.com/position-pal/shared-kernel")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GH_USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GH_TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
             }
         }
     }

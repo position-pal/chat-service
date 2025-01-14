@@ -3,7 +3,7 @@ import org.gradle.internal.cc.base.logger
 object Utils {
 
     val inCI: Boolean
-        get() = System.getenv()["CI"].equals("true", ignoreCase = true)
+        get() = System.getenv("CI") == true.toString()
 
     val onLinux: Boolean
         get() = os().contains("linux", ignoreCase = true)

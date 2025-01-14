@@ -7,10 +7,15 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":amqp"))
     implementation(project(":infrastructure"))
     implementation(project(":socket"))
     implementation(project(":storage"))
     implementation(project(":grpc"))
+
+    with(libs) {
+        implementation(bundles.clusterman)
+    }
 }
 
 application {

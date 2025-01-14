@@ -29,6 +29,7 @@ akka-actor-typed = { module = "com.typesafe.akka:akka-actor-typed_3", version.re
 akka-alpakka = { module = "com.lightbend.akka:akka-stream-alpakka-amqp_3", version.ref = "alpakka" }
 akka-management-cluster-http = { module = "com.lightbend.akka.management:akka-management-cluster-http_3", version.ref = "akkaman"}
 akka-management-cluster-bootstrap = { module = "com.lightbend.akka.management:akka-management-cluster-bootstrap_3", version.ref = "akkaman"}
+akka-discovery = { module = "com.typesafe.akka:akka-discovery_3", version.ref = "akka" }
 akka-discovery-k8s-api = { module = "com.lightbend.akka.discovery:akka-discovery-kubernetes-api_3", version.ref = "akkaman"}
 akka-serialization-jackson = { module = "com.typesafe.akka:akka-serialization-jackson_3", version.ref = "akka" }
 akka-cluster-typed = { module = "com.typesafe.akka:akka-cluster-typed_3", version.ref = "akka" }
@@ -43,6 +44,7 @@ akka-grpc-runtime = { module = "com.lightbend.akka.grpc:akka-grpc-runtime_3", ve
 akka-http-testkit = { module = "com.typesafe.akka:akka-http-testkit_3", version.ref = "akka-http" }
 akka-persistence-testkit = { module = "com.typesafe.akka:akka-persistence-testkit_3", version.ref = "akka" }
 akka-stream-testkit = { module = "com.typesafe.akka:akka-stream-testkit_3", version.ref = "akka" }
+
 akka-actor-testkit-typed = { module = "com.typesafe.akka:akka-actor-testkit-typed_3", version.ref = "akka" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
@@ -59,6 +61,13 @@ scala-testing = [
     "scalatestplus-junit5",
     "scalamock",
     "scalamock-test",
+]
+
+clusterman = [
+    "akka-management-cluster-http",
+    "akka-management-cluster-bootstrap",
+    "akka-discovery",
+    "akka-discovery-k8s-api"
 ]
 
 [plugins]
