@@ -49,8 +49,8 @@ object QueueConsumer:
     * @tparam F The effect type used by the [[MessageHandler]].
     * @return A closed Akka Stream graph that consumes messages and processes them using the provided handler.
     */
-  def graph[F[_]](provider: AmqpConnectionProvider, queues: List[Queue], messageHandler: MessageHandler[F])(using
-      ExecutionContext,
+  private def graph[F[_]](provider: AmqpConnectionProvider, queues: List[Queue], messageHandler: MessageHandler[F])(
+      using ExecutionContext,
   ): Graph[ClosedShape, NotUsed] =
     GraphDSL.create():
       implicit graph =>
@@ -96,7 +96,7 @@ object QueueConsumer:
     * @tparam F The effect type used by the [[MessageHandler]].
     * @return A [[RunnableGraph]] that can be executed to start the consumer.
     */
-  def start[F[_]](
+  def create[F[_]](
       provider: AmqpConnectionProvider,
       queues: List[Queue],
       messageHandler: MessageHandler[F],

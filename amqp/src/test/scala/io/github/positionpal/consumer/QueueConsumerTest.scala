@@ -56,7 +56,7 @@ class QueueConsumerTest
         Queue(name = "test2", exchanges = List(GROUP_UPDATE)),
       )
       val handler = new TestingHandler
-      QueueConsumer.start(provider, queues, handler).run()
+      QueueConsumer.create(provider, queues, handler).run()
 
   "QueueConsumer" should:
     "Accept message with correct header" in:

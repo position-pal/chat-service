@@ -60,7 +60,7 @@ def graphTest(): Unit =
       Queue(name = "test1", exchanges = List(GROUP_UPDATE)),
     )
 
-    val graph = QueueConsumer.start(provider, queues, Handlers.basic)
+    val graph = QueueConsumer.create(provider, queues, Handlers.basic)
     graph.run()
 
 @main
