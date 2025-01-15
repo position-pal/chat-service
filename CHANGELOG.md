@@ -1,3 +1,13 @@
+## [1.0.0](https://github.com/position-pal/chat-service/compare/0.7.0...1.0.0) (2025-01-15)
+
+### ⚠ BREAKING CHANGES
+
+* **entrypoint:** finalizing entrypoint of the application and
+
+### Features
+
+* **entrypoint:** finalizing entrypoint of the application and ([ecb41c3](https://github.com/position-pal/chat-service/commit/ecb41c30526f367a64df00627da8ea91448eaf33))
+
 ## [0.7.0](https://github.com/position-pal/chat-service/compare/0.6.1...0.7.0) (2025-01-12)
 
 ### Features
