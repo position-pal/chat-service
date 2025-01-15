@@ -7,6 +7,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":amqp"))
     implementation(project(":infrastructure"))
     implementation(project(":socket"))
     implementation(project(":storage"))

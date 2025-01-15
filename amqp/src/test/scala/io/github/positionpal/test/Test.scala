@@ -6,7 +6,7 @@ import akka.actor.typed.ActorSystem
 import akka.actor.typed.javadsl.Behaviors
 import akka.util.ByteString
 import com.typesafe.config.ConfigFactory
-import io.github.positionpal.connection.Configuration
+import io.github.positionpal.connection.AmqpConfiguration
 import io.github.positionpal.connection.Connection.*
 import io.github.positionpal.consumer.QueueConsumer
 import io.github.positionpal.consumer.QueueConsumer.Exchange.GROUP_UPDATE
@@ -47,7 +47,7 @@ def startSeedNode(): Unit = ActorSystem(Behaviors.empty, "test")
 def graphTest(): Unit =
   given system: ActorSystem[None.type] = startActorSystem("consumer", "127.0.0.1", 2552)
 
-  val configuration = Configuration.of(
+  val configuration = AmqpConfiguration.of(
     host = "localhost",
     port = 5672,
     virtualHost = "/",

@@ -11,11 +11,11 @@ import akka.stream.scaladsl.{Flow, Sink, Source}
 import akka.util.ByteString
 import com.rabbitmq.client.AMQP.BasicProperties
 import io.github.positionpal.MessageType
-import io.github.positionpal.connection.Configuration
+import io.github.positionpal.connection.AmqpConfiguration
 import io.github.positionpal.connection.Connection.toProvider
 
 object AmqpWriter:
-  private val connectionConfiguration = Configuration.of(
+  private val connectionConfiguration = AmqpConfiguration.of(
     host = "localhost",
     port = 5672,
     virtualHost = "/",

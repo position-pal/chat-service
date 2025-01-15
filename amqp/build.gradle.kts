@@ -6,10 +6,9 @@ import Utils.onWindows
 dependencies {
     api(project(":infrastructure"))
     with(rootProject.libs) {
-        implementation(akka.alpakka)
+        api(akka.alpakka)
         testImplementation(akka.stream.testkit)
     }
-    
 }
 
 normally {

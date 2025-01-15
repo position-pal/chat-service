@@ -1,14 +1,14 @@
 package io.github.positionpal.connection
 
-import io.github.positionpal.connection.Configuration.Validation.*
+import io.github.positionpal.connection.AmqpConfiguration.Validation.*
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class ConfigurationTest extends AnyWordSpec with Matchers:
+class AmqpConfigurationTest extends AnyWordSpec with Matchers:
 
   "RabbitMQ Configuration" should:
     "accept valid configuration" in:
-      val result = Configuration.of(
+      val result = AmqpConfiguration.of(
         host = "rabbitmq.example.com",
         port = 5672,
         virtualHost = "my-vhost",
@@ -36,7 +36,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         validHosts.foreach: host =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = host,
             port = 5672,
             virtualHost = "/",
@@ -57,7 +57,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         invalidHosts.foreach: host =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = host,
             port = 5672,
             virtualHost = "/",
@@ -81,7 +81,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         val validPorts = List(0, 1024, 5672, 65535)
 
         validPorts.foreach: port =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = port,
             virtualHost = "/",
@@ -96,7 +96,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         val invalidPorts = List(-1, -5672, 65536, 70000)
 
         invalidPorts.foreach: port =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = port,
             virtualHost = "/",
@@ -126,7 +126,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         validVHosts.foreach: vhost =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = 5672,
             virtualHost = vhost,
@@ -144,7 +144,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         invalidVHosts.foreach: vhost =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = 5672,
             virtualHost = vhost,
@@ -173,7 +173,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         validUsernames.foreach: username =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = 5672,
             virtualHost = "/",
@@ -193,7 +193,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         invalidUsernames.foreach: username =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = 5672,
             virtualHost = "/",
@@ -222,7 +222,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         validPasswords.foreach: password =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = 5672,
             virtualHost = "/",
@@ -242,7 +242,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
         )
 
         invalidPasswords.foreach: password =>
-          val result = Configuration.of(
+          val result = AmqpConfiguration.of(
             host = "localhost",
             port = 5672,
             virtualHost = "/",
@@ -261,7 +261,7 @@ class ConfigurationTest extends AnyWordSpec with Matchers:
             )
 
       "accumulate multiple validation errors" in:
-        val result = Configuration.of(
+        val result = AmqpConfiguration.of(
           host = "invalid@host",
           port = -1,
           virtualHost = "invalid vhost",
