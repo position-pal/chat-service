@@ -1,3 +1,13 @@
+## [1.0.1](https://github.com/position-pal/chat-service/compare/1.0.0...1.0.1) (2025-01-17)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.scala-lang:scala3-library_3 to v3.6.3 ([#143](https://github.com/position-pal/chat-service/issues/143)) ([7849594](https://github.com/position-pal/chat-service/commit/78495943f502f57e52088bf09631991af992d185))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action digest to 67a2d40 ([#141](https://github.com/position-pal/chat-service/issues/141)) ([9ecfdc2](https://github.com/position-pal/chat-service/commit/9ecfdc2c3d0d7f1f4d03c08f6c90b653f37c6f3f))
+
 ## [1.0.0](https://github.com/position-pal/chat-service/compare/0.7.0...1.0.0) (2025-01-15)
 
 ### ⚠ BREAKING CHANGES
