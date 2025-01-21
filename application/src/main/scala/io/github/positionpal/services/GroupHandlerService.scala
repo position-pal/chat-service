@@ -2,7 +2,7 @@ package io.github.positionpal.services
 
 import akka.actor.typed.ActorRef
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.message.ChatMessageADT.MessageOps
+import io.github.positionpal.message.ChatMessageADT.Message
 
 trait GroupHandlerService[F[_], T]:
 
@@ -48,4 +48,4 @@ trait GroupHandlerService[F[_], T]:
     * @param message The message that should be broadcast
     * @return A [[Future]] wit the [[ClientID]] that have disconnected from the group
     */
-  def message(groupID: String)(message: MessageOps[ClientID, String]): F[Unit]
+  def message(groupID: String)(message: Message[ClientID, String]): F[Unit]
