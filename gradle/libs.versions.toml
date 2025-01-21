@@ -17,7 +17,7 @@ scalamock = "0.6.6"
 scala-library = { module = "org.scala-lang:scala3-library_3", version.ref = "scala" }
 scalatest = { module = "org.scalatest:scalatest_3", version.ref = "scalatest" }
 scalatestplus-junit5 = "org.scalatestplus:junit-5-10_3:3.2.19.1"
-cats-core = "org.typelevel:cats-core_3:2.12.0"
+cats-core = "org.typelevel:cats-core_3:2.13.0"
 cats-effect = "org.typelevel:cats-effect_3:3.6-623178c"
 cats-mtl = "org.typelevel:cats-mtl_3:1.5.0"
 borer-core = { module = "io.bullet:borer-core_3", version.ref = "borer" }
