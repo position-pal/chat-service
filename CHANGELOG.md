@@ -1,3 +1,17 @@
+## [2.0.0](https://github.com/position-pal/chat-service/compare/1.0.1...2.0.0) (2025-01-22)
+
+### ⚠ BREAKING CHANGES
+
+* **grpc:** edit response of grpc service (#145)
+
+### Features
+
+* **grpc:** edit response of grpc service ([#145](https://github.com/position-pal/chat-service/issues/145)) ([b9272aa](https://github.com/position-pal/chat-service/commit/b9272aa360c4a57c9cc1b5368fd8b8ed316b6fb5))
+
+### Dependency updates
+
+* **deps:** update dependency org.typelevel:cats-core_3 to v2.13.0 ([#144](https://github.com/position-pal/chat-service/issues/144)) ([4ffbd63](https://github.com/position-pal/chat-service/commit/4ffbd63fc388fce4b8c7bccc135fb0a0afebb005))
+
 ## [1.0.1](https://github.com/position-pal/chat-service/compare/1.0.0...1.0.1) (2025-01-17)
 
 ### Dependency updates
