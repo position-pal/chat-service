@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 package chatservice;
 option java_multiple_files = true;
 option java_package = "io.github.positionpal.proto";
@@ -21,5 +23,7 @@ message MessageResponse {
 }
 
 message Message {
-  string content = 1;
+  string client_id = 1;
+  string content = 2;
+  google.protobuf.Timestamp timestamp = 3;
 }

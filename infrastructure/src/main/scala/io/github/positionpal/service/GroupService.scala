@@ -25,7 +25,7 @@ import io.github.positionpal.group.{
   SendMessage,
 }
 import io.github.positionpal.message.ChatMessageADT
-import io.github.positionpal.message.ChatMessageADT.MessageOps
+import io.github.positionpal.message.ChatMessageADT.Message
 import io.github.positionpal.services.GroupHandlerService
 import org.slf4j.LoggerFactory
 
@@ -78,7 +78,7 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[Futu
       case StatusReply.Success(ClientSuccessfullyDisconnected(id)) => id
       case StatusReply.Error(ex) => throw ex
 
-  override def message(groupID: String)(message: MessageOps[ClientID, String]): Future[Unit] =
+  override def message(groupID: String)(message: Message[ClientID, String]): Future[Unit] =
     logger.debug(s"Sending message with text \"${message.text}\" to $groupID")
     entityRefFor(groupID).ask(ref => SendMessage(message, ref)).map:
       case StatusReply.Ack => ()

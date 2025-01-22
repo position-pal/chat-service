@@ -35,7 +35,7 @@ class GroupMessageStorageTest extends AsyncWordSpecLike with Matchers with Befor
         messages should not be empty
         messages.length should be <= 3
 
-        messages.map(_.strip()) should be(Seq("It's getting late, I think", "See you then", "bye!"))
+        messages.map(_.text).map(_.strip()) should be(Seq("It's getting late, I think", "See you then", "bye!"))
 
     "handle a group with no messages" in:
       val emptyGroupId = "empty-group"

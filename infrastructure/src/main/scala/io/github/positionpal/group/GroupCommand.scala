@@ -6,7 +6,7 @@ import akka.pattern.StatusReply
 import io.github.positionpal.borer.BorerSerialization
 import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.message.ChatMessageADT.MessageOps
+import io.github.positionpal.message.ChatMessageADT.Message
 
 sealed trait GroupCommand extends BorerSerialization
 
@@ -58,6 +58,6 @@ case class ClientDisconnects(
   * @param replyTo Who receives the response of the command
   */
 case class SendMessage(
-    message: MessageOps[ClientID, String],
+    message: Message[ClientID, String],
     replyTo: ActorRef[StatusReply[Done]],
 ) extends GroupCommand

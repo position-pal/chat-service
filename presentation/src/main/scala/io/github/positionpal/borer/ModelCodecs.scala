@@ -6,7 +6,7 @@ import io.bullet.borer.derivation.ArrayBasedCodecs.deriveCodec
 import io.bullet.borer.{Codec, Decoder, Encoder}
 import io.github.positionpal.client.ClientADT.{ClientStatus, OutputReference}
 import io.github.positionpal.client.ClientID
-import io.github.positionpal.message.ChatMessageADT.MessageOps
+import io.github.positionpal.message.ChatMessageADT.Message
 
 /** Here are implemented the default [[Codec]]s used for serializing object inside the system */
 trait ModelCodecs:
@@ -43,13 +43,13 @@ trait ModelCodecs:
         reader.readArrayClose(unbounded, output),
     )
 
-  given messageCodec[I: Encoder: Decoder, T: Encoder: Decoder]: Codec[MessageOps[I, T]] =
+  given messageCodec[I: Encoder: Decoder, T: Encoder: Decoder]: Codec[Message[I, T]] =
     Codec(
-      Encoder[MessageOps[I, T]]: (writer, message) =>
+      Encoder[Message[I, T]]: (writer, message) =>
         writer.writeArrayOpen(4).writeString("text").write(message.text).writeString("timestamp")
           .write(message.timestamp).writeString("from").write(message.from).writeString("to").write(message.to)
           .writeArrayClose(),
-      Decoder[MessageOps[I, T]]: reader =>
+      Decoder[Message[I, T]]: reader =>
         val unbounded = reader.readArrayOpen(4)
         reader.readString() // "text"
         val text = reader.read[String]()
