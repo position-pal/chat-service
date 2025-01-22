@@ -1,9 +1,9 @@
 package io.github.positionpal.storage
 
+import scala.concurrent.Future
+
 import io.github.positionpal.client.ClientID
 import io.github.positionpal.message.ChatMessageADT.Message
-
-import scala.concurrent.Future
 
 trait MessageStorage:
 

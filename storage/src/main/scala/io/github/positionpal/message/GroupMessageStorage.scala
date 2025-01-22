@@ -1,6 +1,7 @@
 package io.github.positionpal.message
 
 import scala.concurrent.{ExecutionContext, Future}
+
 import akka.actor.typed.ActorSystem
 import akka.persistence.cassandra.query.scaladsl.CassandraReadJournal
 import akka.persistence.query.PersistenceQuery
@@ -23,5 +24,4 @@ class GroupMessageStorage(using system: ActorSystem[?]) extends MessageStorage:
     readJournal.currentEventsByPersistenceId(persistenceId.id, 0L, Long.MaxValue).collect: envelope =>
       envelope.event match
         case message: GroupMessage => ChatMessageADT.message(message.text, message.time, message.from, groupID)
-    .runWith(Sink.seq)
-    .map(_.takeRight(n))
+    .runWith(Sink.seq).map(_.takeRight(n))
