@@ -1,3 +1,27 @@
+## [2.1.0](https://github.com/position-pal/chat-service/compare/2.0.0...2.1.0) (2025-02-01)
+
+### Dependency updates
+
+* **api-deps:** update kernel to v0.10.1 ([#163](https://github.com/position-pal/chat-service/issues/163)) ([7597ae5](https://github.com/position-pal/chat-service/commit/7597ae5a7b6b6163dcbda0bc876c54efd0896c90))
+* **deps:** update cassandra:5.0.2 docker digest to 6f8f916 ([#160](https://github.com/position-pal/chat-service/issues/160)) ([9872611](https://github.com/position-pal/chat-service/commit/9872611baafb3b90a6533dc37de399bd644dd03f))
+* **deps:** update cassandra:5.0.2 docker digest to d0842d5 ([#147](https://github.com/position-pal/chat-service/issues/147)) ([b33a407](https://github.com/position-pal/chat-service/commit/b33a407dd600bf464cded4c99d2e65962b07490d))
+* **deps:** update cassandra:latest docker digest to 5be42f2 ([#146](https://github.com/position-pal/chat-service/issues/146)) ([18a2cb4](https://github.com/position-pal/chat-service/commit/18a2cb41ca843e2106fce45ea31ae1f75b58c54c))
+* **deps:** update cassandra:latest docker digest to 6f8f916 ([#161](https://github.com/position-pal/chat-service/issues/161)) ([27e5a2e](https://github.com/position-pal/chat-service/commit/27e5a2ee19083a5bb91f1506dd41a1492653f7ae))
+* **deps:** update cassandra:latest docker digest to d0842d5 ([#148](https://github.com/position-pal/chat-service/issues/148)) ([21f466b](https://github.com/position-pal/chat-service/commit/21f466bab9407d332e1041ebd19a5831b13c7dfb))
+* **deps:** update dependency com.lightbend.akka.grpc:akka-grpc-runtime_3 to v2.5.1 ([#149](https://github.com/position-pal/chat-service/issues/149)) ([6f24840](https://github.com/position-pal/chat-service/commit/6f24840de6051e5142f3a52083c2ac05e07967ba))
+* **deps:** update dependency com.lightbend.akka.grpc:akka-grpc-runtime_3 to v2.5.3 ([#162](https://github.com/position-pal/chat-service/issues/162)) ([7da3527](https://github.com/position-pal/chat-service/commit/7da352789b2ce9e712803bd5e65fdc0a07748707))
+* **deps:** update dependency gradle to v8.12.1 ([#153](https://github.com/position-pal/chat-service/issues/153)) ([d98f7b6](https://github.com/position-pal/chat-service/commit/d98f7b664ef78f9e9bd47f4ce937ecb6490fd757))
+* **deps:** update plugin gradle-docker-compose to v0.17.12 ([#139](https://github.com/position-pal/chat-service/issues/139)) ([3998e29](https://github.com/position-pal/chat-service/commit/3998e29534761cf40da83835510fbc5a043180ed))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.20 ([#158](https://github.com/position-pal/chat-service/issues/158)) ([f8a2d46](https://github.com/position-pal/chat-service/commit/f8a2d46a4c119a1ac05e6a66575d6d983deb24a3))
+* **deps:** update rabbitmq:4.0.5-management docker digest to f100517 ([#155](https://github.com/position-pal/chat-service/issues/155)) ([7ac0219](https://github.com/position-pal/chat-service/commit/7ac021902f39fd2867573f757cafe0cdc3c1d315))
+
+### Build and continuous integration
+
+* **deps:** update actions/setup-java digest to 3a4f6e1 ([#156](https://github.com/position-pal/chat-service/issues/156)) ([96a6985](https://github.com/position-pal/chat-service/commit/96a69854422fcfe0288fe0db60ffe7c2c38c99f3))
+* **deps:** update actions/setup-node action to v4.2.0 ([#154](https://github.com/position-pal/chat-service/issues/154)) ([1668d75](https://github.com/position-pal/chat-service/commit/1668d75f176e2c2bde097ea1d8774feadebf8008))
+* **deps:** update dawidd6/action-download-artifact action to v8 ([#150](https://github.com/position-pal/chat-service/issues/150)) ([154465b](https://github.com/position-pal/chat-service/commit/154465b6a6957bde23d7521dfb990489edba0d8a))
+* **deps:** update docker/build-push-action digest to ca877d9 ([#151](https://github.com/position-pal/chat-service/issues/151)) ([92bc949](https://github.com/position-pal/chat-service/commit/92bc949f7f64cec4c4f6dec86e83912e7ae579bb))
+
 ## [2.0.0](https://github.com/position-pal/chat-service/compare/1.0.1...2.0.0) (2025-01-22)
 
 ### ⚠ BREAKING CHANGES
