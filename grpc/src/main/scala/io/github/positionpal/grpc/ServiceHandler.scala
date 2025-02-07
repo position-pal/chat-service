@@ -1,23 +1,31 @@
 package io.github.positionpal.grpc
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext, Future, TimeoutException}
 
 import akka.actor.typed.ActorSystem
-import io.github.positionpal.message.GroupMessageStorage
-import io.github.positionpal.proto.StatusCode.{ERROR, OK}
+import akka.pattern.AskTimeoutException
+import akka.stream.ConnectionException
+import io.github.positionpal.proto.StatusCode.*
 import io.github.positionpal.proto.{ChatService, MessageResponse, RetrieveLastMessagesRequest}
+import io.github.positionpal.storage.MessageStorage
 
-class ServiceHandler(using system: ActorSystem[?]) extends ChatService:
+case class ServiceHandler(system: ActorSystem[?], storage: MessageStorage[Future]) extends ChatService:
 
   given ec: ExecutionContext = system.executionContext
-  val storage = GroupMessageStorage()
 
-  import Conversions.given
-  import scala.util.{Success, Failure}
-
+  import Conversions.messageProtoConversion
   override def retrieveLastMessages(in: RetrieveLastMessagesRequest): Future[MessageResponse] =
-    storage.getLastMessages(in.groupId)(in.numberOfMessages.toInt).transformWith:
-      case Success(messages) =>
+    storage.getLastMessages(in.groupId)(in.numberOfMessages.toInt).flatMap:
+      case Right(messages) =>
         Future.successful(MessageResponse(OK, messages.map(messageProtoConversion)))
-      case Failure(_) =>
-        Future.successful(MessageResponse(ERROR, Seq.empty))
+
+      case Left((_, _: IllegalArgumentException)) =>
+        Future.successful(MessageResponse(BAD_REQUEST, Seq.empty))
+
+      case Left((_, _: ConnectionException)) =>
+        Future.successful(MessageResponse(SERVICE_UNAVAILABLE, Seq.empty))
+
+      case Left((_, _: TimeoutException | _: AskTimeoutException)) =>
+        Future.successful(MessageResponse(REQUEST_TIMEOUT, Seq.empty))
+
+      case _ => Future.successful(MessageResponse(GENERIC_ERROR, Seq.empty))

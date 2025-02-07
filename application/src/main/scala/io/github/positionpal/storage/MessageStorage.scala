@@ -10,4 +10,8 @@ trait MessageStorage[F[_]]:
     * @param n number of messages that should be retrieved
     * @return a [[F]] with a [[Seq]] of the last n messages of the group
     */
-  def getLastMessages(groupID: String)(n: Int): F[Seq[Message[ClientID, String]]]
+
+  type ErrorDescription = (String, Error | Throwable)
+  type MessageList = Seq[Message[ClientID, String]]
+
+  def getLastMessages(groupID: String)(n: Int): F[Either[ErrorDescription, MessageList]]

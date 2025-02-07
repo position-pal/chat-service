@@ -13,7 +13,11 @@ service ChatService {
 
 enum StatusCode {
   OK = 0;
-  ERROR = 1;
+  BAD_REQUEST = 1;
+  SERVICE_UNAVAILABLE = 2;
+  REQUEST_TIMEOUT = 3;
+  GENERIC_ERROR = 4;
+  
 }
 
 // 1. Retrieve last messages from the group

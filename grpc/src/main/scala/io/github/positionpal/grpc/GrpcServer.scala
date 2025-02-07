@@ -9,6 +9,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import com.typesafe.config.ConfigFactory
+import io.github.positionpal.message.GroupMessageStorage
 import io.github.positionpal.proto.{ChatService, ChatServiceHandler}
 import org.slf4j.LoggerFactory
 
@@ -19,9 +20,10 @@ case class GrpcServer(actorSystem: ActorSystem[Any]):
   given system: ActorSystem[Any] = actorSystem
   given executionContext: ExecutionContext = system.executionContext
 
+  private val messageStorage = GroupMessageStorage(actorSystem)
   private val service: HttpRequest => Future[HttpResponse] =
     GrpcServiceHandler.concatOrNotFound(
-      ChatServiceHandler.partial(new ServiceHandler()),
+      ChatServiceHandler.partial(ServiceHandler(actorSystem, messageStorage)),
       ServerReflection.partial(List(ChatService)),
     )
 

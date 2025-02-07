@@ -7,6 +7,6 @@ import io.github.positionpal.proto.Message as ProtoMessage
 
 object Conversions:
 
-  given messageProtoConversion: Conversion[Message[ClientID, String], ProtoMessage] = msg =>
+  def messageProtoConversion: Conversion[Message[ClientID, String], ProtoMessage] = msg =>
     val protoTimestamp = Timestamp(msg.timestamp.getEpochSecond, msg.timestamp.getNano)
     ProtoMessage(msg.from.value, msg.text, Option(protoTimestamp))

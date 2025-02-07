@@ -1,29 +1,35 @@
+package io.github.positionpal.grpc
+
+import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
 
 import akka.actor.testkit.typed.scaladsl.ActorTestKit
 import akka.actor.typed.ActorSystem
 import com.typesafe.config.ConfigFactory
-import io.github.positionpal.grpc.ServiceHandler
-import io.github.positionpal.proto.RetrieveLastMessagesRequest
+import io.github.positionpal.message.GroupMessageStorage
 import io.github.positionpal.proto.StatusCode.OK
+import io.github.positionpal.proto.{ChatService, RetrieveLastMessagesRequest}
+import io.github.positionpal.storage.MessageStorage
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+
 class ServiceHandlerTest extends AnyWordSpec with BeforeAndAfterAll with Matchers with ScalaFutures:
 
-  val conf = ConfigFactory.load("local-config.conf")
-  val testKit: ActorTestKit = ActorTestKit(conf)
+  private val conf = ConfigFactory.load("local-config.conf")
+  private val testKit: ActorTestKit = ActorTestKit(conf)
+
+  private val system: ActorSystem[Nothing] = testKit.system
+  private val storage: MessageStorage[Future] = GroupMessageStorage(system)
+  private val service: ChatService = ServiceHandler(system, storage)
 
   override def afterAll(): Unit =
     super.afterAll()
     testKit.shutdownTestKit()
 
   given patience: PatienceConfig = PatienceConfig(scaled(5.seconds), scaled(100.millis))
-  given serverSystem: ActorSystem[?] = testKit.system
-
-  val service = new ServiceHandler()
 
   "ServiceHandler" should:
     "handle requests for message history" in:
