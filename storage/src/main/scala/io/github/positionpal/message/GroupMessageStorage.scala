@@ -12,7 +12,7 @@ import io.github.positionpal.group.{GroupEventSourceHandler, Message as GroupMes
 import io.github.positionpal.message.ChatMessageADT.Message
 import io.github.positionpal.storage.MessageStorage
 
-class GroupMessageStorage(using system: ActorSystem[?]) extends MessageStorage:
+class GroupMessageStorage(using system: ActorSystem[?]) extends MessageStorage[Future]:
 
   given ExecutionContext = system.executionContext
   private val readJournal: CassandraReadJournal = PersistenceQuery(system)
