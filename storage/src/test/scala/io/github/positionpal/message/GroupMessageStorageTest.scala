@@ -12,7 +12,6 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AsyncWordSpecLike
 
-
 class GroupMessageStorageTest extends AsyncWordSpecLike with Matchers with ScalaFutures with BeforeAndAfterAll:
 
   private val testBehavior: Behavior[Nothing] = Behaviors.empty
