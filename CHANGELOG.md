@@ -1,3 +1,37 @@
+## [2.2.0](https://github.com/position-pal/chat-service/compare/2.1.0...2.2.0) (2025-02-09)
+
+### Features
+
+* grpc status code ([#186](https://github.com/position-pal/chat-service/issues/186)) ([8e7cdb7](https://github.com/position-pal/chat-service/commit/8e7cdb7a3e69d755ec8791f5621b996599e696c9))
+
+### Dependency updates
+
+* **deps:** update cassandra docker tag to v5.0.3 ([#173](https://github.com/position-pal/chat-service/issues/173)) ([964f164](https://github.com/position-pal/chat-service/commit/964f16454e6d3b110da99760a2d83d6edd0971e9))
+* **deps:** update cassandra:5.0.2 docker digest to 9945daf ([#168](https://github.com/position-pal/chat-service/issues/168)) ([f823308](https://github.com/position-pal/chat-service/commit/f82330863061fae00dcfc78337d2868b28f442d5))
+* **deps:** update cassandra:5.0.3 docker digest to 04cea6f ([#178](https://github.com/position-pal/chat-service/issues/178)) ([63774a8](https://github.com/position-pal/chat-service/commit/63774a8b4282e763cb8ef4c56f6660b0df54d38e))
+* **deps:** update cassandra:5.0.3 docker digest to 2abcbdc ([#176](https://github.com/position-pal/chat-service/issues/176)) ([78fb938](https://github.com/position-pal/chat-service/commit/78fb938335418f6cad9cd5d95021086fbc374176))
+* **deps:** update cassandra:5.0.3 docker digest to 70b40a2 ([#180](https://github.com/position-pal/chat-service/issues/180)) ([1f5829c](https://github.com/position-pal/chat-service/commit/1f5829c71097f2ac61dea71cf485d3717dbf292c))
+* **deps:** update cassandra:latest docker digest to 1905e8a ([#177](https://github.com/position-pal/chat-service/issues/177)) ([6c1db6a](https://github.com/position-pal/chat-service/commit/6c1db6a951b54142ecf11750c0a2ca8feb3c442e))
+* **deps:** update cassandra:latest docker digest to 70b40a2 ([#181](https://github.com/position-pal/chat-service/issues/181)) ([3fd9610](https://github.com/position-pal/chat-service/commit/3fd96109a7a764bc6866d5c5571e0c5fb2fa2dba))
+* **deps:** update cassandra:latest docker digest to 9945daf ([#169](https://github.com/position-pal/chat-service/issues/169)) ([bb2959d](https://github.com/position-pal/chat-service/commit/bb2959d03db709fbafb3b3eab0dbd6c627d7bd45))
+* **deps:** update cassandra:latest docker digest to d727300 ([#174](https://github.com/position-pal/chat-service/issues/174)) ([bedcbd9](https://github.com/position-pal/chat-service/commit/bedcbd94517d46b752696460c903f9410a40f6df))
+* **deps:** update cassandra:latest docker digest to f93bae3 ([#179](https://github.com/position-pal/chat-service/issues/179)) ([ebbd2e1](https://github.com/position-pal/chat-service/commit/ebbd2e15f36b210a6a718ec6ac8262e7ed5662d1))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.120 ([#183](https://github.com/position-pal/chat-service/issues/183)) ([7757166](https://github.com/position-pal/chat-service/commit/7757166172c356c1580ac45f39d1e9ed43eed900))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.122 ([#184](https://github.com/position-pal/chat-service/issues/184)) ([fd2ca13](https://github.com/position-pal/chat-service/commit/fd2ca132e8ebdadaf46bc66599415c09e1bba307))
+* **deps:** update plugin akka-grpc to v2.5.3 ([#152](https://github.com/position-pal/chat-service/issues/152)) ([ef56dc5](https://github.com/position-pal/chat-service/commit/ef56dc522e4016e8b1fe1baaed714149aea99c57))
+* **deps:** update plugin com.gradle.develocity to v3.19.1 ([#164](https://github.com/position-pal/chat-service/issues/164)) ([3ae2034](https://github.com/position-pal/chat-service/commit/3ae2034cc28145f445b4f694e718ce936312f15f))
+* **deps:** update plugin git-sensitive-semver to v3.1.10 ([#159](https://github.com/position-pal/chat-service/issues/159)) ([c34e120](https://github.com/position-pal/chat-service/commit/c34e120132665cb8f9513eb56257be5a0c003fbe))
+* **deps:** update plugin git-sensitive-semver to v4 ([#167](https://github.com/position-pal/chat-service/issues/167)) ([c42df70](https://github.com/position-pal/chat-service/commit/c42df7062b4edc65ad69de5ae2a4fb7773434677))
+* **deps:** update rabbitmq:4.0.5-management docker digest to 1848f46 ([#171](https://github.com/position-pal/chat-service/issues/171)) ([c066532](https://github.com/position-pal/chat-service/commit/c0665325c9d3bce08847c1fb4187d6db091806f0))
+* **deps:** update rabbitmq:4.0.5-management docker digest to 697da87 ([#185](https://github.com/position-pal/chat-service/issues/185)) ([06f933d](https://github.com/position-pal/chat-service/commit/06f933d51c827caaccb19b49ab0c9b6afabcb6d8))
+* **deps:** update rabbitmq:4.0.5-management docker digest to a5409e7 ([#172](https://github.com/position-pal/chat-service/issues/172)) ([7c26701](https://github.com/position-pal/chat-service/commit/7c267013db854050ef54d4bc57730ba730e2344a))
+* **deps:** update rabbitmq:4.0.5-management docker digest to cc4c4f7 ([#170](https://github.com/position-pal/chat-service/issues/170)) ([f3499ae](https://github.com/position-pal/chat-service/commit/f3499ae4803990ce5ed9803918b83498e68d6a9f))
+* **deps:** update rabbitmq:4.0.5-management docker digest to f8e04e1 ([#175](https://github.com/position-pal/chat-service/issues/175)) ([d6591bf](https://github.com/position-pal/chat-service/commit/d6591bfd2b10e004641c637e4fe9fa92e857bb02))
+
+### Build and continuous integration
+
+* **deps:** update docker/setup-buildx-action digest to f7ce87c ([#182](https://github.com/position-pal/chat-service/issues/182)) ([aa74052](https://github.com/position-pal/chat-service/commit/aa74052eaec6a20fc9dfbfdf0ffd6508e9e50ec6))
+
 ## [2.1.0](https://github.com/position-pal/chat-service/compare/2.0.0...2.1.0) (2025-02-01)
 
 ### Dependency updates
