@@ -11,6 +11,15 @@ service ChatService {
   rpc RetrieveLastMessages(RetrieveLastMessagesRequest) returns (MessageResponse) {}
 }
 
+enum StatusCode {
+  OK = 0;
+  BAD_REQUEST = 1;
+  SERVICE_UNAVAILABLE = 2;
+  REQUEST_TIMEOUT = 3;
+  GENERIC_ERROR = 4;
+  
+}
+
 // 1. Retrieve last messages from the group
 message RetrieveLastMessagesRequest {
   string group_id = 1;
@@ -19,7 +28,8 @@ message RetrieveLastMessagesRequest {
 }
 
 message MessageResponse {
-  repeated Message messages = 1;
+  StatusCode code = 1;
+  repeated Message messages = 2;
 }
 
 message Message {

@@ -11,7 +11,7 @@ akka-grpc = "2.5.3"
 alpakka = "9.0.1"
 kernel = "0.10.1"
 akkaman = "1.6.0"
-scalamock = "0.6.6"
+scalamock = "7.1.0"
 
 [libraries]
 scala-library = { module = "org.scala-lang:scala3-library_3", version.ref = "scala" }
@@ -50,8 +50,7 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 
 positionpal-kernel-domain = { module = "io.github.positionpal:kernel-domain", version.ref = "kernel" }
 positionpal-kernel-presentation = { module = "io.github.positionpal:kernel-presentation", version.ref = "kernel" }
-scalamock = { module = "eu.monniot:scala3mock_3", version.ref = "scalamock" }
-scalamock-test = { module = "eu.monniot:scala3mock-scalatest_3", version.ref = "scalamock" }
+scalamock = { module = "org.scalamock:scalamock_3", version.ref = "scalamock" }
 
 [bundles]
 scala-testing = [
@@ -59,8 +58,7 @@ scala-testing = [
     "junit-platform-engine",
     "junit-platform-launcher",
     "scalatestplus-junit5",
-    "scalamock",
-    "scalamock-test",
+    "scalamock"
 ]
 
 clusterman = [

@@ -29,6 +29,12 @@ tasks.named("checkScalafmt") {
     dependsOn("generateProto")
 }
 
+tasks.withType<ScalaCompile> {
+    if (name.lowercase().contains("test")) {
+        scalaCompileOptions.additionalParameters.add("-experimental")
+    }
+}
+
 normally {
     dockerCompose {
         startedServices = listOf("cassandra", "cassandra-init", "test-runner")
