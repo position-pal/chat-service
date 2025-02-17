@@ -74,7 +74,7 @@ def utilsTest(): Unit =
 
   val message = ByteString(serializer.serializeAddedMemberToGroup(event))
   val messageType = MessageType.MEMBER_ADDED
-  AmqpWriter.send(message, messageType, GROUP_UPDATE.name, "test1").onComplete:
+  AmqpWriter.send(message, messageType, GROUP_UPDATE, "test1").onComplete:
     case scala.util.Success(writeResult) =>
       println(s"Message sent successfully: $writeResult")
     case scala.util.Failure(exception) =>

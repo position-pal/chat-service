@@ -11,6 +11,10 @@ import io.github.positionpal.{AvroSerializer, MessageType}
 object Handlers:
   private val serializer = AvroSerializer()
 
+  /** Basic message handler for the application
+    * @param actorSystem An [[ActorSystem]] used for the group service
+    * @return The message handler
+    */
   def basic(using actorSystem: ActorSystem[?]): MessageHandler[Future] =
     (messageType: MessageType, message: ByteString) =>
       val service = GroupService(actorSystem)

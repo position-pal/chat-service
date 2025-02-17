@@ -35,7 +35,12 @@ object QueueConsumer:
     * @param exchangeType The type of the exchange (e.g., "direct", "topic", "headers").
     * @param routingKey   An optional routing key for binding.
     */
-  enum Exchange(val name: String, val exchangeType: String, val routingKey: Option[String] = None):
+  enum Exchange(
+      val name: String,
+      val exchangeType: String,
+      val routingKey: Option[String] = None,
+      val durable: Boolean = true,
+  ):
     /** A predefined exchange for handling group updates. */
     case GROUP_UPDATE extends Exchange("group_updates_exchange", "headers")
 
@@ -59,7 +64,7 @@ object QueueConsumer:
 
           val queueDeclaration = QueueDeclaration(queue.name)
           val exchangeDeclarations = queue.exchanges.map: exchange =>
-            val declaration = ExchangeDeclaration(exchange.name, exchange.exchangeType)
+            val declaration = ExchangeDeclaration(exchange.name, exchange.exchangeType).withDurable(exchange.durable)
             val binding = BindingDeclaration(queue = queue.name, exchange = exchange.name)
               .withRoutingKey(queue.routingKey.getOrElse(""))
             (declaration, binding)
