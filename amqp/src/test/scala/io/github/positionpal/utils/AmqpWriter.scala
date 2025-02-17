@@ -13,6 +13,7 @@ import com.rabbitmq.client.AMQP.BasicProperties
 import io.github.positionpal.MessageType
 import io.github.positionpal.connection.AmqpConfiguration
 import io.github.positionpal.connection.Connection.toProvider
+import io.github.positionpal.consumer.QueueConsumer.Exchange
 
 object AmqpWriter:
   private val connectionConfiguration = AmqpConfiguration.of(
@@ -23,13 +24,16 @@ object AmqpWriter:
     password = "admin",
   )
 
-  def send(message: ByteString, msgType: MessageType, exchangeName: String, queue: String)(using
-      ActorSystem[?],
-  ): Future[WriteResult] =
+  def send(
+      message: ByteString,
+      msgType: MessageType,
+      exchange: Exchange,
+      queue: String,
+  )(using ActorSystem[?]): Future[WriteResult] =
     connectionConfiguration.toProvider match
       case Right(provider) =>
-        val writeSettings = AmqpWriteSettings(provider).withRoutingKey(queue)
-          .withDeclaration(ExchangeDeclaration(name = exchangeName, exchangeType = "headers"))
+        val writeSettings = AmqpWriteSettings(provider).withRoutingKey(queue).withDeclaration:
+          ExchangeDeclaration(name = exchange.name, exchangeType = exchange.exchangeType).withDurable(exchange.durable)
 
         val flow: Flow[WriteMessage, WriteResult, Future[Done]] = AmqpFlow(writeSettings)
         Source.single(message).map: el =>

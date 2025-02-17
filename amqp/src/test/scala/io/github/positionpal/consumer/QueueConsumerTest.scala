@@ -66,7 +66,7 @@ class QueueConsumerTest
       val event = AddedMemberToGroup.create("123", user)
 
       val message = ByteString(serializer.serializeAddedMemberToGroup(event))
-      whenReady(AmqpWriter.send(message, messageType, GROUP_UPDATE.name, "test1")):
+      whenReady(AmqpWriter.send(message, messageType, GROUP_UPDATE, "test1")):
         _.confirmed shouldBe true
 
       eventually:
@@ -87,14 +87,14 @@ class QueueConsumerTest
       val sendResult1 = AmqpWriter.send(
         ByteString(serializer.serializeAddedMemberToGroup(event1)),
         messageType1,
-        GROUP_UPDATE.name,
+        GROUP_UPDATE,
         "test1",
       )
 
       val sendResult2 = AmqpWriter.send(
         ByteString(serializer.serializeRemovedMemberToGroup(event2)),
         messageType2,
-        GROUP_UPDATE.name,
+        GROUP_UPDATE,
         "test2",
       )
 
