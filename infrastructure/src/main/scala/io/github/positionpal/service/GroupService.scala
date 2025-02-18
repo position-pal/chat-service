@@ -35,6 +35,8 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[Futu
   private val sharding = ClusterSharding(actorSystem)
   given timeout: Timeout = 10.seconds
   given ec: ExecutionContext = actorSystem.executionContext
+
+  logger.info("Group Service is starting")
   sharding.init:
     Entity(GroupEventSourceHandler.entityKey): entityContext =>
       GroupEventSourceHandler(entityContext.entityId)

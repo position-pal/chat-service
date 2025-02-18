@@ -92,6 +92,7 @@ object GroupEventSourceHandler:
   private def eventHandler(state: State, event: Event): State = event match
 
     case ClientJoinedToGroup(clientID: ClientID) =>
+      logger.info(s"$clientID joins group ${state.name}")
       val emptyClient = ClientStatusHandler.empty(clientID)
       state.addClient(clientID, emptyClient) match
         case Right(newState: State) =>
@@ -100,6 +101,7 @@ object GroupEventSourceHandler:
         case _ => state
 
     case ClientLeavedFromGroup(clientID: ClientID) =>
+      logger.info(s"$clientID leaves group ${state.name}")
       state.removeClient(clientID) match
         case Right(newState: State) =>
           newState broadcast ClientCommunications.information(CLIENT_LEAVED withClientId clientID)
@@ -107,7 +109,7 @@ object GroupEventSourceHandler:
         case _ => state
 
     case ClientConnected(clientID, communicationChannel) =>
-      logger.info(s"$clientID connected")
+      logger.info(s"$clientID connected in group ${state.name}")
       val updatedClient = state.updateClient(clientID):
         _.setOutputRef(OUT(communicationChannel)).setStatus(ONLINE).asInstanceOf[ClientStatusHandler]
 
@@ -118,7 +120,7 @@ object GroupEventSourceHandler:
         case _ => state
 
     case ClientDisconnected(clientID) =>
-      logger.info(s"$clientID disconnected")
+      logger.info(s"$clientID disconnected from ${state.name}")
       val updatedClient = state.updateClient(clientID):
         _.setOutputRef(EMPTY).setStatus(OFFLINE).asInstanceOf[ClientStatusHandler]
 

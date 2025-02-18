@@ -13,6 +13,7 @@ import io.github.positionpal.consumer.QueueConsumer.Queue
 import io.github.positionpal.grpc.GrpcServer
 import io.github.positionpal.handler.Handlers
 import io.github.positionpal.server.WebsocketServer
+import io.github.positionpal.service.GroupService
 import org.slf4j.LoggerFactory
 
 object Launcher:
@@ -42,7 +43,8 @@ object Launcher:
       val queues = List(
         Queue(name = configurationReader.getString("rabbitmq.services.user.queue-name"), exchanges = List(GROUP_UPDATE)),
       )
-      val graph = QueueConsumer.create(provider, queues, Handlers.basic)
+      val service = GroupService(system)
+      val graph = QueueConsumer.create(provider, queues, Handlers.basic(service))
       graph.run()
 
   def launchGrpcServer(): Unit =
