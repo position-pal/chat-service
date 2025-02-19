@@ -9,7 +9,7 @@ akka = "2.10.0"
 akka-http = "10.7.0"
 akka-grpc = "2.5.3"
 alpakka = "9.0.1"
-kernel = "0.10.1"
+kernel = "0.11.1"
 akkaman = "1.6.0"
 scalamock = "7.2.0"
 
