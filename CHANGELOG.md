@@ -1,3 +1,19 @@
+## [2.3.0](https://github.com/position-pal/chat-service/compare/2.2.0...2.3.0) (2025-02-17)
+
+### Features
+
+* declaring exchange as durable ([#195](https://github.com/position-pal/chat-service/issues/195)) ([01d163c](https://github.com/position-pal/chat-service/commit/01d163c396048b82dbfe0f31fbcf03438a7d366c))
+
+### Dependency updates
+
+* **deps:** update dependency org.scalamock:scalamock_3 to v7.2.0 ([#187](https://github.com/position-pal/chat-service/issues/187)) ([e16a409](https://github.com/position-pal/chat-service/commit/e16a40939fd9f71876aedf54db60be0ee62d3165))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.123 ([#192](https://github.com/position-pal/chat-service/issues/192)) ([02e8f4f](https://github.com/position-pal/chat-service/commit/02e8f4f38e9bd82db789e1a90a8ce30d9346fa8f))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.124 ([#193](https://github.com/position-pal/chat-service/issues/193)) ([b29f9fd](https://github.com/position-pal/chat-service/commit/b29f9fd4cf133a5db6574f6f4051022c8b1354cd))
+* **deps:** update node.js to 22.14 ([#191](https://github.com/position-pal/chat-service/issues/191)) ([7fd7343](https://github.com/position-pal/chat-service/commit/7fd7343e71ac6515291eb4d4c904448e9988c018))
+* **deps:** update rabbitmq docker tag to v4.0.6 ([#188](https://github.com/position-pal/chat-service/issues/188)) ([475de87](https://github.com/position-pal/chat-service/commit/475de8765e9c18e6ebe0a0ab6e7f7be153ffce9e))
+* **deps:** update rabbitmq:4.0.6-management docker digest to c2f5153 ([#190](https://github.com/position-pal/chat-service/issues/190)) ([28b8e29](https://github.com/position-pal/chat-service/commit/28b8e291cdd45e0f786cbee1ec24c71fe4a308bf))
+* **deps:** update rabbitmq:4.0.6-management docker digest to f3de3d6 ([#189](https://github.com/position-pal/chat-service/issues/189)) ([dae4ab3](https://github.com/position-pal/chat-service/commit/dae4ab327bad7454983458235492035b30420db3))
+
 ## [2.2.0](https://github.com/position-pal/chat-service/compare/2.1.0...2.2.0) (2025-02-09)
 
 ### Features
