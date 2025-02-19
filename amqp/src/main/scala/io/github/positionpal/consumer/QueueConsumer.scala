@@ -16,7 +16,7 @@ import akka.stream.alpakka.amqp.{
 import akka.stream.scaladsl.{Flow, GraphDSL, Merge, RunnableGraph, Sink, Source}
 import akka.stream.{ClosedShape, Graph}
 import cats.syntax.either.*
-import io.github.positionpal.MessageType
+import io.github.positionpal.events.EventType
 import io.github.positionpal.handler.MessageHandler
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -79,10 +79,10 @@ object QueueConsumer:
           case (_, msg) =>
             Future:
               val header = msg.properties.getHeaders.get("message_type").toString
-              val result = Either.catchOnly[IllegalArgumentException](MessageType.valueOf(header))
+              val result = Either.catchOnly[IllegalArgumentException](EventType.valueOf(header))
                 .leftMap(_ => s"Error while retrieving $header")
               result match
-                case Right(msgType: MessageType) => messageHandler.handle(msgType, msg.bytes)
+                case Right(msgType: EventType) => messageHandler.handle(msgType, msg.bytes)
                 case e => logger.error(s"I received a message that I can't handle because: $e")
 
         val sink = Sink.ignore
