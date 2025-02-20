@@ -4,19 +4,11 @@ import java.time.Instant
 
 import io.github.positionpal.borer.BorerSerialization
 
-object ClientCommunications:
-  enum CommunicationType extends BorerSerialization:
-    case INFO
-    case MESSAGE
+sealed trait CommunicationProtocol extends BorerSerialization
+case class NewMessage(group: String, from: ClientID, content: String, time: Instant) extends CommunicationProtocol
+case class Information(content: String, time: Instant) extends CommunicationProtocol
 
-  import CommunicationType.*
-  enum CommunicationProtocol(val replyType: CommunicationType) extends BorerSerialization:
-    case NewMessage(group: String, from: ClientID, content: String, time: Instant)
-        extends CommunicationProtocol(MESSAGE)
-    case Information(content: String, time: Instant) extends CommunicationProtocol(INFO)
-
-  import CommunicationProtocol.*
-
+object Protocols:
   def message(group: String, from: ClientID, content: String, time: Instant = Instant.now()): CommunicationProtocol =
     NewMessage(group, from, content, time)
 

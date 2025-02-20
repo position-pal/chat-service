@@ -9,8 +9,7 @@ import akka.stream.OverflowStrategy
 import akka.stream.scaladsl.{Flow, Sink, Source}
 import akka.stream.typed.scaladsl.ActorSource
 import io.bullet.borer.Json
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
-import io.github.positionpal.client.ClientID
+import io.github.positionpal.client.{ClientID, CommunicationProtocol}
 import io.github.positionpal.message.ChatMessageADT
 import io.github.positionpal.serializer.CommunicationSerializersImporter.given
 import io.github.positionpal.services.GroupHandlerService

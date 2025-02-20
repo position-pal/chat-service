@@ -9,8 +9,7 @@ import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
 import io.github.positionpal.client.ClientADT.ClientStatus.*
 import io.github.positionpal.client.ClientADT.OutputReference.*
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
-import io.github.positionpal.client.{ClientCommunications, ClientID, ClientStatusHandler}
+import io.github.positionpal.client.{ClientID, ClientStatusHandler, CommunicationProtocol, Protocols}
 import io.github.positionpal.group.GroupADT.{Group, GroupOps}
 import io.github.positionpal.group.GroupDSL.*
 import io.github.positionpal.message.ChatMessageADT.Message
@@ -96,7 +95,7 @@ object GroupEventSourceHandler:
       val emptyClient = ClientStatusHandler.empty(clientID)
       state.addClient(clientID, emptyClient) match
         case Right(newState: State) =>
-          newState broadcast ClientCommunications.information(CLIENT_JOINED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_JOINED withClientId clientID)
           newState
         case _ => state
 
@@ -104,7 +103,7 @@ object GroupEventSourceHandler:
       logger.info(s"$clientID leaves group ${state.name}")
       state.removeClient(clientID) match
         case Right(newState: State) =>
-          newState broadcast ClientCommunications.information(CLIENT_LEAVED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_LEAVED withClientId clientID)
           newState
         case _ => state
 
@@ -115,7 +114,7 @@ object GroupEventSourceHandler:
 
       updatedClient match
         case Right(newState: State) =>
-          newState broadcast ClientCommunications.information(CLIENT_CONNECTED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_CONNECTED withClientId clientID)
           newState
         case _ => state
 
@@ -126,12 +125,12 @@ object GroupEventSourceHandler:
 
       updatedClient match
         case Right(newState: State) =>
-          newState broadcast ClientCommunications.information(CLIENT_DISCONNECTED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_DISCONNECTED withClientId clientID)
           newState
         case _ => state
 
     case Message(from: ClientID, text: String, time: Instant) =>
-      state broadcast ClientCommunications.message(state.name, from, text, time)
+      state broadcast Protocols.message(state.name, from, text, time)
       state
 
   extension (group: Group[ClientID, ClientStatusHandler])

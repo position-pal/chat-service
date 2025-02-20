@@ -6,8 +6,7 @@ import io.bullet.borer.derivation.ArrayBasedCodecs.{deriveAllCodecs, deriveCodec
 import io.bullet.borer.{Codec, Decoder, Encoder}
 import io.github.positionpal.borer.DefaultAkkaBorerSerializer
 import io.github.positionpal.client.ClientADT.{ClientStatus, OutputReference}
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
-import io.github.positionpal.client.{ClientID, ClientStatusHandler}
+import io.github.positionpal.client.{ClientID, ClientStatusHandler, CommunicationProtocol}
 import io.github.positionpal.group.{GroupCommand, GroupEvent, GroupEventSourceHandler}
 
 /** Serializer used for register object that should be used inside the entity of the system.
@@ -40,3 +39,6 @@ class AkkaSerializer(system: ExtendedActorSystem)
   register[GroupEventSourceHandler.State]()
   register[GroupCommand]()
   register[GroupEvent]()
+
+  /* Client Communications */
+  register[CommunicationProtocol]()

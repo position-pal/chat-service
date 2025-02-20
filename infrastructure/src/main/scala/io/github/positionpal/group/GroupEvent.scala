@@ -4,8 +4,7 @@ import java.time.Instant
 
 import akka.actor.typed.ActorRef
 import io.github.positionpal.borer.BorerSerialization
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
-import io.github.positionpal.client.ClientID
+import io.github.positionpal.client.{ClientID, CommunicationProtocol}
 
 sealed trait GroupEvent extends BorerSerialization
 

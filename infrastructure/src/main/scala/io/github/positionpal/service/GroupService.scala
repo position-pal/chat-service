@@ -8,8 +8,7 @@ import akka.actor.typed.{ActorRef, ActorSystem}
 import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityRef}
 import akka.pattern.StatusReply
 import akka.util.Timeout
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
-import io.github.positionpal.client.ClientID
+import io.github.positionpal.client.{ClientID, CommunicationProtocol}
 import io.github.positionpal.group.{
   ClientConnects,
   ClientDisconnects,

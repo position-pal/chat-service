@@ -29,7 +29,7 @@ class HandlersTest
   private val processedMessages = TrieMap.empty[EventType, Any]
 
   import io.github.positionpal.services.GroupHandlerService
-  import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
+  import io.github.positionpal.client.CommunicationProtocol
 
   private case class TestingGroupService() extends GroupHandlerService[Future, CommunicationProtocol]:
     override def delete(groupID: String): Future[Unit] =

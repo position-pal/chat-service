@@ -4,8 +4,7 @@ import scala.concurrent.Future
 
 import akka.util.ByteString
 import io.github.positionpal.AvroSerializer
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
-import io.github.positionpal.client.ClientID
+import io.github.positionpal.client.{ClientID, CommunicationProtocol}
 import io.github.positionpal.events.EventType
 import io.github.positionpal.services.GroupHandlerService
 import org.slf4j.LoggerFactory

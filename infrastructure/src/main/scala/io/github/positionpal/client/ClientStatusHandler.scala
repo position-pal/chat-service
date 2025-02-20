@@ -2,7 +2,6 @@ package io.github.positionpal.client
 
 import akka.actor.typed.ActorRef
 import io.github.positionpal.client.ClientADT.{Client, ClientStatus, OutputReference}
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
 
 case class ClientStatusHandler(
     id: ClientID,
