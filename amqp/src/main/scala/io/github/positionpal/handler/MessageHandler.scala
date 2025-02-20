@@ -1,7 +1,7 @@
 package io.github.positionpal.handler
 
 import akka.util.ByteString
-import io.github.positionpal.MessageType
+import io.github.positionpal.events.EventType
 
 /** A trait for handling messages of various types within an effectful context.
   *
@@ -15,4 +15,4 @@ trait MessageHandler[F[_]]:
     * @param message     The raw message payload, represented as a [[ByteString]].
     * @return An effectful computation that processes the message and produces a result of type `A`.
     */
-  def handle(messageType: MessageType, message: ByteString): F[Any]
+  def handle(messageType: EventType, message: ByteString): F[Any]

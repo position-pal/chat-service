@@ -6,7 +6,7 @@ import scala.util.{Failure, Success}
 import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.Http
 import com.typesafe.config.ConfigFactory
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
+import io.github.positionpal.client.CommunicationProtocol
 import io.github.positionpal.server.routes.v1.Routes.*
 import io.github.positionpal.service.GroupService
 import io.github.positionpal.services.GroupHandlerService

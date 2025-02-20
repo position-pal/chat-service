@@ -10,10 +10,10 @@ import akka.stream.alpakka.amqp.{AmqpWriteSettings, ExchangeDeclaration, WriteMe
 import akka.stream.scaladsl.{Flow, Sink, Source}
 import akka.util.ByteString
 import com.rabbitmq.client.AMQP.BasicProperties
-import io.github.positionpal.MessageType
 import io.github.positionpal.connection.AmqpConfiguration
 import io.github.positionpal.connection.Connection.toProvider
 import io.github.positionpal.consumer.QueueConsumer.Exchange
+import io.github.positionpal.events.EventType
 
 object AmqpWriter:
   private val connectionConfiguration = AmqpConfiguration.of(
@@ -26,7 +26,7 @@ object AmqpWriter:
 
   def send(
       message: ByteString,
-      msgType: MessageType,
+      msgType: EventType,
       exchange: Exchange,
       queue: String,
   )(using ActorSystem[?]): Future[WriteResult] =

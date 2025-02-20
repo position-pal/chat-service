@@ -8,8 +8,7 @@ import akka.actor.typed.{ActorRef, ActorSystem}
 import akka.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityRef}
 import akka.pattern.StatusReply
 import akka.util.Timeout
-import io.github.positionpal.client.ClientCommunications.CommunicationProtocol
-import io.github.positionpal.client.ClientID
+import io.github.positionpal.client.{ClientID, CommunicationProtocol}
 import io.github.positionpal.group.{
   ClientConnects,
   ClientDisconnects,
@@ -35,6 +34,8 @@ class GroupService(actorSystem: ActorSystem[?]) extends GroupHandlerService[Futu
   private val sharding = ClusterSharding(actorSystem)
   given timeout: Timeout = 10.seconds
   given ec: ExecutionContext = actorSystem.executionContext
+
+  logger.info("Group Service is starting")
   sharding.init:
     Entity(GroupEventSourceHandler.entityKey): entityContext =>
       GroupEventSourceHandler(entityContext.entityId)
