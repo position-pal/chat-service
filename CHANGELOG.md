@@ -1,3 +1,22 @@
+## [3.0.0](https://github.com/position-pal/chat-service/compare/2.3.0...3.0.0) (2025-02-20)
+
+### ⚠ BREAKING CHANGES
+
+* major fixes for production release (#199)
+
+### Dependency updates
+
+* **deps:** update plugin com.gradle.develocity to v3.19.2 ([#196](https://github.com/position-pal/chat-service/issues/196)) ([1d85cf9](https://github.com/position-pal/chat-service/commit/1d85cf9a9447b7a9b97f00d1c7d30ec934b5b4b3))
+
+### Bug Fixes
+
+* major fixes for production release ([#199](https://github.com/position-pal/chat-service/issues/199)) ([e242996](https://github.com/position-pal/chat-service/commit/e242996f9b05abc3041569786deac8b0a801a30d))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action digest to 0adf995 ([#198](https://github.com/position-pal/chat-service/issues/198)) ([8e0e50a](https://github.com/position-pal/chat-service/commit/8e0e50ad3b0ceab5f3745eb05553596b38f75c39))
+* **deps:** update jamesives/github-pages-deploy-action digest to 6c2d9db ([#197](https://github.com/position-pal/chat-service/issues/197)) ([cb6f22c](https://github.com/position-pal/chat-service/commit/cb6f22ca2a54ad1660d627f5ceac429080972cd4))
+
 ## [2.3.0](https://github.com/position-pal/chat-service/compare/2.2.0...2.3.0) (2025-02-17)
 
 ### Features
