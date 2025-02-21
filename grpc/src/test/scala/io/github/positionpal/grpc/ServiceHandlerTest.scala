@@ -40,7 +40,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
       val request = RetrieveLastMessagesRequest("a123", "123", "4")
       val reply = service.retrieveLastMessages(request)
 
-      reply.futureValue.code should be(OK)
+      reply.futureValue.status.get.code should be(OK)
       reply.futureValue.messages.map(_.content.strip()) should be(
         Seq("Ok then, let's do this!", "It's getting late, I think", "See you then", "bye!"),
       )
@@ -49,7 +49,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
       val request = RetrieveLastMessagesRequest("non-existent", "111", "2")
       val reply = service.retrieveLastMessages(request)
 
-      reply.futureValue.code should be(OK)
+      reply.futureValue.status.get.code should be(OK)
       reply.futureValue.messages.length should be(0)
 
     "handle bad request errors" in:
@@ -62,7 +62,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
       val reply = mockService.retrieveLastMessages(request)
 
-      reply.futureValue.code should be(BAD_REQUEST)
+      reply.futureValue.status.get.code should be(BAD_REQUEST)
       reply.futureValue.messages.length should be(0)
 
     "handle service unavailable errors" in:
@@ -75,7 +75,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
       val reply = mockService.retrieveLastMessages(request)
 
-      reply.futureValue.code should be(SERVICE_UNAVAILABLE)
+      reply.futureValue.status.get.code should be(SERVICE_UNAVAILABLE)
       reply.futureValue.messages.length should be(0)
 
     "handle timeout errors" in:
@@ -88,7 +88,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
       val reply = mockService.retrieveLastMessages(request)
 
-      reply.futureValue.code should be(REQUEST_TIMEOUT)
+      reply.futureValue.status.get.code should be(REQUEST_TIMEOUT)
       reply.futureValue.messages.length should be(0)
 
       (mockStorage.getLastMessages(_: String)(_: Int)).expects(request.groupId, request.numberOfMessages.toInt)
@@ -98,7 +98,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
       val otherReply = mockService.retrieveLastMessages(request)
 
-      otherReply.futureValue.code should be(REQUEST_TIMEOUT)
+      otherReply.futureValue.status.get.code should be(REQUEST_TIMEOUT)
       otherReply.futureValue.messages.length should be(0)
 
     "handle generic errors" in:
@@ -111,5 +111,5 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
       val reply = mockService.retrieveLastMessages(request)
 
-      reply.futureValue.code should be(GENERIC_ERROR)
+      reply.futureValue.status.get.code should be(GENERIC_ERROR)
       reply.futureValue.messages.length should be(0)
