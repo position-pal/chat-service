@@ -1,3 +1,19 @@
+## [3.1.0](https://github.com/position-pal/chat-service/compare/3.0.0...3.1.0) (2025-02-23)
+
+### Features
+
+* edit grpc response including status ([271d988](https://github.com/position-pal/chat-service/commit/271d988c2721a3eda1eda6f484cf9d5821882563))
+
+### Dependency updates
+
+* **deps:** update busybox docker digest to 498a000 ([#202](https://github.com/position-pal/chat-service/issues/202)) ([31b05c3](https://github.com/position-pal/chat-service/commit/31b05c3fd8bc02ffa38b175d3f9e45913564f2c7))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.125 ([#203](https://github.com/position-pal/chat-service/issues/203)) ([32cd40e](https://github.com/position-pal/chat-service/commit/32cd40eb4acdba2c0e43b33b8ecda2ebcaaad33f))
+* **deps:** update junit5 monorepo to v1.12.0 ([#200](https://github.com/position-pal/chat-service/issues/200)) ([65be987](https://github.com/position-pal/chat-service/commit/65be987ebb308bced13ed1631fcfed16d6931992))
+
+### Build and continuous integration
+
+* **deps:** update actions/upload-artifact action to v4.6.1 ([#204](https://github.com/position-pal/chat-service/issues/204)) ([309298b](https://github.com/position-pal/chat-service/commit/309298be75509da0af23195dc14421a9cca24931))
+
 ## [3.0.0](https://github.com/position-pal/chat-service/compare/2.3.0...3.0.0) (2025-02-20)
 
 ### ⚠ BREAKING CHANGES
