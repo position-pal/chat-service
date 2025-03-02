@@ -23,8 +23,7 @@ enum StatusCode {
 // 1. Retrieve last messages from the group
 message RetrieveLastMessagesRequest {
   string group_id = 1;
-  string client_id = 2;
-  string number_of_messages = 3;
+  string number_of_messages = 2;
 }
 
 message MessageResponse {
