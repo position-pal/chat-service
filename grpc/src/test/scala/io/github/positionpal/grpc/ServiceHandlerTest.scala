@@ -37,7 +37,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
   "ServiceHandler" should:
     "handle requests for message history" in:
-      val request = RetrieveLastMessagesRequest("a123", "123", "4")
+      val request = RetrieveLastMessagesRequest("a123", "4")
       val reply = service.retrieveLastMessages(request)
 
       reply.futureValue.status.get.code should be(OK)
@@ -46,7 +46,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
       )
 
     "handle request for non-existent group" in:
-      val request = RetrieveLastMessagesRequest("non-existent", "111", "2")
+      val request = RetrieveLastMessagesRequest("non-existent", "2")
       val reply = service.retrieveLastMessages(request)
 
       reply.futureValue.status.get.code should be(OK)
@@ -54,7 +54,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
     "handle bad request errors" in:
 
-      val request = RetrieveLastMessagesRequest("not-present", "abc", "2")
+      val request = RetrieveLastMessagesRequest("not-present", "2")
       (mockStorage.getLastMessages(_: String)(_: Int)).expects(request.groupId, request.numberOfMessages.toInt)
         .returning(
           Future.successful(Left(("Invalid group ID: non-existent", new IllegalArgumentException))),
@@ -67,7 +67,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
     "handle service unavailable errors" in:
 
-      val request = RetrieveLastMessagesRequest("a123", "123", "4")
+      val request = RetrieveLastMessagesRequest("a123", "4")
       (mockStorage.getLastMessages(_: String)(_: Int)).expects(request.groupId, request.numberOfMessages.toInt)
         .returning(
           Future.successful(Left(("Unable to connect to Cassandra", ConnectionException("")))),
@@ -80,7 +80,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
     "handle timeout errors" in:
 
-      val request = RetrieveLastMessagesRequest("a123", "123", "4")
+      val request = RetrieveLastMessagesRequest("a123", "4")
       (mockStorage.getLastMessages(_: String)(_: Int)).expects(request.groupId, request.numberOfMessages.toInt)
         .returning(
           Future.successful(Left(("Query timed out", AskTimeoutException("")))),
@@ -103,7 +103,7 @@ class ServiceHandlerTest extends AnyWordSpec with MockFactory with BeforeAndAfte
 
     "handle generic errors" in:
 
-      val request = RetrieveLastMessagesRequest("a123", "123", "4")
+      val request = RetrieveLastMessagesRequest("a123", "4")
       (mockStorage.getLastMessages(_: String)(_: Int)).expects(request.groupId, request.numberOfMessages.toInt)
         .returning(
           Future.successful(Left(("Unexpected error", new Exception))),
