@@ -1,3 +1,24 @@
+## [3.1.1](https://github.com/position-pal/chat-service/compare/3.1.0...3.1.1) (2025-03-02)
+
+### Dependency updates
+
+* **deps:** update dependency ch.qos.logback:logback-classic to v1.5.17 ([#207](https://github.com/position-pal/chat-service/issues/207)) ([4aba20f](https://github.com/position-pal/chat-service/commit/4aba20f86105905d3965799eb4288cf2e3033281))
+* **deps:** update dependency gradle to v8.13 ([#206](https://github.com/position-pal/chat-service/issues/206)) ([30fb046](https://github.com/position-pal/chat-service/commit/30fb046bb9a398bc3367f64e562a567547efbd8d))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.21 ([#205](https://github.com/position-pal/chat-service/issues/205)) ([118ccb1](https://github.com/position-pal/chat-service/commit/118ccb1f8464eb1f566daaaa9519f72497ebad81))
+* **deps:** update rabbitmq docker tag to v4.0.7 ([#210](https://github.com/position-pal/chat-service/issues/210)) ([0de4ccf](https://github.com/position-pal/chat-service/commit/0de4ccf8fb5e6a5f254817f84ed00341b40460b3))
+* **deps:** update rabbitmq:4.0.7-management docker digest to 08f53ca ([#211](https://github.com/position-pal/chat-service/issues/211)) ([4d60f87](https://github.com/position-pal/chat-service/commit/4d60f87334da64d59cd609b1eebd67b93d5ab759))
+* **deps:** update rabbitmq:4.0.7-management docker digest to 5389746 ([#212](https://github.com/position-pal/chat-service/issues/212)) ([a869be4](https://github.com/position-pal/chat-service/commit/a869be4b135005a58f4d436802513f575c6b8826))
+
+### Bug Fixes
+
+* remove unused params in the message request ([174c08b](https://github.com/position-pal/chat-service/commit/174c08baab830310d9a611a341421200eff7ddd6))
+
+### Build and continuous integration
+
+* **deps:** update dawidd6/action-download-artifact action to v9 ([#213](https://github.com/position-pal/chat-service/issues/213)) ([ef23b9b](https://github.com/position-pal/chat-service/commit/ef23b9b9e3b11ce97ad45873004fb01e4f559905))
+* **deps:** update docker/build-push-action digest to 471d1dc ([#208](https://github.com/position-pal/chat-service/issues/208)) ([9e86479](https://github.com/position-pal/chat-service/commit/9e8647956d28e0079d265487572a917f5367e5f2))
+* **deps:** update docker/setup-buildx-action digest to b5ca514 ([#209](https://github.com/position-pal/chat-service/issues/209)) ([b4c31f2](https://github.com/position-pal/chat-service/commit/b4c31f243f0c3f9a3664ba5e201303f3a2973050))
+
 ## [3.1.0](https://github.com/position-pal/chat-service/compare/3.0.0...3.1.0) (2025-02-23)
 
 ### Features
