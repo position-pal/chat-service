@@ -1,3 +1,9 @@
+## [3.2.0](https://github.com/position-pal/chat-service/compare/3.1.1...3.2.0) (2025-03-04)
+
+### Features
+
+* adding clientId field in Information communication type ([86f4a50](https://github.com/position-pal/chat-service/commit/86f4a50b2c2ce7e72d65225dfe16a5787794b1b7))
+
 ## [3.1.1](https://github.com/position-pal/chat-service/compare/3.1.0...3.1.1) (2025-03-02)
 
 ### Dependency updates
