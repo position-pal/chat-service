@@ -95,7 +95,7 @@ object GroupEventSourceHandler:
       val emptyClient = ClientStatusHandler.empty(clientID)
       state.addClient(clientID, emptyClient) match
         case Right(newState: State) =>
-          newState broadcast Protocols.information(CLIENT_JOINED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_JOINED.text, clientID)
           newState
         case _ => state
 
@@ -103,7 +103,7 @@ object GroupEventSourceHandler:
       logger.info(s"$clientID leaves group ${state.name}")
       state.removeClient(clientID) match
         case Right(newState: State) =>
-          newState broadcast Protocols.information(CLIENT_LEAVED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_LEAVED.text, clientID)
           newState
         case _ => state
 
@@ -114,7 +114,7 @@ object GroupEventSourceHandler:
 
       updatedClient match
         case Right(newState: State) =>
-          newState broadcast Protocols.information(CLIENT_CONNECTED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_CONNECTED.text, clientID)
           newState
         case _ => state
 
@@ -125,7 +125,7 @@ object GroupEventSourceHandler:
 
       updatedClient match
         case Right(newState: State) =>
-          newState broadcast Protocols.information(CLIENT_DISCONNECTED withClientId clientID)
+          newState broadcast Protocols.information(CLIENT_DISCONNECTED.text, clientID)
           newState
         case _ => state
 

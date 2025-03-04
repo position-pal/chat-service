@@ -2,8 +2,9 @@ package io.github.positionpal.group
 
 import io.github.positionpal.client.ClientID
 
-private trait FormatCodes(value: String):
+trait FormatCodes(value: String):
   infix def withClientId(id: ClientID): String = s"[$id]: $value"
+  infix def text: String = value
 
 enum ErrorValues(value: String) extends FormatCodes(value: String):
   case CLIENT_ALREADY_JOINED extends ErrorValues("client already joined")
