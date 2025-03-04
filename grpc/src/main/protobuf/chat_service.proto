@@ -17,7 +17,11 @@ enum StatusCode {
   SERVICE_UNAVAILABLE = 2;
   REQUEST_TIMEOUT = 3;
   GENERIC_ERROR = 4;
-  
+}
+
+message Status {
+  StatusCode code = 1;
+  string message = 2;
 }
 
 // 1. Retrieve last messages from the group
@@ -27,7 +31,7 @@ message RetrieveLastMessagesRequest {
 }
 
 message MessageResponse {
-  StatusCode code = 1;
+  Status status = 1;
   repeated Message messages = 2;
 }
 
