@@ -159,8 +159,8 @@ class GroupEventSourceHandlerTest
         val messageProbe1 = probe1.expectMessageType[Information]
         val messageProbe2 = probe2.expectMessageType[Information]
 
-        messageProbe1.content should ===(CLIENT_CONNECTED withClientId clientID1)
-        messageProbe2.content should ===(CLIENT_CONNECTED withClientId clientID2)
+        messageProbe1.content should ===(CLIENT_CONNECTED.text)
+        messageProbe2.content should ===(CLIENT_CONNECTED.text)
 
       "broadcast message when a client leaves the group" in:
         val clientID1 = ClientID(value = "client1")
@@ -175,11 +175,11 @@ class GroupEventSourceHandlerTest
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID1, probe1.ref, replyTo))
 
         val probe1ConnectionMessage = probe1.expectMessageType[Information]
-        probe1ConnectionMessage.content should ===(CLIENT_CONNECTED withClientId clientID1)
+        probe1ConnectionMessage.content should ===(CLIENT_CONNECTED.text)
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID2, replyTo))
         val probe1JoiningMessage = probe1.expectMessageType[Information]
-        probe1JoiningMessage.content should ===(CLIENT_JOINED withClientId clientID2)
+        probe1JoiningMessage.content should ===(CLIENT_JOINED.text)
 
         eventSourcedBehaviorTestKit
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
@@ -187,13 +187,13 @@ class GroupEventSourceHandlerTest
         val probe1Client2Connection = probe1.expectMessageType[Information]
         val probe2Client2Connection = probe2.expectMessageType[Information]
 
-        probe1Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
-        probe2Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
+        probe1Client2Connection.content should ===(CLIENT_CONNECTED.text)
+        probe2Client2Connection.content should ===(CLIENT_CONNECTED.text)
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientLeavesGroup(clientID1, replyTo))
 
         val probe2ClientLeave = probe2.expectMessageType[Information]
-        probe2ClientLeave.content should ===(CLIENT_LEAVED withClientId clientID1)
+        probe2ClientLeave.content should ===(CLIENT_LEAVED.text)
 
       "broadcast a message sent from a client" in:
 
@@ -208,20 +208,20 @@ class GroupEventSourceHandlerTest
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID1, probe1.ref, replyTo))
 
         val probe1ConnectionMessage = probe1.expectMessageType[Information]
-        probe1ConnectionMessage.content should ===(CLIENT_CONNECTED withClientId clientID1)
+        probe1ConnectionMessage.content should ===(CLIENT_CONNECTED.text)
 
         eventSourcedBehaviorTestKit.runCommand[StatusReply[Reply]](replyTo => ClientJoinsGroup(clientID2, replyTo))
 
         val probe1JoiningMessage = probe1.expectMessageType[Information]
-        probe1JoiningMessage.content should ===(CLIENT_JOINED withClientId clientID2)
+        probe1JoiningMessage.content should ===(CLIENT_JOINED.text)
 
         eventSourcedBehaviorTestKit
           .runCommand[StatusReply[Reply]](replyTo => ClientConnects(clientID2, probe2.ref, replyTo))
         val probe1Client2Connection = probe1.expectMessageType[Information]
         val probe2Client2Connection = probe2.expectMessageType[Information]
 
-        probe1Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
-        probe2Client2Connection.content should ===(CLIENT_CONNECTED withClientId clientID2)
+        probe1Client2Connection.content should ===(CLIENT_CONNECTED.text)
+        probe2Client2Connection.content should ===(CLIENT_CONNECTED.text)
 
         val textOfMessage = "This is actually a test"
         val messageToGroup = ChatMessageADT.now(textOfMessage, from = clientID1, to = "testGroup")
