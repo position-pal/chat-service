@@ -1,4 +1,4 @@
-pages = [{"l":"index.html#","e":false,"i":"","n":"chat-service 3.2.0 API","t":"chat-service 3.2.0 API","d":"","k":"static","x":""},
+pages = [{"l":"index.html#","e":false,"i":"","n":"chat-service 3.2.1 API","t":"chat-service 3.2.1 API","d":"","k":"static","x":""},
 {"l":"io/github/positionpal.html#","e":false,"i":"","n":"io.github.positionpal","t":"io.github.positionpal","d":"","k":"package","x":""},
 {"l":"io/github/positionpal/borer.html#","e":false,"i":"","n":"io.github.positionpal.borer","t":"io.github.positionpal.borer","d":"","k":"package","x":""},
 {"l":"io/github/positionpal/borer/BorerSerialization.html#","e":false,"i":"","n":"BorerSerialization","t":"BorerSerialization","d":"io.github.positionpal.borer","k":"trait","x":""},
