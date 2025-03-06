@@ -1,5 +1,5 @@
 [versions]
-scala = "3.6.3"
+scala = "3.6.4"
 scalatest = "3.3.0-SNAP4"
 borer = "1.15.0"
 junit = "1.12.0"
