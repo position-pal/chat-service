@@ -1,3 +1,11 @@
+## [3.2.1](https://github.com/position-pal/chat-service/compare/3.2.0...3.2.1) (2025-03-06)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.scala-lang:scala3-library_3 to v3.6.4 ([#218](https://github.com/position-pal/chat-service/issues/218)) ([485ca76](https://github.com/position-pal/chat-service/commit/485ca76cf9e303e42bd00c5b8445331a531c32c6))
+* **deps:** update rabbitmq:4.0.7-management docker digest to 31e2923 ([#217](https://github.com/position-pal/chat-service/issues/217)) ([b3850f8](https://github.com/position-pal/chat-service/commit/b3850f8e0b7a42959db4fc4b7742551cfa27d9e7))
+* **deps:** update rabbitmq:4.0.7-management docker digest to 3c0bffc ([#216](https://github.com/position-pal/chat-service/issues/216)) ([6795b1c](https://github.com/position-pal/chat-service/commit/6795b1c58a2279202d44f5b33736d1be4538cdcd))
+
 ## [3.2.0](https://github.com/position-pal/chat-service/compare/3.1.1...3.2.0) (2025-03-04)
 
 ### Features
