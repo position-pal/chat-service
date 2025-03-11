@@ -1,3 +1,9 @@
+## [3.3.0](https://github.com/position-pal/chat-service/compare/3.2.1...3.3.0) (2025-03-11)
+
+### Dependency updates
+
+* **api-deps:** update kernel to v1.0.1 ([#220](https://github.com/position-pal/chat-service/issues/220)) ([4cdafe9](https://github.com/position-pal/chat-service/commit/4cdafe9d52833477f8ce644b211a24b1b655a503))
+
 ## [3.2.1](https://github.com/position-pal/chat-service/compare/3.2.0...3.2.1) (2025-03-06)
 
 ### Dependency updates
