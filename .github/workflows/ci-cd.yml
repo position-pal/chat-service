@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 env:
-  USERNAME: ${{ secrets.USERNAME }}
-  TOKEN: ${{ secrets.TOKEN }}
+  GPR_USER: ${{ github.actor }}
+  GPR_KEY: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   build:
@@ -16,8 +16,6 @@ jobs:
         jvm-version: [ 17, 21 ]
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    env:
-      MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -57,8 +55,12 @@ jobs:
           name: app-fatjar
           path: entrypoint/build/libs/
       - run: ls entrypoint/build/libs/
-      - name: Build dockerfile
-        run: docker build .
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
+      - name: Build multi-platform dockerfile
+        run: docker buildx build --platform linux/amd64,linux/arm64,windows/amd64 .
 
   release:
     needs: dry-delivery
@@ -112,6 +114,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
       - name: Download fatjar from uploaded artifact
@@ -128,6 +132,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64,windows/amd64
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ needs.release.outputs.release_version }}
