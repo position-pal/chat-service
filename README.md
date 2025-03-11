@@ -21,7 +21,7 @@ PositionPal chat service repository.
 >
 > - **Environment variables**:
 >   Setup the following environment variables:
->     ```scala
+>     ```bash
 >     export GPR_USER=<USERNAME>
 >     export GPR_KEY=<TOKEN>
 >     ```
@@ -31,7 +31,8 @@ PositionPal chat service repository.
 
 ## Pre-requisites
 
-For the correct operation of the service, it is necessary the following environment variables are set and available at startup:
+In order for the service to function properly, the following environment variables must be set and available at startup.
+**However, they are not required for testing.**
 
 | Variable Name             | Description                                                                                                                                                                                                                                   |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
