@@ -1,3 +1,13 @@
+## [3.3.1](https://github.com/position-pal/chat-service/compare/3.3.0...3.3.1) (2025-03-12)
+
+### Documentation
+
+* **license:** create license ([68ae4a2](https://github.com/position-pal/chat-service/commit/68ae4a2c44a0876c51d74f34c9e234fcf607e32c))
+
+### Build and continuous integration
+
+* align github packages envs with corresponding properties and use default GITHUB_TOKEN and github.actor in CI ([#219](https://github.com/position-pal/chat-service/issues/219)) ([b3547be](https://github.com/position-pal/chat-service/commit/b3547be9660e7d2cb0e9fc19ab9e89efac3dbda4))
+
 ## [3.3.0](https://github.com/position-pal/chat-service/compare/3.2.1...3.3.0) (2025-03-11)
 
 ### Dependency updates
