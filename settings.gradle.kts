@@ -30,7 +30,7 @@ develocity {
 gitHooks {
     commitMsg { conventionalCommits() }
     preCommit {
-        tasks("check")
+        tasks("checkScalafmtAll", "checkScalafix")
     }
     createHooks(overwriteExisting = true)
 }

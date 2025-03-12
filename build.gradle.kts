@@ -3,7 +3,6 @@ import DotenvUtils.injectInto
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-
 plugins {
     `java-library`
     id("scala")
@@ -25,7 +24,6 @@ allprojects {
         apply(plugin = git.sensitive.semver.get().pluginId)
     }
 
-
     repositories {
         mavenCentral()
         maven {
@@ -34,8 +32,8 @@ allprojects {
         maven {
             url = uri("https://maven.pkg.github.com/position-pal/shared-kernel")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GPR_USER")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GPR_KEY")
             }
         }
     }

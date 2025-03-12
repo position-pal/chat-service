@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - run: |
+          echo 'github.actor = ${{ github.actor }}'
           echo 'github.event_name = ${{ github.event_name }}'
           echo 'github.event.pull_request.head.repo.full_name = ${{ github.event.pull_request.head.repo.full_name }}'
           echo 'github.repository = ${{ github.repository }}'
