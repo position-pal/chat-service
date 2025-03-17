@@ -1,0 +1,18 @@
+2025.03.17 17:56:43 INFO  Started: Metals version 1.5.1 in folders '/Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test' for client Visual Studio Code 1.97.2.[0m
+2025.03.17 17:56:51 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+2025.03.17 17:56:53 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+mar 17, 2025 5:56:53 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+AVVERTENZA: Unmatched cancel notification for request id 3
+2025.03.17 17:56:53 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+mar 17, 2025 5:56:53 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+AVVERTENZA: Unmatched cancel notification for request id 1
+mar 17, 2025 5:56:53 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+AVVERTENZA: Unmatched cancel notification for request id 4
+2025.03.17 17:56:53 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+2025.03.17 17:56:53 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+2025.03.17 17:56:54 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+2025.03.17 17:56:53 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+2025.03.17 17:56:55 WARN  no build target for: /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala[0m
+2025.03.17 17:56:54 INFO  no build target found for /Users/giovanniantonioni/Desktop/Universita/Magistrale/SAP/chat-service-test/entrypoint/src/main/scala/io/github/positionpal/chat/entrypoint/Launcher.scala. Using presentation compiler with project's scala-library version: 3.3.4[0m
+mar 17, 2025 5:56:56 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+AVVERTENZA: Unsupported notification method: metals/windowStateDidChange

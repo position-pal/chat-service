@@ -58,8 +58,6 @@ object Launcher:
 @main def main(): Unit =
   import Launcher.*
 
-  println("hello wolrd)
-
   launchManagementControllers()
   launchRabbitMQConsumer()
   launchGrpcServer()
