@@ -1,3 +1,18 @@
+## [3.4.0](https://github.com/position-pal/chat-service/compare/3.3.1...3.4.0) (2025-03-17)
+
+### Dependency updates
+
+* **api-deps:** update kernel to v1.0.2 ([#222](https://github.com/position-pal/chat-service/issues/222)) ([db693ea](https://github.com/position-pal/chat-service/commit/db693ea10f73ec22763b33de1287f5eb692b8430))
+* **deps:** update borer to v1.16.0 ([#225](https://github.com/position-pal/chat-service/issues/225)) ([59f7ffc](https://github.com/position-pal/chat-service/commit/59f7ffce885090d9f04e954791285301775ca003))
+* **deps:** update eclipse-temurin:21 docker digest to 6634936 ([#221](https://github.com/position-pal/chat-service/issues/221)) ([c63b232](https://github.com/position-pal/chat-service/commit/c63b232619cd47b76e2f91a071f1daf3f19ccd7b))
+* **deps:** update junit5 monorepo to v1.12.1 ([#224](https://github.com/position-pal/chat-service/issues/224)) ([5df938c](https://github.com/position-pal/chat-service/commit/5df938ccffe59ff25cb3fec168a825912a31f25c))
+
+### Build and continuous integration
+
+* **deps:** update actions/setup-node action to v4.3.0 ([#226](https://github.com/position-pal/chat-service/issues/226)) ([2a31754](https://github.com/position-pal/chat-service/commit/2a317542f4d4faa92e091da9a56c8d73b2df5d21))
+* **deps:** update docker/login-action digest to 74a5d14 ([#223](https://github.com/position-pal/chat-service/issues/223)) ([6ad4850](https://github.com/position-pal/chat-service/commit/6ad48504c52618e1db176c979fcd1adfaf1e6127))
+* edit ci condtions ([#228](https://github.com/position-pal/chat-service/issues/228)) ([217278a](https://github.com/position-pal/chat-service/commit/217278aef774db18b9749eb1108f433629a4017c))
+
 ## [3.3.1](https://github.com/position-pal/chat-service/compare/3.3.0...3.3.1) (2025-03-12)
 
 ### Documentation
