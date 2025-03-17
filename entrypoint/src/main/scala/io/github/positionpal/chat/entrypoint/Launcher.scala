@@ -57,7 +57,7 @@ object Launcher:
 
 @main def main(): Unit =
   import Launcher.*
-
+  logger.debug("test fork from ci")
   launchManagementControllers()
   launchRabbitMQConsumer()
   launchGrpcServer()
