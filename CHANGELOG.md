@@ -1,3 +1,21 @@
+## [3.5.0](https://github.com/position-pal/chat-service/compare/3.4.0...3.5.0) (2025-03-20)
+
+### Dependency updates
+
+* **api-deps:** update kernel to v1.0.3 ([#238](https://github.com/position-pal/chat-service/issues/238)) ([ebf909b](https://github.com/position-pal/chat-service/commit/ebf909b3b4aea0650dd8db4c7f1c265798c60119))
+* **deps:** update busybox docker digest to 29c2339 ([#234](https://github.com/position-pal/chat-service/issues/234)) ([117403a](https://github.com/position-pal/chat-service/commit/117403a1c8a78835584ec27a4ccfc92fba363d96))
+* **deps:** update busybox docker digest to 37f7b37 ([#235](https://github.com/position-pal/chat-service/issues/235)) ([83d8e10](https://github.com/position-pal/chat-service/commit/83d8e10708c86e89e3d2ca92c884d72885c3ab78))
+* **deps:** update busybox docker digest to d0db57c ([#232](https://github.com/position-pal/chat-service/issues/232)) ([9a6fea5](https://github.com/position-pal/chat-service/commit/9a6fea5209b5fa470609c59911f953e7b6a12e20))
+* **deps:** update dependency ch.qos.logback:logback-classic to v1.5.18 ([#231](https://github.com/position-pal/chat-service/issues/231)) ([d94de36](https://github.com/position-pal/chat-service/commit/d94de36bd653053e5653914c56ae6b45e476a77a))
+
+### Build and continuous integration
+
+* **deps:** pin actions/download-artifact action to cc20338 ([#229](https://github.com/position-pal/chat-service/issues/229)) ([3b835b6](https://github.com/position-pal/chat-service/commit/3b835b65519a8c1c54d369d1e7ea844568dd53f2))
+* **deps:** update actions/download-artifact digest to 95815c3 ([#236](https://github.com/position-pal/chat-service/issues/236)) ([e275518](https://github.com/position-pal/chat-service/commit/e27551836f398330775d7b2a7c13ca6066bf8424))
+* **deps:** update actions/download-artifact digest to b14cf4c ([#230](https://github.com/position-pal/chat-service/issues/230)) ([aad4f02](https://github.com/position-pal/chat-service/commit/aad4f02ea7738718a6e9e85d6ba978c2a50df54b))
+* **deps:** update actions/download-artifact digest to cc20338 ([#233](https://github.com/position-pal/chat-service/issues/233)) ([29938fa](https://github.com/position-pal/chat-service/commit/29938fad321de4f9a65515b1a04ebd1a0b75ca9e))
+* **deps:** update actions/upload-artifact action to v4.6.2 ([#237](https://github.com/position-pal/chat-service/issues/237)) ([608fd1e](https://github.com/position-pal/chat-service/commit/608fd1e9e9ac55747a7e3013ac48b4d69fb13857))
+
 ## [3.4.0](https://github.com/position-pal/chat-service/compare/3.3.1...3.4.0) (2025-03-17)
 
 ### Dependency updates
