@@ -2,7 +2,7 @@ services:
   cassandra:
     networks:
       - service-network
-    image: cassandra:5.0.4@sha256:1e6dcf071026032c26c79b3eca115f27566952c71c155de91faa3465dd02ee14
+    image: cassandra:5.0.4@sha256:d9d077f33baa10cc6779e375d374051f91cc469ddd7a932b3d500e3fcc4ce0ca
     container_name: cassandra
     ports:
       - 9042:9042
