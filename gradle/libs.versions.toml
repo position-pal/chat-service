@@ -1,7 +1,7 @@
 [versions]
 scala = "3.6.4"
 scalatest = "3.3.0-SNAP4"
-borer = "1.16.0"
+borer = "1.16.1"
 junit = "1.12.2"
 logback = "1.5.18"
 cassandra = "1.3.0"
