@@ -46,7 +46,7 @@ services:
   rabbitmq-broker:
     networks:
       - service-network
-    image: rabbitmq:4.1.0-management@sha256:eb8a2054aa062d5df26c03860ffaf49ca5ebb568601aa27099877a3fe7094fd0
+    image: rabbitmq:4.1.0-management@sha256:935b3f84c1e4a4ce45d211627f00030fa6721350efb52e0a6ed6924adedc68b7
     restart: always
     environment:
       RABBITMQ_DEFAULT_USER: guest
