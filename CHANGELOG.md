@@ -1,3 +1,47 @@
+## [3.7.0](https://github.com/position-pal/chat-service/compare/3.6.0...3.7.0) (2025-06-23)
+
+### Dependency updates
+
+* **api-deps:** update kernel to v1.0.5 ([#343](https://github.com/position-pal/chat-service/issues/343)) ([0f100a7](https://github.com/position-pal/chat-service/commit/0f100a7820b3638cb5241b654d124d49259cee5f))
+* **deps:** update busybox docker digest to ce4f0c0 ([#315](https://github.com/position-pal/chat-service/issues/315)) ([2b5f12f](https://github.com/position-pal/chat-service/commit/2b5f12f16261ca82089085b340b1fcb6e7d93e6a))
+* **deps:** update busybox docker digest to f64ff79 ([#319](https://github.com/position-pal/chat-service/issues/319)) ([b25719b](https://github.com/position-pal/chat-service/commit/b25719b5b05243fe47f113aaf678801e7740d2a4))
+* **deps:** update busybox docker digest to f85340b ([#325](https://github.com/position-pal/chat-service/issues/325)) ([c8aebad](https://github.com/position-pal/chat-service/commit/c8aebad72338002d3d64d13a5a838caa39f9042a))
+* **deps:** update cassandra:5.0.4 docker digest to 2d24146 ([#330](https://github.com/position-pal/chat-service/issues/330)) ([68efcc8](https://github.com/position-pal/chat-service/commit/68efcc87c1cb6ef3f2dd3326ccc9bf0a1385c37c))
+* **deps:** update cassandra:5.0.4 docker digest to a594fa2 ([#327](https://github.com/position-pal/chat-service/issues/327)) ([59ff80f](https://github.com/position-pal/chat-service/commit/59ff80f1926040f466abbd8b33dabfa9aefa8b3e))
+* **deps:** update cassandra:latest docker digest to 2d24146 ([#331](https://github.com/position-pal/chat-service/issues/331)) ([f77480d](https://github.com/position-pal/chat-service/commit/f77480dec6aa571bcda265ebcff0a35915063ebc))
+* **deps:** update cassandra:latest docker digest to a594fa2 ([#328](https://github.com/position-pal/chat-service/issues/328)) ([b2f91a9](https://github.com/position-pal/chat-service/commit/b2f91a95a97321363713cee55fe7c189b4e3cccf))
+* **deps:** update dependency gradle to v8.14.1 ([#313](https://github.com/position-pal/chat-service/issues/313)) ([b3079f2](https://github.com/position-pal/chat-service/commit/b3079f2b92afba536e1490ed88889f8e8b537290))
+* **deps:** update dependency gradle to v8.14.2 ([#334](https://github.com/position-pal/chat-service/issues/334)) ([ea6e908](https://github.com/position-pal/chat-service/commit/ea6e908e54173c69d5dc48c1a4eb932d85065e66))
+* **deps:** update dependency org.scalamock:scalamock_3 to v7.3.3 ([#342](https://github.com/position-pal/chat-service/issues/342)) ([84c11c6](https://github.com/position-pal/chat-service/commit/84c11c68dac398194c2777b21b6facf1455f9640))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.128 ([#312](https://github.com/position-pal/chat-service/issues/312)) ([823ba17](https://github.com/position-pal/chat-service/commit/823ba17f2a2c9357953b83f23926973b86fc09a2))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.129 ([#316](https://github.com/position-pal/chat-service/issues/316)) ([718ac2e](https://github.com/position-pal/chat-service/commit/718ac2e18ccb9b7a903466787fec393011a33495))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.131 ([#318](https://github.com/position-pal/chat-service/issues/318)) ([246f0a5](https://github.com/position-pal/chat-service/commit/246f0a5d060ab2fadefc0fa69f601115596b852f))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.132 ([#322](https://github.com/position-pal/chat-service/issues/322)) ([d3f8e63](https://github.com/position-pal/chat-service/commit/d3f8e636bc40604664294f0f52f840e46050e3f4))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.133 ([#323](https://github.com/position-pal/chat-service/issues/323)) ([1ebcbe4](https://github.com/position-pal/chat-service/commit/1ebcbe44d27cdf9310b6c99d2f9b7a6db593fbcc))
+* **deps:** update eclipse-temurin:21 docker digest to 2cc80b4 ([#338](https://github.com/position-pal/chat-service/issues/338)) ([da42d51](https://github.com/position-pal/chat-service/commit/da42d51a11fc1dd339ebe4728d91488c14939055))
+* **deps:** update eclipse-temurin:21 docker digest to 5e7983a ([#326](https://github.com/position-pal/chat-service/issues/326)) ([de98091](https://github.com/position-pal/chat-service/commit/de980915bcff03be61a23343e72949e5b27c4841))
+* **deps:** update eclipse-temurin:21 docker digest to 88214b1 ([#310](https://github.com/position-pal/chat-service/issues/310)) ([6601cca](https://github.com/position-pal/chat-service/commit/6601cca3975920995a03a461570b277c4e7ff070))
+* **deps:** update junit5 monorepo to v1.13.0 ([#324](https://github.com/position-pal/chat-service/issues/324)) ([ab5f369](https://github.com/position-pal/chat-service/commit/ab5f369b8a7b1356d4053146411c330c085abe41))
+* **deps:** update junit5 monorepo to v1.13.1 ([#337](https://github.com/position-pal/chat-service/issues/337)) ([a0a82a8](https://github.com/position-pal/chat-service/commit/a0a82a88cd3afd8bf9d9bd7897b62e375281aa5f))
+* **deps:** update node.js to 22.16 ([#317](https://github.com/position-pal/chat-service/issues/317)) ([27c017f](https://github.com/position-pal/chat-service/commit/27c017f0e2e4a3ad10f315507bbbe75f2ccdbd84))
+* **deps:** update plugin com.gradle.develocity to v4.0.2 ([#320](https://github.com/position-pal/chat-service/issues/320)) ([e1cdb53](https://github.com/position-pal/chat-service/commit/e1cdb53811fa28c2b3f866618b523eb1ee6eb0fa))
+* **deps:** update plugin git-sensitive-semver to v5.1.3 ([#309](https://github.com/position-pal/chat-service/issues/309)) ([dc95d6c](https://github.com/position-pal/chat-service/commit/dc95d6c029d9bfa4f7ea70bbf69f464f70aa6e10))
+* **deps:** update plugin git-sensitive-semver to v5.1.4 ([#335](https://github.com/position-pal/chat-service/issues/335)) ([1f9e7ed](https://github.com/position-pal/chat-service/commit/1f9e7ed22e50f452e719fc9aa2b26570aafccbf5))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.25 ([#314](https://github.com/position-pal/chat-service/issues/314)) ([68f4e7e](https://github.com/position-pal/chat-service/commit/68f4e7ed3608f8affc0435b5c7aab1ce3b95da24))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.26 ([#336](https://github.com/position-pal/chat-service/issues/336)) ([0119dca](https://github.com/position-pal/chat-service/commit/0119dca3a3c0a8151d4d8e9600a20029d7c133e3))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.27 ([#344](https://github.com/position-pal/chat-service/issues/344)) ([8355aa1](https://github.com/position-pal/chat-service/commit/8355aa17b2745bf7b39d2dd104a5fa0f54a73811))
+* **deps:** update rabbitmq docker tag to v4.1.1 ([#333](https://github.com/position-pal/chat-service/issues/333)) ([b8ff4b6](https://github.com/position-pal/chat-service/commit/b8ff4b639412b5cb74fbeed4cabd98c6384f65c6))
+* **deps:** update rabbitmq:4.1.0-management docker digest to 935b3f8 ([#332](https://github.com/position-pal/chat-service/issues/332)) ([c8e2551](https://github.com/position-pal/chat-service/commit/c8e2551a742726d19d8de3e2506f2eb8b69c014f))
+* **deps:** update rabbitmq:4.1.0-management docker digest to eb8a205 ([#329](https://github.com/position-pal/chat-service/issues/329)) ([741c133](https://github.com/position-pal/chat-service/commit/741c133f7e1b038994c5adb8a5d42380d2930853))
+* **deps:** update rabbitmq:4.1.1-management docker digest to 9d67e45 ([#340](https://github.com/position-pal/chat-service/issues/340)) ([f693c17](https://github.com/position-pal/chat-service/commit/f693c170a1f632d9a89533fca9746875833d8977))
+
+### Build and continuous integration
+
+* **deps:** update docker/build-push-action digest to 1dc7386 ([#311](https://github.com/position-pal/chat-service/issues/311)) ([6cdb517](https://github.com/position-pal/chat-service/commit/6cdb5170aec5d91222843c73df05df13c0f44c36))
+* **deps:** update docker/build-push-action digest to 2634353 ([#321](https://github.com/position-pal/chat-service/issues/321)) ([a2f29e2](https://github.com/position-pal/chat-service/commit/a2f29e2a2762029f89a009a213a9862e2df1877b))
+* **deps:** update docker/setup-buildx-action digest to 18ce135 ([#339](https://github.com/position-pal/chat-service/issues/339)) ([f6482a4](https://github.com/position-pal/chat-service/commit/f6482a4a4fdbc88dfecf6ade7ab60bd43c3f2ee5))
+* **deps:** update docker/setup-buildx-action digest to e468171 ([#341](https://github.com/position-pal/chat-service/issues/341)) ([e3e1d3b](https://github.com/position-pal/chat-service/commit/e3e1d3b600ebf4e9afe54f3f4002c080d7674502))
+
 ## [3.6.0](https://github.com/position-pal/chat-service/compare/3.5.0...3.6.0) (2025-05-13)
 
 ### Dependency updates
