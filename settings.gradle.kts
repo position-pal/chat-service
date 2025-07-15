@@ -1,6 +1,6 @@
 plugins {
     id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.28"
-    id("com.gradle.develocity") version "4.0.2"
+    id("com.gradle.develocity") version "4.1"
 }
 
 rootProject.name = "chat-service"
