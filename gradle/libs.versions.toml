@@ -10,7 +10,7 @@ akka-http = "10.7.2"
 akka-grpc = "2.5.7"
 alpakka = "9.0.1"
 kernel = "1.0.6"
-akkaman = "1.6.2"
+akkaman = "1.6.3"
 scalamock = "7.4.1"
 
 [libraries]
