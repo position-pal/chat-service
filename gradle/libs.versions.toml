@@ -11,7 +11,7 @@ akka-grpc = "2.5.7"
 alpakka = "9.0.1"
 kernel = "1.0.7"
 akkaman = "1.6.3"
-scalamock = "7.4.2"
+scalamock = "7.5.0"
 
 [libraries]
 scala-library = { module = "org.scala-lang:scala3-library_3", version.ref = "scala" }
