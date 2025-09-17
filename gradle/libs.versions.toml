@@ -22,7 +22,7 @@ cats-effect = "org.typelevel:cats-effect_3:3.7-4972921"
 cats-mtl = "org.typelevel:cats-mtl_3:1.6.0"
 borer-core = { module = "io.bullet:borer-core_3", version.ref = "borer" }
 borer-derivation = { module = "io.bullet:borer-derivation_3", version.ref = "borer" }
-cats-effect-testing-scalatest = "org.typelevel:cats-effect-testing-scalatest_3:1.6.0"
+cats-effect-testing-scalatest = "org.typelevel:cats-effect-testing-scalatest_3:1.7.0"
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 akka-actor-typed = { module = "com.typesafe.akka:akka-actor-typed_3", version.ref = "akka" }
