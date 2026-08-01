@@ -36,7 +36,7 @@ services:
       start_period: 5s
 
   test-runner:
-    image: busybox@sha256:d82f458899c9696cb26a7c02d5568f81c8c8223f8661bb2a7988b269c8b9051e
+    image: busybox@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616
     depends_on:
       cassandra:
         condition: service_healthy
