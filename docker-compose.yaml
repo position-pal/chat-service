@@ -15,7 +15,7 @@ services:
   cassandra-init:
     networks:
       - service-network
-    image: cassandra:latest@sha256:bcc54ad5b8f7002cef7be22a89bc1226d69fcb08420df47c84b34125cc96fd30
+    image: cassandra:latest@sha256:8870ec4d9608abe9160a7d09b51a0f0c13c6a95ea0610266ea58eb7d30a144de
     depends_on:
       cassandra:
         condition: service_healthy
